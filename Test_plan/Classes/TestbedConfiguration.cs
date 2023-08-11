@@ -13,8 +13,8 @@ namespace Test_plan
     {
         public TBSymbol TestbedSelected { get; private set; }
 
-        private NetType netTopology;
-        public NetType NetTopology { get { return netTopology; } private set { } }
+       // private NetType netTopology;
+       // public NetType NetTopology { get { return netTopology; } private set { } }
 
        
 
