@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Test_plan
 {
@@ -444,15 +445,7 @@ namespace Test_plan
             castTestPlan.SerializeTestPlan();
         }
 
-        private void Menu_Test_Case_Import_Click(object sender, RoutedEventArgs e)
-        {
-            castTestPlan.TestCases.ImportTCList();
-        }
-
-        private void Menu_Test_Case_Save_Click(object sender, RoutedEventArgs e)
-        {
-            castTestPlan.SerializeTestCasesList();
-        }
+       
 
         private void Menu_Json_Open_Click(object sender, RoutedEventArgs e)
         {
@@ -474,9 +467,115 @@ namespace Test_plan
             MessageBox.Show("Test plan generator v.1.0" + Environment.NewLine + "author: Jakub Madej");
         }
 
-        private void Export_Test_Case_Import_Click(object sender, RoutedEventArgs e)
+        private void Export_Test_Case_Click(object sender, RoutedEventArgs e)
+        {
+            castTestPlan.TestCases.ExportTCList();
+        }
+        private void Menu_Test_Case_Import_Click(object sender, RoutedEventArgs e)
+        {
+            castTestPlan.TestCases.ImportTCList();
+        }
+
+        private void Menu_Test_Case_Save_Click(object sender, RoutedEventArgs e)
+        {
+            castTestPlan.SerializeTestCasesList();
+        }
+
+
+        private void CheckAllScripts_Click(object sender, RoutedEventArgs e)
+        {
+            if (castTestPlan.ActiveProject == ProjectSymbol.ViewE)
+            {
+                CB_prep_Files.IsChecked=true;
+                CB_flash_Controllers.IsChecked=true;
+                CB_import_L5k.IsChecked=true;
+                CB_download_Acd.IsChecked=true;
+                CB_flash_terminals.IsChecked = true;
+                CB_tst_prepare_testbed.IsChecked=true;
+            }
+            CB_prep_Dirs.IsChecked=true;
+            CB_set_tbm_tags.IsChecked=true;
+            CB_report_runner.IsChecked=true;
+        }
+
+        private string run_proc()
+        {
+            ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe");
+            processStartInfo.RedirectStandardInput = true;
+            processStartInfo.RedirectStandardOutput = true;
+            processStartInfo.UseShellExecute = false;
+
+
+            Process process = Process.Start(processStartInfo);
+
+            if (process != null)
+            {
+                process.StandardInput.WriteLine(@"cd C:\REPOS\viewe_systemtest\viewe_systemtest\Python_Scripts\MoveFromSquishRepo");
+                process.StandardInput.WriteLine(@"C:\python310\python.exe ""schedule_tasks_runner.py""");
+                process.StandardInput.Close(); // line added to stop process from hanging on ReadToEnd()
+
+
+                string outputString = process.StandardOutput.ReadToEnd();
+
+                return outputString;
+            }
+            return String.Empty;
+
+
+        }
+
+
+
+
+
+        private void run_cmd()
+         
+        {
+            Process process;
+            process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+           // process.StartInfo.Arguments = "-i \\\\dssp-isi-t\\TMD\\B002C010_130520_R2R7.2398v5.mxf -an -vcodec libx264 -level 4.1 -preset veryslow -tune film -x264opts bluray-compat=1:weightp=0:bframes=3:nal-hrd=vbr:vbv-maxrate=40000:vbv-bufsize=30000:keyint=24:b-pyramid=strict:slices=4:aud=1:colorprim=bt709:transfer=bt709:colormatrix=bt709:sar=1/1:ref=4 -b 30M -bt 30M -threads 0 -pass 1 -y \\\\dss-isi-t\\MTPO_Transfer\\dbay\\B002C010_130520_R2R7.2398v5.mxf.h264";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.EnableRaisingEvents = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.Start();
+            process.StandardInput.WriteLine(@"ping wp.pl");
+           // process.StandardInput.WriteLine(@"C:\python310\python.exe ""schedule_tasks_runner.py""");
+            process.StandardInput.Close();
+            process.BeginOutputReadLine();
+           // process.WaitForExit();
+            process.Close();
+        }
+
+       
+
+        public void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            TestPlanOutput.Text = e.Data;
+        }
+
+        string dupa= string.Empty;
+        public void OutputHandler(object sender, DataReceivedEventArgs outLine)
+        {
+            string line = string.Empty;
+            line = (outLine.Data.ToString());
+            Console.WriteLine(line);
+            
+            
+        }
+
+        private void Run_Button_Click(object sender, RoutedEventArgs e)
         {
 
+            run_cmd();
+        }
+
+        private void Run_Button2_Click(object sender, RoutedEventArgs e)
+        {
+            TestPlanOutput.Text =  run_proc();
         }
     }
 }

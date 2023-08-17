@@ -14,7 +14,7 @@
 
 
 
-    <Grid Grid.Row="1" Margin="0,0,00,00" DataContext="{StaticResource ResourceKey=testPlan}" Background="#FF545353" >
+    <Grid Grid.Row="1" Margin="0,0,0,00" DataContext="{StaticResource ResourceKey=testPlan}" Background="#FF545353" >
 
         <StackPanel Grid.ColumnSpan="5" >
             <Menu FontSize="14">
@@ -39,7 +39,7 @@
                             <Image Source="Graphics/Import_Icon_32.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="Export_Test_Case_Import" Click="Export_Test_Case_Import_Click" Header="Export">
+                    <MenuItem x:Name="Export_Test_Case" Click="Export_Test_Case_Click"  Header="Export">
                         <MenuItem.Icon>
                             <Image Source="Graphics/Export_Icon_32.png"/>
                         </MenuItem.Icon>
@@ -86,7 +86,7 @@
         <TextBlock  Grid.Row="5" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Alarm Instance" Width="145" FontSize="20"  Foreground="#FFF1EFEF" Margin="243,15,0,239"/>
         <TextBox x:Name="Alarm_instance" Grid.Row="5" HorizontalAlignment="Left" MaxWidth="100" Text="{Binding AlarmInstanceText,  Mode=TwoWay}" Margin="248,46,0,185"   FontSize="20"   Width="80" MaxHeight="45" />
 
-        <TextBlock  Grid.Row="5" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Select test case" Width="191" FontSize="20" Foreground="#FFF5F1F1" Margin="418,7,0,167"/>
+        <TextBlock  Grid.Row="5" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Select test case" Width="191" FontSize="20" Foreground="#FFF5F1F1" Margin="438,7,0,167"/>
         <ComboBox x:Name="tc_list" Margin="412,41,18,207" Grid.Row="5" Width="283"  ItemsSource="{Binding ActiveTCList}" FontSize="10" SelectionChanged="tc_list_SelectionChanged"/>
 
 
@@ -123,7 +123,7 @@
         <TextBox x:Name="vpdBox" Grid.Row="5" HorizontalAlignment="Left" MaxWidth="150" Text="{Binding VPD,  Mode=TwoWay}" Margin="377,223,0,8"   FontSize="20"   Width="150" MaxHeight="45" Height="40" />
 
 
-        <Border Margin="0,20,0,00"  Grid.Row="5" Grid.Column="2" Grid.RowSpan="6"  BorderBrush="Black" Background="#FF414254" BorderThickness="1" CornerRadius="12"  >
+        <Border Margin="0,20,0,10"  Grid.Row="5" Grid.Column="2" Grid.RowSpan="6"  BorderBrush="Black" Background="#FF414254" BorderThickness="1" CornerRadius="12"  >
             <StackPanel >
 
                 <TextBlock  HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Test Plan" Width="166" FontSize="20"  Foreground="#FFF1EFEF"/>
@@ -249,9 +249,9 @@
 
 
 
-        <StackPanel Orientation="Horizontal" Grid.Row="11" Margin=" 0,30,0,0">
+        <StackPanel Orientation="Horizontal" Grid.Row="11" Margin=" 10,30,0,10">
             <Border  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="160" BorderBrush="Black" BorderThickness="1" Margin="0,0,0,0">
-                <StackPanel  Margin="5,0,0,0">
+                <StackPanel  Margin="5,0,0,00">
                     <TextBlock Text="Testplan scripts" FontSize="20" Foreground="#FFF5F1F1" />
                     <CheckBox x:Name="CB_prep_Dirs"  IsChecked="{Binding PythonScripts[0], Mode=TwoWay}">
                         <TextBlock x:Name="TB_prep_Dirs" Text="prepare_dirs" Foreground="#FFF5F1F1"/>
@@ -280,6 +280,14 @@
                     <CheckBox x:Name="CB_report_runner" IsChecked="{Binding PythonScripts[8], Mode=TwoWay}" >
                         <TextBlock x:Name="TB_report_runner" Text="report_runner" Foreground="#FFF5F1F1" />
                     </CheckBox>
+                    <Button x:Name="CheckAllScripts" Margin="0,10,10,0"  Content="check all"  Foreground="#FFF1F1F1"  BorderBrush="#FFECBD1B" Click="CheckAllScripts_Click"  Height="33" Width="118" >
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="Red" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
 
                 </StackPanel>
             </Border>
@@ -329,7 +337,7 @@
         </StackPanel>
 
 
-        <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="10" Margin="40,20,0,0" BorderBrush="Black" Background="#FF414254" BorderThickness="1" CornerRadius="12" Grid.ColumnSpan="2">
+        <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="10" Margin="40,20,10,10" BorderBrush="Black" Background="#FF414254" BorderThickness="1" CornerRadius="12" Grid.ColumnSpan="2">
             <StackPanel  VerticalAlignment="Stretch" Margin="5,10,5,10">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
@@ -367,6 +375,11 @@
                      
                      TextChanged="TestPlanOutput_TextChanged" Height="694" Width="393" Background="#FF414254" Foreground="White"/>
                 <TextBlock  HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Json file content" Width="166" FontSize="20"  Foreground="#FFF1EFEF"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="Run_Button" Height="23" Width="40" Content="Run" Click="Run_Button_Click"/>
+                    <Button x:Name="Run_Button2" Height="23" Width="40" Content="Run" Click="Run_Button2_Click"/>
+                </StackPanel>
+                
 
 
             </StackPanel>
