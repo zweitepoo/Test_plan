@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using System.Windows;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Controls;
 
 
 /* 
@@ -76,6 +77,11 @@ namespace Test_plan
         public bool[] PythonScripts { get { return pythonScripts; } private set { } }
         private bool[] pythonScripts;
         public TestPlanSerialization testPlanSerialization;
+        //Python run 
+        public PythonRun pythonRun;
+        public string PythonExeFilePath { get { return pythonRun.PythonExeFilePath; } private set { } }
+        public string PythonScriptsFolderPath { get { return pythonRun.PythonScriptsFolderPath; } private set { } }
+        public string PythonScriptFilePath { get { return pythonRun.PythonScriptFilePath; } private set { } }
 
         //Constructor
         public TestPlan()
@@ -97,7 +103,7 @@ namespace Test_plan
             testPlanSerialization = new TestPlanSerialization();
             ActiveTCList = new ObservableCollection<TestCase>();            
             pythonScripts = new bool[9] { false, false, false, false, false, false, false, false, false };
-
+            pythonRun = new PythonRun();
         
 
         }
@@ -448,11 +454,14 @@ namespace Test_plan
                 TestRunSequence.Add(testRun);
         }
 
+        //Save user's paramterers from file
         public void SerializeUserData()
         {
-            testPlanSerialization.SerializeUserData(BuildNumberText, ControllerBuildText, FlashWithPreviousBuild, IgnoreFlashFault, DatabaseSQL, ActiveProject);
+            testPlanSerialization.SerializeUserData(BuildNumberText, ControllerBuildText, FlashWithPreviousBuild, IgnoreFlashFault, DatabaseSQL, ActiveProject,
+                                                    PythonExeFilePath, PythonScriptsFolderPath, PythonScriptFilePath);
         }
 
+        // Load user's parametrs from file
         public void DeserializeUserData()
         {
 
@@ -462,7 +471,8 @@ namespace Test_plan
                 ControllerBuildText = testPlanSerialization.ControllerBuildText;
                 FlashWithPreviousBuild = testPlanSerialization.FlashWithPreviousBuild;
                 IgnoreFlashFault = testPlanSerialization.IgnoreFlashFault;
-                DatabaseSQL = testPlanSerialization.DatabaseSQL;
+                DatabaseSQL = testPlanSerialization.DatabaseSQL;                
+                pythonRun.UpdatePaths(testPlanSerialization.PythonExeFilePath, testPlanSerialization.PythonScriptsFolderPath, testPlanSerialization.PythonScriptFilePath);
                 UpdateActiveProject(testPlanSerialization.ActiveProject);
                 OnPropertyChanged("BuildNumberText");
                 OnPropertyChanged("ControllerBuildText");
@@ -490,7 +500,7 @@ namespace Test_plan
           
             OnPropertyChanged("PythonScripts");
         }
-
+        //Check if Test plan data is valid
         public bool TestPlanDataIsValid()
         {
             if (String.IsNullOrEmpty(BuildNumberText))
@@ -510,6 +520,7 @@ namespace Test_plan
             }
             return true;
         }
+        //Generate json text file, save user's data as well 
         public void GenerateJSON()
         {
             testPlanJSONGenerator = new TestPlan2JSON(TestRunSequence, TestbedSelected, ActiveProject, BuildNumberText, ControllerBuildText,
@@ -520,7 +531,7 @@ namespace Test_plan
 
 
         }
-        //Saving Jason to a file
+        //Saving Json to a file
         public void SaveJSON()
         /// <summary>
         /// Saving Jason to a file
@@ -571,6 +582,22 @@ namespace Test_plan
                 TestPlanJSON = File.ReadAllText(openFileDialog.FileName);
                 OnPropertyChanged("TestPlanJSON");
             }
+        }
+
+        //Set Python.exe file path 
+        public void SetPythonExePath()
+        {
+            pythonRun.SetPythonExePath();
+        }
+        //Set Python scripts paths
+        public void SetPythonScriptPath()
+        {
+            pythonRun.SetPythonScriptPath();
+        }
+        //Run python script redirect output text to input control
+        public void RunPythonScript(TextBox textBox)
+        {
+            pythonRun.RunPythonScript(textBox);
         }
 
 

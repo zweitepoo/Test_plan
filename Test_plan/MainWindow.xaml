@@ -7,7 +7,7 @@
       mc:Ignorable="d" d:DesignWidth="1750"     
         WindowStartupLocation="CenterScreen"
         
-      Title="Test plan generator" Width="1750" Foreground="#FF928B8B" Background="#FF545353" OpacityMask="Black" Height="882">
+      Title="Test plan generator" Width="1750" Foreground="#FF928B8B" Background="#FF545353" OpacityMask="Black" Height="900">
     <Window.Resources>
         <local:TestPlan x:Key="testPlan"/>
     </Window.Resources>
@@ -69,6 +69,29 @@
                     </MenuItem>
 
                 </MenuItem>
+
+
+                <MenuItem Header="Python">
+                    <MenuItem x:Name="Python_SetExePath" Click="Python_SetExePath_Click"  Header="Set python path">
+                        <MenuItem.Icon>
+                            <Image Source="Graphics/Open_Icon_64.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="Python_SetScriptPath" Click="Python_SetScriptPath_Click"  Header="Set script path">
+                        <MenuItem.Icon>
+                            <Image Source="Graphics/Save_Icon_64.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem x:Name="Python_RunScript" Click="Python_RunScript_Click"  Header="Run">
+                        <MenuItem.Icon>
+                            <Image Source="Graphics/SaveAs_Icon_64.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                </MenuItem>
+
+
                 <MenuItem Header="About">
                     <MenuItem x:Name="Menu_About_Info" Click="Menu_About_Info_Click" Header="Info">
                         <MenuItem.Icon>
@@ -377,7 +400,6 @@
                 <TextBlock  HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Json file content" Width="166" FontSize="20"  Foreground="#FFF1EFEF"/>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="Run_Button" Height="23" Width="40" Content="Run" Click="Run_Button_Click"/>
-                    <Button x:Name="Run_Button2" Height="23" Width="40" Content="Run" Click="Run_Button2_Click"/>
                 </StackPanel>
                 
 

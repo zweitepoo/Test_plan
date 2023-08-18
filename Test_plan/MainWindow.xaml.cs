@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using Microsoft.Win32;
+using System.IO;
 
 namespace Test_plan
 {
@@ -22,6 +24,7 @@ namespace Test_plan
     public partial class MainWindow : Window
     {
         TestPlan castTestPlan;
+        public OpenFileDialog openFileDialog = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -525,6 +528,34 @@ namespace Test_plan
         }
 
 
+        private void SetPythonExePath()
+        {
+            openFileDialog = new OpenFileDialog();            
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+            openFileDialog.Filter = "Select python.exe file (*.exe)|*.exe";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                TestPlanOutput.Text += "Path to python.exe set: " + Environment.NewLine;
+                TestPlanOutput.Text += System.IO.Path.GetFullPath(openFileDialog.FileName) + Environment.NewLine;                
+            }
+        }
+
+        private void SetPythonScriptPath()
+        {
+            openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+            openFileDialog.Filter = "Select schedule_tasks_runner.py file (*.py)|*.py";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                TestPlanOutput.Text += "Directory to python scripts set: " + Environment.NewLine;
+                TestPlanOutput.Text += System.IO.Path.GetDirectoryName(openFileDialog.FileName) + Environment.NewLine;
+                TestPlanOutput.Text += "File path set, Ready to run script :" + Environment.NewLine;
+                TestPlanOutput.Text += System.IO.Path.GetFileName(openFileDialog.FileName) + Environment.NewLine;
+
+            }
+        }
 
 
 
@@ -533,49 +564,80 @@ namespace Test_plan
         {
             Process process;
             process = new Process();
-            process.StartInfo.FileName = "cmd.exe";
-           // process.StartInfo.Arguments = "-i \\\\dssp-isi-t\\TMD\\B002C010_130520_R2R7.2398v5.mxf -an -vcodec libx264 -level 4.1 -preset veryslow -tune film -x264opts bluray-compat=1:weightp=0:bframes=3:nal-hrd=vbr:vbv-maxrate=40000:vbv-bufsize=30000:keyint=24:b-pyramid=strict:slices=4:aud=1:colorprim=bt709:transfer=bt709:colormatrix=bt709:sar=1/1:ref=4 -b 30M -bt 30M -threads 0 -pass 1 -y \\\\dss-isi-t\\MTPO_Transfer\\dbay\\B002C010_130520_R2R7.2398v5.mxf.h264";
+            process.StartInfo.FileName = "cmd.exe";        
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.RedirectStandardOutput = true;
-            process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.OutputDataReceived += new DataReceivedEventHandler((sendingProcess, dataLine) =>
+            {
+                if (dataLine.Data != null)
+                 {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        TestPlanOutput.Text += dataLine.Data + Environment.NewLine;
+                        TestPlanOutput.ScrollToEnd();
+                    });
+                };
+            });
             process.EnableRaisingEvents = true;
             process.StartInfo.RedirectStandardInput = true;
             process.Start();
+            process.BeginOutputReadLine();
             process.StandardInput.WriteLine(@"ping wp.pl");
            // process.StandardInput.WriteLine(@"C:\python310\python.exe ""schedule_tasks_runner.py""");
             process.StandardInput.Close();
-            process.BeginOutputReadLine();
+           
            // process.WaitForExit();
-            process.Close();
+           // process.WaitForExit();
         }
 
-       
+    
 
-        public void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            TestPlanOutput.Text = e.Data;
-        }
-
-        string dupa= string.Empty;
-        public void OutputHandler(object sender, DataReceivedEventArgs outLine)
-        {
-            string line = string.Empty;
-            line = (outLine.Data.ToString());
-            Console.WriteLine(line);
-            
-            
-        }
+     
+    
 
         private void Run_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(castTestPlan.PythonExeFilePath))
+                castTestPlan.SetPythonExePath();
+            if (string.IsNullOrEmpty(castTestPlan.PythonScriptsFolderPath) || string.IsNullOrEmpty(castTestPlan.PythonScriptFilePath))
+                 castTestPlan.SetPythonScriptPath();
+            
+            castTestPlan.SerializeUserData();
 
-            run_cmd();
+            TestPlanOutput.Text += castTestPlan.PythonScriptsFolderPath + Environment.NewLine;
+            TestPlanOutput.Text += castTestPlan.PythonScriptFilePath + Environment.NewLine;
+            TestPlanOutput.Text += castTestPlan.PythonExeFilePath + Environment.NewLine;
+            castTestPlan.RunPythonScript(TestPlanOutput);
+        }      
+
+       
+
+        private void Python_SetExePath_Click(object sender, RoutedEventArgs e)
+        {
+           castTestPlan.SetPythonExePath();
+            castTestPlan.SerializeUserData();
         }
 
-        private void Run_Button2_Click(object sender, RoutedEventArgs e)
+        private void Python_SetScriptPath_Click(object sender, RoutedEventArgs e)
         {
-            TestPlanOutput.Text =  run_proc();
+            castTestPlan.SetPythonScriptPath();
+            castTestPlan.SerializeUserData();
+        }
+
+        private void Python_RunScript_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(castTestPlan.PythonExeFilePath))
+                castTestPlan.SetPythonExePath();
+            if (string.IsNullOrEmpty(castTestPlan.PythonScriptsFolderPath) || string.IsNullOrEmpty(castTestPlan.PythonScriptFilePath))
+                castTestPlan.SetPythonScriptPath();
+            
+            castTestPlan.SerializeUserData();
+
+            TestPlanOutput.Text += castTestPlan.PythonScriptsFolderPath + Environment.NewLine;
+            TestPlanOutput.Text += castTestPlan.PythonScriptFilePath + Environment.NewLine;
+            TestPlanOutput.Text += castTestPlan.PythonExeFilePath + Environment.NewLine;
+            castTestPlan.RunPythonScript(TestPlanOutput);
         }
     }
 }

@@ -23,15 +23,21 @@ namespace Test_plan
         public string IgnoreFlashFault { get; private set; }
         public string DatabaseSQL { get; set; }
         public ProjectSymbol ActiveProject { get; private set; }
+        public string PythonExeFilePath { get; private set; }
+        public string PythonScriptsFolderPath { get; private set; }
+        public string PythonScriptFilePath { get; private set; }
+
+
 
         private string folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
         private string filePath;
-       
+       // private OpenFileDialog openFileDialog = null;
 
 
         public TestPlanSerialization()
         {
             filePath = folder + @"\User_data.dat";
+            
         }
 
         public void SerializeTestPlan(Collection<TestRun> testRunSequence)
@@ -90,9 +96,10 @@ namespace Test_plan
             }
         }
 
+        
 
-
-        public void SerializeUserData(string buildNumberText, string controllerBuildText, string flashWithPreviousBuild, string ignoreFlashFault, string databaseSQL, ProjectSymbol activeProject)
+    public void SerializeUserData(string buildNumberText, string controllerBuildText, string flashWithPreviousBuild, string ignoreFlashFault, string databaseSQL,
+                                    ProjectSymbol activeProject, string pythonExeFilePath, string pythonScriptsFolderPath, string pythonScriptFilePath)
         {
             BuildNumberText = buildNumberText;
             ControllerBuildText = controllerBuildText;
@@ -100,6 +107,9 @@ namespace Test_plan
             IgnoreFlashFault = ignoreFlashFault;
             DatabaseSQL = databaseSQL;
             ActiveProject = activeProject;
+            PythonExeFilePath = pythonExeFilePath;
+            PythonScriptsFolderPath = pythonScriptsFolderPath;
+            PythonScriptFilePath = pythonScriptFilePath;
 
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
@@ -123,14 +133,17 @@ namespace Test_plan
                 using (Stream input = File.OpenRead(filePath))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
-                    TestPlanSerialization tempTestPLanSerialization = (TestPlanSerialization)formatter.Deserialize(input);
+                    TestPlanSerialization tempTestPlanSerialization = (TestPlanSerialization)formatter.Deserialize(input);
 
-                    BuildNumberText = tempTestPLanSerialization.BuildNumberText;
-                    ControllerBuildText = tempTestPLanSerialization.ControllerBuildText;   
-                    FlashWithPreviousBuild = tempTestPLanSerialization.FlashWithPreviousBuild;
-                    IgnoreFlashFault = tempTestPLanSerialization.IgnoreFlashFault;
-                    DatabaseSQL = tempTestPLanSerialization.DatabaseSQL;
-                    ActiveProject = tempTestPLanSerialization.ActiveProject;                    
+                    BuildNumberText = tempTestPlanSerialization.BuildNumberText;
+                    ControllerBuildText = tempTestPlanSerialization.ControllerBuildText;   
+                    FlashWithPreviousBuild = tempTestPlanSerialization.FlashWithPreviousBuild;
+                    IgnoreFlashFault = tempTestPlanSerialization.IgnoreFlashFault;
+                    DatabaseSQL = tempTestPlanSerialization.DatabaseSQL;
+                    ActiveProject = tempTestPlanSerialization.ActiveProject; 
+                    PythonExeFilePath = tempTestPlanSerialization.PythonExeFilePath;
+                    PythonScriptFilePath= tempTestPlanSerialization.PythonScriptFilePath;
+                    PythonScriptsFolderPath = tempTestPlanSerialization.PythonScriptsFolderPath;
                 }
                 
             }
@@ -141,6 +154,9 @@ namespace Test_plan
             return true;
 
         }
+
+
+      
 
 
     }
