@@ -22,12 +22,13 @@ using System.Diagnostics;
 
 namespace Test_plan
 {
-    internal class PythonRun
+    public class PythonRun
     {
         public string PythonExeFilePath { get; private set; }
         public string PythonScriptsFolderPath { get; private set; }
         public string PythonScriptFilePath { get; private set; }
         private OpenFileDialog openFileDialog = null;
+        private Process process;
 
         public PythonRun()
         {
@@ -40,6 +41,7 @@ namespace Test_plan
         {
             openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+            openFileDialog.Title = "Select python.exe file";
             openFileDialog.Filter = "python.exe  (*.exe)|*.exe";
 
             if (openFileDialog.ShowDialog() == true)
@@ -52,6 +54,7 @@ namespace Test_plan
         {
             openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+            openFileDialog.Title = "Select schedule_tasks_runner.py script file";
             openFileDialog.Filter = "*.py file (*.py)|*.py";
 
             if (openFileDialog.ShowDialog() == true)
@@ -67,32 +70,53 @@ namespace Test_plan
         public void RunPythonScript(TextBox textBox)
 
         {
-            Process process;
             process = new Process();
             process.StartInfo.FileName = "cmd.exe";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
             process.OutputDataReceived += new DataReceivedEventHandler((sendingProcess, dataLine) =>
             {
                 if (dataLine.Data != null)
                 {
+                    lock (dataLine) { 
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        textBox.Text += dataLine.Data + Environment.NewLine;
-                        textBox.ScrollToEnd();
+                        textBox.Text += dataLine.Data + Environment.NewLine;                                             
+                        textBox.ScrollToEnd();                        
+                       
                     });
+                    }
+                };
+            });
+
+
+            process.ErrorDataReceived += new DataReceivedEventHandler((sendingProcess, errorLine) =>
+            {
+                if (errorLine.Data != null)
+                {
+                    lock (errorLine)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            textBox.Text += errorLine.Data + Environment.NewLine;
+                            textBox.ScrollToEnd();
+
+                        });
+                    }
                 };
             });
             process.EnableRaisingEvents = true;
             process.StartInfo.RedirectStandardInput = true;
             process.Start();
             process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
             process.StandardInput.WriteLine($"cd {PythonScriptsFolderPath}");
             process.StandardInput.WriteLine($"{PythonExeFilePath} \"{PythonScriptFilePath}\"");
+         //  process.StandardInput.WriteLine($"ping wp.pl");         
             process.StandardInput.Close();
-
-            // process.WaitForExit();
+           
             // process.WaitForExit();
         }
 
@@ -101,6 +125,11 @@ namespace Test_plan
             PythonExeFilePath = pythonExeFilePath;
             PythonScriptsFolderPath= pythonScriptsFolderPath;   
             PythonScriptFilePath= pythonScriptFilePath;
+        }
+        public void ClosePythonRun()
+        {
+            
+            process.Close();
         }
     }
 }

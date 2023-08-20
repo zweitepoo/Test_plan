@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace Test_plan
 {
     [Serializable]
-    internal class TestCase
+    public class TestCase
     {
        
         public int TestCaseNumber { get; private  set; }

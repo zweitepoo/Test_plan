@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Test_plan
 {
     [Serializable]
-    internal class Controller
+    public class Controller
     {
         
        public ControllerNum ControllerShort { get; private set; }

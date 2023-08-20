@@ -15,7 +15,7 @@
 
 
     <Grid Grid.Row="1" Margin="0,0,0,00" DataContext="{StaticResource ResourceKey=testPlan}" Background="#FF545353" >
-
+     
         <StackPanel Grid.ColumnSpan="5" >
             <Menu FontSize="14">
                 <MenuItem Header="Test Plan">
@@ -79,13 +79,13 @@
                     </MenuItem>
                     <MenuItem x:Name="Python_SetScriptPath" Click="Python_SetScriptPath_Click"  Header="Set script path">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Save_Icon_64.png"/>
+                            <Image Source="Graphics/Open_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
                     <MenuItem x:Name="Python_RunScript" Click="Python_RunScript_Click"  Header="Run">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/SaveAs_Icon_64.png"/>
+                            <Image Source="Graphics/Run_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
 
@@ -398,15 +398,13 @@
                      
                      TextChanged="TestPlanOutput_TextChanged" Height="694" Width="393" Background="#FF414254" Foreground="White"/>
                 <TextBlock  HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Json file content" Width="166" FontSize="20"  Foreground="#FFF1EFEF"/>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="Run_Button" Height="23" Width="40" Content="Run" Click="Run_Button_Click"/>
-                </StackPanel>
-                
+                <StackPanel Orientation="Horizontal"/>
+
 
 
             </StackPanel>
         </Border>
-
+        
 
 
 
@@ -437,4 +435,9 @@
 
         </Grid.RowDefinitions>
     </Grid>
+
+    
+        
+   
+        
 </Window>

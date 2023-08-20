@@ -18,7 +18,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Test_plan
 {
     [Serializable]
-    internal class TestCaseManager
+    public class TestCaseManager
     {
         public ObservableCollection<TestCase> ActiveTCList { get;private set; }
        

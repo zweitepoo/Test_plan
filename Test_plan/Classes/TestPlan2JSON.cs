@@ -13,7 +13,7 @@ using System.IO;
 namespace Test_plan
 {
     [Serializable]
-    internal class TestPlan2JSON
+    public class TestPlan2JSON
     {
         private Collection<TestRun> testRunSequence;
         private TBSymbol testBed;

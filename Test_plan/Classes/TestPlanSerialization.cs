@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 namespace Test_plan
 {
     [Serializable]
-    internal class TestPlanSerialization
+    public class TestPlanSerialization
     {
         public Collection<TestRun> TestRunSequence { get { return testRunSequence; } private set { } }
         private Collection<TestRun> testRunSequence  = new Collection<TestRun>();

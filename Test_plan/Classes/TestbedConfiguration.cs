@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace Test_plan
 {
     [Serializable]
-    internal class TestbedConfiguration
+    public class TestbedConfiguration
     {
         public TBSymbol TestbedSelected { get; private set; }
 

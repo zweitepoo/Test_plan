@@ -557,8 +557,6 @@ namespace Test_plan
             }
         }
 
-
-
         private void run_cmd()
          
         {
@@ -589,29 +587,7 @@ namespace Test_plan
            
            // process.WaitForExit();
            // process.WaitForExit();
-        }
-
-    
-
-     
-    
-
-        private void Run_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(castTestPlan.PythonExeFilePath))
-                castTestPlan.SetPythonExePath();
-            if (string.IsNullOrEmpty(castTestPlan.PythonScriptsFolderPath) || string.IsNullOrEmpty(castTestPlan.PythonScriptFilePath))
-                 castTestPlan.SetPythonScriptPath();
-            
-            castTestPlan.SerializeUserData();
-
-            TestPlanOutput.Text += castTestPlan.PythonScriptsFolderPath + Environment.NewLine;
-            TestPlanOutput.Text += castTestPlan.PythonScriptFilePath + Environment.NewLine;
-            TestPlanOutput.Text += castTestPlan.PythonExeFilePath + Environment.NewLine;
-            castTestPlan.RunPythonScript(TestPlanOutput);
-        }      
-
-       
+        }   
 
         private void Python_SetExePath_Click(object sender, RoutedEventArgs e)
         {
@@ -634,10 +610,12 @@ namespace Test_plan
             
             castTestPlan.SerializeUserData();
 
-            TestPlanOutput.Text += castTestPlan.PythonScriptsFolderPath + Environment.NewLine;
-            TestPlanOutput.Text += castTestPlan.PythonScriptFilePath + Environment.NewLine;
-            TestPlanOutput.Text += castTestPlan.PythonExeFilePath + Environment.NewLine;
-            castTestPlan.RunPythonScript(TestPlanOutput);
+            TestPlanOutput.Text += "Python script folder set to: " + Environment.NewLine + castTestPlan.PythonScriptsFolderPath + Environment.NewLine;
+            TestPlanOutput.Text += "Python script file set to: " + Environment.NewLine + castTestPlan.PythonScriptFilePath + Environment.NewLine;
+            TestPlanOutput.Text += "Python.exe file set to: " + Environment.NewLine + castTestPlan.PythonExeFilePath + Environment.NewLine;
+
+            PythonOutput pythonOutput = new PythonOutput(castTestPlan);
+            pythonOutput.Show();
         }
     }
 }

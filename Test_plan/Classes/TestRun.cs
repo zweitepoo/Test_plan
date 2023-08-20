@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace Test_plan
 {
     [Serializable]
-    internal class TestRun : TestCase, INotifyPropertyChanged
+    public class TestRun : TestCase, INotifyPropertyChanged
     {
 
        

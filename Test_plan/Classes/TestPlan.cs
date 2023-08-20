@@ -22,7 +22,7 @@ using System.Windows.Controls;
 namespace Test_plan
 {
     [Serializable]
-     class TestPlan : INotifyPropertyChanged
+       public class TestPlan : INotifyPropertyChanged
     {
       //  DataContractSerializer serializer;
         public string saveTestPlanName { get; set; }
@@ -569,6 +569,7 @@ namespace Test_plan
                 File.WriteAllText(saveFileDialog.FileName, TestPlanJSON);
                 MessageBox.Show("File saved");
             }
+            fileJSON = saveFileDialog;
 
         }
         //Open exising JSON file
@@ -599,7 +600,11 @@ namespace Test_plan
         {
             pythonRun.RunPythonScript(textBox);
         }
-
+        //Close python run process
+        public void ClosePythonRun()
+        {
+            pythonRun.ClosePythonRun();
+        }
 
     }
 
