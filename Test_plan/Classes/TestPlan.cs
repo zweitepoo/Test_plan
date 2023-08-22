@@ -132,8 +132,9 @@ namespace Test_plan
         //Adding new testrun to testrun sequence
         public  void AddTestRun(int selectedIndex)
         {
-          if ( !(TestAlreadyExists())) 
-            if (TestRunDataIsValid() )
+           
+          
+            if (TestRunDataIsValid() && !(TestAlreadyExists()))
             {
                 if (selectedIndex != -1)
                 {
@@ -263,6 +264,11 @@ namespace Test_plan
         //Testrun data validation
         public bool TestRunDataIsValid()
         {
+
+            if (!TestCaseDataIsValid()) 
+            {
+                return false; 
+            }
             if (String.IsNullOrEmpty(VPD))
             {
                 MessageBox.Show("VPD is null, enter valid VPD");
@@ -278,27 +284,22 @@ namespace Test_plan
                 MessageBox.Show("flash type is null, enetr valid flash type");
                 return false;
             }
-            if ((String.IsNullOrEmpty(AlarmInstanceText)))
+            
+            try
             {
-                MessageBox.Show("Enter valid alarm instance number: ");
-                return false;
-            }
+                if ((String.IsNullOrEmpty(TestRunNumberText)) || int.Parse(TestRunNumberText) == 0)
+                {
+                    MessageBox.Show("Wrong Testrun number: " + TestRunNumberText);
+                    return false;
+                }
 
-            if ((String.IsNullOrEmpty(TestCaseNumberText)) ||  int.Parse(TestCaseNumberText) == 0)
+            }
+            catch(FormatException)
             {
-                MessageBox.Show("Wrong Test Case number: " + TestCaseNumberText);
+                MessageBox.Show("Wrong Testrun number Format: " + TestRunNumberText);
                 return false;
             }
-            if ((String.IsNullOrEmpty(TestRunNumberText)) || int.Parse(TestRunNumberText) == 0)
-            {
-                MessageBox.Show("Wrong Testrun number: " + TestRunNumberText);
-                return false;
-            }
-            if  (String.IsNullOrEmpty(TestRunName))
-            {
-                MessageBox.Show("Test run name is empty");
-                return false;
-            }            
+          
             if (ControllersSet[0] == null)
             {
                 MessageBox.Show("No CLX[1] set");
@@ -424,11 +425,52 @@ namespace Test_plan
 
         }
 
+        //Check if data is valid
+        public bool TestCaseDataIsValid()
+        {
+            
+            try
+            {
+                if ((String.IsNullOrEmpty(TestCaseNumberText)) || int.Parse(TestCaseNumberText) == 0)
+                {
+                    MessageBox.Show("Wrong Test Case number: " + TestCaseNumberText);
+                    return false;
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Wrong Test Case number Format: " + TestCaseNumberText);
+                return false;
+            }
+            try
+            {
+                if ((String.IsNullOrEmpty(AlarmInstanceText)) || int.Parse(AlarmInstanceText) < 0)
+                {
+                    MessageBox.Show("Enter valid alarm instance number: ");
+                    return false;
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Wrong Alarm instance Format: " + AlarmInstanceText);
+                return false;
+            }
+
+            if (String.IsNullOrEmpty(TestRunName))
+            {
+                MessageBox.Show("Test name is empty");
+                return false;
+            }
+
+            return true;
+
+        }
+
         //Add new Test Case to the list 
 
         public void AddTestCase()
-        {
-            TestCases.AddTestCase(int.Parse(TestCaseNumberText), TestRunName, int.Parse(AlarmInstanceText));
+        {      if(TestCaseDataIsValid())      
+                TestCases.AddTestCase(int.Parse(TestCaseNumberText), TestRunName, int.Parse(AlarmInstanceText));            
         }
 
         //removes TC from the active list
