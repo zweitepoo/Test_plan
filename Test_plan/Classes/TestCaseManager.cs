@@ -66,7 +66,7 @@ namespace Test_plan
         //Reloads TC list for Oprix or ViewE
         public void ReloadTestCaseList(ProjectSymbol activeProject)
         {
-         
+            
          switch (activeProject)
                 {
                     case ProjectSymbol.Optix:
@@ -135,6 +135,8 @@ namespace Test_plan
         //Serializing Testcase 
         public  void SerializeTestCasesList()
         {  
+                         
+
             if (ActiveProject== ProjectSymbol.Optix)
             {
                 OptixTCList.Clear();
@@ -166,15 +168,16 @@ namespace Test_plan
 
             try
             {
+               
                 using (Stream input = File.OpenRead(filePath))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
                     tempTestCaseManager = (TestCaseManager)formatter.Deserialize(input);
+                    OptixTCList.AddRange(tempTestCaseManager.OptixTCList);
+                    ViewETCList.AddRange(tempTestCaseManager.ViewETCList);
 
                 }
-                OptixTCList.AddRange(tempTestCaseManager.OptixTCList);
-                ViewETCList.AddRange(tempTestCaseManager.ViewETCList);
-
+                ActiveTCList.Clear();
                 if (ActiveProject == ProjectSymbol.Optix)
                     foreach (var item in OptixTCList)
                         ActiveTCList.Add(item);
@@ -222,7 +225,7 @@ namespace Test_plan
         //Imports and replaces default TC list, 
         public void ImportTCList()
         {
-
+           
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
             openFileDialog.Filter = "Test case list data file (*.dat)|*.dat";
@@ -236,13 +239,14 @@ namespace Test_plan
                     {
                         TestCaseManager tempTestCaseManager = (TestCaseManager)formatter.Deserialize(input);
                         ActiveTCList.Clear();
-                        if (ActiveProject == ProjectSymbol.Optix)
+                        
+                        if (this.ActiveProject == ProjectSymbol.Optix)
                         {
                             foreach (TestCase testCase in tempTestCaseManager.OptixTCList)
                                 ActiveTCList.Add(testCase);
 
                         }
-                        else if (ActiveProject == ProjectSymbol.ViewE)
+                        else if (this.ActiveProject == ProjectSymbol.ViewE)
                         {
                             foreach (TestCase testCase in tempTestCaseManager.ViewETCList)
                                 ActiveTCList.Add(testCase);

@@ -32,10 +32,11 @@ namespace Test_plan
             TB_Selection.SelectedIndex = 0;
             set_Optix.IsChecked = true;
             set_prevFlash.IsChecked = true;
-            res_ignoreFlash.IsChecked = true;            
-            castTestPlan.DeserializeTestCasesList();
+            res_ignoreFlash.IsChecked = true;               
             castTestPlan.DeserializeUserData();
-            UpdateRadioButtons();                  
+            UpdateRadioButtons();
+            castTestPlan.DeserializeTestCasesList();
+            tc_list.Items.Refresh();
 
         }
 
@@ -367,14 +368,7 @@ namespace Test_plan
             if (tc_list.SelectedIndex != -1)
                 castTestPlan.ShowTestCaseValues(castTestPlan.ActiveTCList[tc_list.SelectedIndex]);
         }
-        private void exportTestCase_Click(object sender, RoutedEventArgs e)
-        {
-            castTestPlan.TestCases.ExportTCList();
-        }
-        private void importTestCaseList_Click(object sender, RoutedEventArgs e)
-        {
-            castTestPlan.TestCases.ImportTCList();
-        }       
+             
 
 
         private void set_prevFlash_Checked(object sender, RoutedEventArgs e)
@@ -470,13 +464,14 @@ namespace Test_plan
             MessageBox.Show("Test plan generator v.1.0" + Environment.NewLine + "author: Jakub Madej");
         }
 
-        private void Export_Test_Case_Click(object sender, RoutedEventArgs e)
+         private void Menu_Export_Test_Case_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.TestCases.ExportTCList();
+            castTestPlan.ExportTestCasesList();
+
         }
         private void Menu_Test_Case_Import_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.TestCases.ImportTCList();
+            castTestPlan.ImportTestCasesList();
         }
 
         private void Menu_Test_Case_Save_Click(object sender, RoutedEventArgs e)
@@ -501,93 +496,93 @@ namespace Test_plan
             CB_report_runner.IsChecked=true;
         }
 
-        private string run_proc()
-        {
-            ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe");
-            processStartInfo.RedirectStandardInput = true;
-            processStartInfo.RedirectStandardOutput = true;
-            processStartInfo.UseShellExecute = false;
+        //private string run_proc()
+        //{
+        //    ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe");
+        //    processStartInfo.RedirectStandardInput = true;
+        //    processStartInfo.RedirectStandardOutput = true;
+        //    processStartInfo.UseShellExecute = false;
 
 
-            Process process = Process.Start(processStartInfo);
+        //    Process process = Process.Start(processStartInfo);
 
-            if (process != null)
-            {
-                process.StandardInput.WriteLine(@"cd C:\REPOS\viewe_systemtest\viewe_systemtest\Python_Scripts\MoveFromSquishRepo");
-                process.StandardInput.WriteLine(@"C:\python310\python.exe ""schedule_tasks_runner.py""");
-                process.StandardInput.Close(); // line added to stop process from hanging on ReadToEnd()
-
-
-                string outputString = process.StandardOutput.ReadToEnd();
-
-                return outputString;
-            }
-            return String.Empty;
+        //    if (process != null)
+        //    {
+        //        process.StandardInput.WriteLine(@"cd C:\REPOS\viewe_systemtest\viewe_systemtest\Python_Scripts\MoveFromSquishRepo");
+        //        process.StandardInput.WriteLine(@"C:\python310\python.exe ""schedule_tasks_runner.py""");
+        //        process.StandardInput.Close(); // line added to stop process from hanging on ReadToEnd()
 
 
-        }
+        //        string outputString = process.StandardOutput.ReadToEnd();
+
+        //        return outputString;
+        //    }
+        //    return String.Empty;
 
 
-        private void SetPythonExePath()
-        {
-            openFileDialog = new OpenFileDialog();            
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-            openFileDialog.Filter = "Select python.exe file (*.exe)|*.exe";
+        //}
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                TestPlanOutput.Text += "Path to python.exe set: " + Environment.NewLine;
-                TestPlanOutput.Text += System.IO.Path.GetFullPath(openFileDialog.FileName) + Environment.NewLine;                
-            }
-        }
 
-        private void SetPythonScriptPath()
-        {
-            openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-            openFileDialog.Filter = "Select schedule_tasks_runner.py file (*.py)|*.py";
+        //private void SetPythonExePath()
+        //{
+        //    openFileDialog = new OpenFileDialog();            
+        //    openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+        //    openFileDialog.Filter = "Select python.exe file (*.exe)|*.exe";
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                TestPlanOutput.Text += "Directory to python scripts set: " + Environment.NewLine;
-                TestPlanOutput.Text += System.IO.Path.GetDirectoryName(openFileDialog.FileName) + Environment.NewLine;
-                TestPlanOutput.Text += "File path set, Ready to run script :" + Environment.NewLine;
-                TestPlanOutput.Text += System.IO.Path.GetFileName(openFileDialog.FileName) + Environment.NewLine;
+        //    if (openFileDialog.ShowDialog() == true)
+        //    {
+        //        TestPlanOutput.Text += "Path to python.exe set: " + Environment.NewLine;
+        //        TestPlanOutput.Text += System.IO.Path.GetFullPath(openFileDialog.FileName) + Environment.NewLine;                
+        //    }
+        //}
 
-            }
-        }
+        //private void SetPythonScriptPath()
+        //{
+        //    openFileDialog = new OpenFileDialog();
+        //    openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
+        //    openFileDialog.Filter = "Select schedule_tasks_runner.py file (*.py)|*.py";
 
-        private void run_cmd()
+        //    if (openFileDialog.ShowDialog() == true)
+        //    {
+        //        TestPlanOutput.Text += "Directory to python scripts set: " + Environment.NewLine;
+        //        TestPlanOutput.Text += System.IO.Path.GetDirectoryName(openFileDialog.FileName) + Environment.NewLine;
+        //        TestPlanOutput.Text += "File path set, Ready to run script :" + Environment.NewLine;
+        //        TestPlanOutput.Text += System.IO.Path.GetFileName(openFileDialog.FileName) + Environment.NewLine;
+
+        //    }
+        //}
+
+        //private void run_cmd()
          
-        {
-            Process process;
-            process = new Process();
-            process.StartInfo.FileName = "cmd.exe";        
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.OutputDataReceived += new DataReceivedEventHandler((sendingProcess, dataLine) =>
-            {
-                if (dataLine.Data != null)
-                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        TestPlanOutput.Text += dataLine.Data + Environment.NewLine;
-                        TestPlanOutput.ScrollToEnd();
-                    });
-                };
-            });
-            process.EnableRaisingEvents = true;
-            process.StartInfo.RedirectStandardInput = true;
-            process.Start();
-            process.BeginOutputReadLine();
-            process.StandardInput.WriteLine(@"ping wp.pl");
-           // process.StandardInput.WriteLine(@"C:\python310\python.exe ""schedule_tasks_runner.py""");
-            process.StandardInput.Close();
+        //{
+        //    Process process;
+        //    process = new Process();
+        //    process.StartInfo.FileName = "cmd.exe";        
+        //    process.StartInfo.UseShellExecute = false;
+        //    process.StartInfo.CreateNoWindow = true;
+        //    process.StartInfo.RedirectStandardOutput = true;
+        //    process.OutputDataReceived += new DataReceivedEventHandler((sendingProcess, dataLine) =>
+        //    {
+        //        if (dataLine.Data != null)
+        //         {
+        //            Application.Current.Dispatcher.Invoke(() =>
+        //            {
+        //                TestPlanOutput.Text += dataLine.Data + Environment.NewLine;
+        //                TestPlanOutput.ScrollToEnd();
+        //            });
+        //        };
+        //    });
+        //    process.EnableRaisingEvents = true;
+        //    process.StartInfo.RedirectStandardInput = true;
+        //    process.Start();
+        //    process.BeginOutputReadLine();
+        //    process.StandardInput.WriteLine(@"ping wp.pl");
+        //   // process.StandardInput.WriteLine(@"C:\python310\python.exe ""schedule_tasks_runner.py""");
+        //    process.StandardInput.Close();
            
-           // process.WaitForExit();
-           // process.WaitForExit();
-        }   
+        //   // process.WaitForExit();
+        //   // process.WaitForExit();
+        //}   
 
         private void Python_SetExePath_Click(object sender, RoutedEventArgs e)
         {
@@ -610,12 +605,12 @@ namespace Test_plan
             
             castTestPlan.SerializeUserData();
 
-            TestPlanOutput.Text += "Python script folder set to: " + Environment.NewLine + castTestPlan.PythonScriptsFolderPath + Environment.NewLine;
-            TestPlanOutput.Text += "Python script file set to: " + Environment.NewLine + castTestPlan.PythonScriptFilePath + Environment.NewLine;
-            TestPlanOutput.Text += "Python.exe file set to: " + Environment.NewLine + castTestPlan.PythonExeFilePath + Environment.NewLine;
-
             PythonOutput pythonOutput = new PythonOutput(castTestPlan);
             pythonOutput.Show();
         }
+
+    
+
+       
     }
 }

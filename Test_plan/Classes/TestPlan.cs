@@ -414,6 +414,21 @@ namespace Test_plan
 
         }
 
+        //Import TestCase list
+        public void ImportTestCasesList()
+        {
+            TestCases.ImportTCList();
+
+        }
+        //Export TestCase list
+        public void ExportTestCasesList()
+        {
+            TestCases.ExportTCList();
+
+        }
+
+
+
         public void ShowTestCaseValues(TestCase loadTestCase)
         {
             TestCaseNumberText = loadTestCase.TestCaseNumber.ToString();
@@ -515,6 +530,7 @@ namespace Test_plan
                 IgnoreFlashFault = testPlanSerialization.IgnoreFlashFault;
                 DatabaseSQL = testPlanSerialization.DatabaseSQL;                
                 pythonRun.UpdatePaths(testPlanSerialization.PythonExeFilePath, testPlanSerialization.PythonScriptsFolderPath, testPlanSerialization.PythonScriptFilePath);
+                ActiveProject = testPlanSerialization.ActiveProject;
                 UpdateActiveProject(testPlanSerialization.ActiveProject);
                 OnPropertyChanged("BuildNumberText");
                 OnPropertyChanged("ControllerBuildText");

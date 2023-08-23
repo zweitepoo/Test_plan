@@ -39,7 +39,7 @@
                             <Image Source="Graphics/Import_Icon_32.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="Export_Test_Case" Click="Export_Test_Case_Click"  Header="Export">
+                    <MenuItem x:Name="Menu_Export_Test_Case" Click="Menu_Export_Test_Case_Click"  Header="Export">
                         <MenuItem.Icon>
                             <Image Source="Graphics/Export_Icon_32.png"/>
                         </MenuItem.Icon>

@@ -135,12 +135,36 @@ namespace Test_plan
                     BinaryFormatter formatter = new BinaryFormatter();
                     TestPlanSerialization tempTestPlanSerialization = (TestPlanSerialization)formatter.Deserialize(input);
 
+                    if (String.IsNullOrEmpty(tempTestPlanSerialization.BuildNumberText))
+                        BuildNumberText = "empty";
+                    else
                     BuildNumberText = tempTestPlanSerialization.BuildNumberText;
-                    ControllerBuildText = tempTestPlanSerialization.ControllerBuildText;   
+
+                    if (String.IsNullOrEmpty(tempTestPlanSerialization.ControllerBuildText))
+                        ControllerBuildText = "36";
+                    else
+                    ControllerBuildText = tempTestPlanSerialization.ControllerBuildText;
+
+                    if (String.IsNullOrEmpty(tempTestPlanSerialization.FlashWithPreviousBuild))
+                        FlashWithPreviousBuild = "0";
+                    else
                     FlashWithPreviousBuild = tempTestPlanSerialization.FlashWithPreviousBuild;
+
+                    if(String.IsNullOrEmpty(tempTestPlanSerialization.IgnoreFlashFault))
+                        IgnoreFlashFault = "0";
+                    else
                     IgnoreFlashFault = tempTestPlanSerialization.IgnoreFlashFault;
+
+                    if(String.IsNullOrEmpty(tempTestPlanSerialization.DatabaseSQL))
+                        DatabaseSQL = "ViewE_SQL";
+                    else
                     DatabaseSQL = tempTestPlanSerialization.DatabaseSQL;
+
+                    if (tempTestPlanSerialization.ActiveProject == 0)
+                        ActiveProject = ProjectSymbol.Optix;
+                    else
                     ActiveProject = tempTestPlanSerialization.ActiveProject; 
+
                     PythonExeFilePath = tempTestPlanSerialization.PythonExeFilePath;
                     PythonScriptFilePath= tempTestPlanSerialization.PythonScriptFilePath;
                     PythonScriptsFolderPath = tempTestPlanSerialization.PythonScriptsFolderPath;
