@@ -10,27 +10,27 @@ using Microsoft.Win32;
 using System.Windows;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
-
-
-
+using Test_plan.Classes;
 
 namespace Test_plan
 {
     [Serializable]
     public class TestCaseManager
     {
-        public ObservableCollection<TestCase> ActiveTCList { get;private set; }
+        private TestCaseSearch testCaseSearch;
+        public ObservableCollection<TestCase> ActiveTCList { get; private set; }
        
         private List<TestCase> OptixTCList;
        
-        private List<TestCase> ViewETCList;
-  
+        private List<TestCase> ViewETCList;  
+        public ObservableCollection<TestCase> FilteredTCList {  get; private set; } 
 
+       // public string SearchText = "";
         public ProjectSymbol ActiveProject { get;private set; }
-        //       DataContractSerializer serializer;
         private string folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
         private string filePath;
+
+        
 
         public TestCaseManager(ProjectSymbol activeProject)
         {
@@ -38,10 +38,26 @@ namespace Test_plan
             ActiveTCList = new ObservableCollection<TestCase>();
             ViewETCList = new List<TestCase>();
             OptixTCList = new List<TestCase>();
+            FilteredTCList = new ObservableCollection<TestCase>();
             filePath = folder + @"\TC_List.dat";
-           
-
+            testCaseSearch = new TestCaseSearch();
+           // ActiveTCList.CollectionChanged += ActiveTCList_CollectionChanged;
+            
         }
+
+        //private void ActiveTCList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        //{           
+        //    testCaseSearch.SetNewSearchList(ActiveTCList);
+        //    FilterList(String.Empty);
+        //}
+
+        public void FilterList(string searchText) 
+        {
+            FilteredTCList.Clear();
+            foreach (TestCase tc in testCaseSearch.FilterList(searchText, ActiveTCList))
+            FilteredTCList.Add(tc);              
+        }
+
 
         //Check if possible and add new TC
         public  void AddTestCase( int testCaseNumber, string testRunName, int alarmInstance)
@@ -51,8 +67,12 @@ namespace Test_plan
             ActiveTCList.Add(new TestCase(testCaseNumber, testRunName, alarmInstance));
             else
             {
-                if (!TC_AlreadyExists(testCaseNumber, testRunName))
+                if (!TC_AlreadyExists(testCaseNumber, testRunName)) 
+                { 
                     ActiveTCList.Add(new TestCase(testCaseNumber, testRunName, alarmInstance));
+                    testCaseSearch.SetNewSearchList(ActiveTCList);
+                    FilterList(String.Empty);
+                }
                 else
                     MessageTC_Exists( testCaseNumber,  testRunName);
 
@@ -75,8 +95,10 @@ namespace Test_plan
                         ActiveTCList.Clear();
                         foreach (TestCase tc in OptixTCList)
                             ActiveTCList.Add(tc);
+                        testCaseSearch.SetNewSearchList(ActiveTCList);
+                        FilterList(String.Empty);
 
-                        break;
+                    break;
 
                     case ProjectSymbol.ViewE:
                         OptixTCList.Clear();
@@ -84,12 +106,13 @@ namespace Test_plan
                         ActiveTCList.Clear();
                         foreach (TestCase tc in ViewETCList)
                             ActiveTCList.Add(tc);
-
-                        break;
+                        testCaseSearch.SetNewSearchList(ActiveTCList);
+                        FilterList(String.Empty);
+                    break;
          }
             
          this.ActiveProject = activeProject;
-
+           
         }
 
         //Checks if TC already exists in Active TC List 
@@ -125,12 +148,12 @@ namespace Test_plan
         }
 
         //Removes selected TC from active list
-        public void RemoveTestCase(int index)
+        public void RemoveTestCase(TestCase testCaseToRemove)
         {
-            ActiveTCList.RemoveAt(index);
+            ActiveTCList.Remove(testCaseToRemove);
+            testCaseSearch.SetNewSearchList(ActiveTCList);
+            FilterList(String.Empty);
         }
-
-
 
         //Serializing Testcase 
         public  void SerializeTestCasesList()
@@ -180,16 +203,18 @@ namespace Test_plan
                 ActiveTCList.Clear();
                 if (ActiveProject == ProjectSymbol.Optix)
                     foreach (var item in OptixTCList)
-                        ActiveTCList.Add(item);
+                        ActiveTCList.Add(item);                
                 else if (ActiveProject == ProjectSymbol.ViewE)
                     foreach (var item in ViewETCList)
                         ActiveTCList.Add(item);
+                testCaseSearch.SetNewSearchList(ActiveTCList);
+                FilterList(String.Empty);
             }
             catch (SerializationException)
             {
                 MessageBox.Show("Invalid Test case list file: " + filePath);
             }
- 
+            
         }
         //Export test cases list. Only saved TC list will be exported
         public  void ExportTCList()
@@ -251,6 +276,9 @@ namespace Test_plan
                             foreach (TestCase testCase in tempTestCaseManager.ViewETCList)
                                 ActiveTCList.Add(testCase);
                         }
+                        testCaseSearch.SetNewSearchList(ActiveTCList);
+                        FilterList(String.Empty);
+
                         OptixTCList.Clear();                        
                         ViewETCList.Clear();
 

@@ -90,6 +90,7 @@
     <Compile Include="Classes\TestbedConfiguration.cs" />
     <Compile Include="Classes\TestCase.cs" />
     <Compile Include="Classes\TestCaseManager.cs" />
+    <Compile Include="Classes\TestCaseSearch.cs" />
     <Compile Include="Classes\TestPlan.cs" />
     <Compile Include="Classes\TestPlan2JSON.cs" />
     <Compile Include="Classes\TestPlanSerialization.cs" />

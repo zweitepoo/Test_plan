@@ -22,12 +22,12 @@ using System.Windows.Controls;
 namespace Test_plan
 {
     [Serializable]
-       public class TestPlan : INotifyPropertyChanged
+    public class TestPlan : INotifyPropertyChanged
     {
-      //  DataContractSerializer serializer;
+        //  DataContractSerializer serializer;
         public string saveTestPlanName { get; set; }
         public TestbedConfiguration TestbedConfig { get; set; }
-        
+
         public ObservableCollection<TestRun> TestRunSequence { get; set; }
         public string TestCaseNumberText { get; set; }
         public string TestRunNumberText { get; set; }
@@ -38,32 +38,35 @@ namespace Test_plan
         public string VPD { get; set; }
         public string BuildNumberText { get; set; }
         public string ControllerBuildText { get; set; }
-        public string FlashWithPreviousBuild { get;private set; }
+        public string FlashWithPreviousBuild { get; private set; }
         public string IgnoreFlashFault { get; private set; }
-        public string DatabaseSQL { get; set; }        
+        public string DatabaseSQL { get; set; }
         public ProjectSymbol ActiveProject { get; private set; }
-        
-        public TestCaseManager TestCases;
-        public TestPlan2JSON testPlanJSONGenerator;
+
+        public TestCaseManager testCaseManger;
+        public TestPlan2JSON testPlan2JSON;
         public string TestPlanJSON { get; set; }
         private SaveFileDialog fileJSON = null;
-        public ObservableCollection<TestCase> ActiveTCList { get { return TestCases.ActiveTCList; } set { } }
-  
+
+        public string TCSearchText { get; set; }
+
+        public ObservableCollection<TestCase> ActiveTCList { get { return testCaseManger.FilteredTCList; } set { } }
+
 
         public ObservableCollection<Controller> AvailableControllersList { get; private set; }
 
-        public TBSymbol TestbedSelected { get {return TestbedConfig.TestbedSelected  ;} set { } }
+        public TBSymbol TestbedSelected { get { return TestbedConfig.TestbedSelected; } set { } }
 
         public string CLX_1 { get; set; }
         public string CLX_2 { get; set; }
         public string CLX_3 { get; set; }
         public string CLX_4 { get; set; }
-       
+
         public Controller[] ControllersSet { get; private set; }
         public ObservableCollection<TBSymbol> TestbedList { get { return testbedList; } private set { } }
-                      
-            
-        private ObservableCollection<TBSymbol> testbedList =  new ObservableCollection<TBSymbol>()
+
+
+        private ObservableCollection<TBSymbol> testbedList = new ObservableCollection<TBSymbol>()
         { TBSymbol.VES01,
           TBSymbol.VES02,
           TBSymbol.VES11,
@@ -86,25 +89,25 @@ namespace Test_plan
         //Constructor
         public TestPlan()
         {
-            
-       //     serializer = new DataContractSerializer(typeof(TestPlan));
+
+            //     serializer = new DataContractSerializer(typeof(TestPlan));
             TestbedConfig = new TestbedConfiguration(TBSymbol.VES01);
             AlarmInstanceText = "0";
             FlashType = "ratools";
             ACD = "standard";
-            VPD = "standard";            
+            VPD = "standard";
             ControllerBuildText = "35";
             BuildNumberText = "9.1.00000.01811";
             DatabaseSQL = "ViewE_SQL";
-            AvailableControllersList = TestbedConfig.AvailableControllersList;           
+            AvailableControllersList = TestbedConfig.AvailableControllersList;
             ControllersSet = new Controller[4];
             TestRunSequence = new ObservableCollection<TestRun>();
-            TestCases = new TestCaseManager(ActiveProject);
+            testCaseManger = new TestCaseManager(ActiveProject);
             testPlanSerialization = new TestPlanSerialization();
-            ActiveTCList = new ObservableCollection<TestCase>();            
+            ActiveTCList = new ObservableCollection<TestCase>();
             pythonScripts = new bool[9] { false, false, false, false, false, false, false, false, false };
             pythonRun = new PythonRun();
-        
+
 
         }
 
@@ -121,24 +124,24 @@ namespace Test_plan
             }
         }
 
-        
+
         //Clear testrun sequence
         public void ClearTestPlan()
         {
             TestRunSequence.Clear();
         }
-       
-       
+
+
         //Adding new testrun to testrun sequence
-        public  void AddTestRun(int selectedIndex)
+        public void AddTestRun(int selectedIndex)
         {
-           
-          
+
+
             if (TestRunDataIsValid() && !(TestAlreadyExists()))
             {
                 if (selectedIndex != -1)
                 {
-                    TestRunSequence.Insert(selectedIndex + 1, new TestRun(int.Parse(TestCaseNumberText), int.Parse(TestRunNumberText), int.Parse(AlarmInstanceText), TestRunName,FlashType, ACD, VPD , ControllersSet, TestbedSelected,PythonScripts));
+                    TestRunSequence.Insert(selectedIndex + 1, new TestRun(int.Parse(TestCaseNumberText), int.Parse(TestRunNumberText), int.Parse(AlarmInstanceText), TestRunName, FlashType, ACD, VPD, ControllersSet, TestbedSelected, PythonScripts));
                 }
                 else
                 {
@@ -147,7 +150,7 @@ namespace Test_plan
                 UpdateTestbedTBxx();
                 OnPropertyChanged("TestRunSequence");
             }
-           
+
         }
 
         //Remove selected testrun from the testrun sequence
@@ -188,11 +191,11 @@ namespace Test_plan
         }
 
         //Updates values of selcted testrun properties in testrun sequence
-        public  void UpdateTestRunValue(TestRun testRun)
+        public void UpdateTestRunValue(TestRun testRun)
         {
             if (TestRunDataIsValid())
             {
-                testRun.UpdateTestRun(int.Parse(TestCaseNumberText), TestRunName, FlashType, ACD, VPD, int.Parse(AlarmInstanceText), int.Parse(TestRunNumberText), ControllersSet,  TestbedSelected, PythonScripts);
+                testRun.UpdateTestRun(int.Parse(TestCaseNumberText), TestRunName, FlashType, ACD, VPD, int.Parse(AlarmInstanceText), int.Parse(TestRunNumberText), ControllersSet, TestbedSelected, PythonScripts);
                 UpdateTestbedTBxx();
                 OnPropertyChanged("TestRunSequence");
             }
@@ -208,35 +211,35 @@ namespace Test_plan
         //Update configuration of testbed -available controllers list, testbed 
         public void UpdateTestbedConfig(TBSymbol newTB, TBSymbol oldTB)
         {
-            if (oldTB!=newTB)
+            if (oldTB != newTB)
             {
-                TestbedConfig.UpdateTestbedConfig(newTB);                
+                TestbedConfig.UpdateTestbedConfig(newTB);
                 OnPropertyChanged("TestbedSelected");
                 AvailableControllersList = TestbedConfig.AvailableControllersList;
                 OnPropertyChanged("AvailableControllersList");
-                
+
             }
         }
 
         //Set controllers in testrun
         public void SetCLXSlot(int slot, Controller newController)
-        {           
+        {
             if (slot < ControllersSet.Length)
             {
-                ControllersSet[slot] =  newController;
+                ControllersSet[slot] = newController;
                 OnPropertyChanged("ControllersSet");
                 switch (slot)
                 {
                     case 0:
-                      //  if (newController != null)
+                        //  if (newController != null)
                         CLX_1 = newController.ToString();
-                    //    else
-                     //       CLX_1=String.Empty;
+                        //    else
+                        //       CLX_1=String.Empty;
                         OnPropertyChanged("CLX_1");
                         break;
                     case 1:
-                        if(newController != null)
-                        CLX_2 = newController.ToString();
+                        if (newController != null)
+                            CLX_2 = newController.ToString();
                         else
                             CLX_2 = String.Empty;
                         OnPropertyChanged("CLX_2");
@@ -247,7 +250,7 @@ namespace Test_plan
                         else
                             CLX_3 = String.Empty;
                         OnPropertyChanged("CLX_3");
-                       
+
                         break;
                     case 3:
                         if (newController != null)
@@ -255,19 +258,19 @@ namespace Test_plan
                         else
                             CLX_4 = String.Empty;
                         OnPropertyChanged("CLX_4");
-                         
+
                         break;
                 }
-            }               
-            
+            }
+
         }
         //Testrun data validation
         public bool TestRunDataIsValid()
         {
 
-            if (!TestCaseDataIsValid()) 
+            if (!TestCaseDataIsValid())
             {
-                return false; 
+                return false;
             }
             if (String.IsNullOrEmpty(VPD))
             {
@@ -284,7 +287,7 @@ namespace Test_plan
                 MessageBox.Show("flash type is null, enetr valid flash type");
                 return false;
             }
-            
+
             try
             {
                 if ((String.IsNullOrEmpty(TestRunNumberText)) || int.Parse(TestRunNumberText) == 0)
@@ -294,12 +297,12 @@ namespace Test_plan
                 }
 
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 MessageBox.Show("Wrong Testrun number Format: " + TestRunNumberText);
                 return false;
             }
-          
+
             if (ControllersSet[0] == null)
             {
                 MessageBox.Show("No CLX[1] set");
@@ -321,8 +324,8 @@ namespace Test_plan
                 return false;
             }
 
-           
-            if (Array.IndexOf<bool>(pythonScripts, true)==-1)
+
+            if (Array.IndexOf<bool>(pythonScripts, true) == -1)
             {
                 MessageBox.Show("At least one python script must be selected");
                 return false;
@@ -360,7 +363,7 @@ namespace Test_plan
             {
                 element.UpdateTestbedTBxx(TestbedSelected);
             }
-                 
+
         }
 
 
@@ -375,10 +378,10 @@ namespace Test_plan
         //Update Active project
         public void UpdateActiveProject(ProjectSymbol newProject)
         {
-            
+
             ActiveProject = newProject;
-            
-            TestCases.ReloadTestCaseList(ActiveProject);
+
+            testCaseManger.ReloadTestCaseList(ActiveProject);
         }
 
         //Update Flash with previous build
@@ -386,47 +389,52 @@ namespace Test_plan
         {
             if (setTrue)
                 FlashWithPreviousBuild = "1";
-            else 
+            else
                 FlashWithPreviousBuild = "0";
             OnPropertyChanged("FlashWithPreviousBuild");
         }
         //Update Ignore flash fault 
-        public void UpdateIgnoreFlashFault(bool setTrue) 
+        public void UpdateIgnoreFlashFault(bool setTrue)
         {
             if (setTrue)
                 IgnoreFlashFault = "1";
             else
-                IgnoreFlashFault="0";
+                IgnoreFlashFault = "0";
             OnPropertyChanged("IgnoreFlashFault");
 
         }
         //Serialize Test case lists
         public void SerializeTestCasesList()
         {
-            TestCases.SerializeTestCasesList();
+            testCaseManger.SerializeTestCasesList();
             OnPropertyChanged("TCListFilePath");
         }
 
         //Open TestCase list
         public void DeserializeTestCasesList()
         {
-            TestCases.DeserializeTestCaseList();
+            testCaseManger.DeserializeTestCaseList();
 
         }
 
         //Import TestCase list
-        public void ImportTestCasesList()
+        public void ImportTCList()
         {
-            TestCases.ImportTCList();
+            testCaseManger.ImportTCList();
 
         }
         //Export TestCase list
-        public void ExportTestCasesList()
+        public void ExportTCList()
         {
-            TestCases.ExportTCList();
+            testCaseManger.ExportTCList();
 
         }
 
+        //FIlter Test Case List
+        public void FilterList(string searchText)
+        {
+            testCaseManger.FilterList(searchText);
+        }
 
 
         public void ShowTestCaseValues(TestCase loadTestCase)
@@ -485,13 +493,15 @@ namespace Test_plan
 
         public void AddTestCase()
         {      if(TestCaseDataIsValid())      
-                TestCases.AddTestCase(int.Parse(TestCaseNumberText), TestRunName, int.Parse(AlarmInstanceText));            
+                testCaseManger.AddTestCase(int.Parse(TestCaseNumberText), TestRunName, int.Parse(AlarmInstanceText));            
         }
 
         //removes TC from the active list
-        public void RemoveTestCase(int index)
+        public void RemoveTestCase(object item)
         {
-            TestCases.RemoveTestCase(index);
+            TestCase testCaseToToRemove = item as TestCase;
+            
+            testCaseManger.RemoveTestCase(testCaseToToRemove);
         }
 
         //Save actual test plan
@@ -581,9 +591,9 @@ namespace Test_plan
         //Generate json text file, save user's data as well 
         public void GenerateJSON()
         {
-            testPlanJSONGenerator = new TestPlan2JSON(TestRunSequence, TestbedSelected, ActiveProject, BuildNumberText, ControllerBuildText,
+            testPlan2JSON = new TestPlan2JSON(TestRunSequence, TestbedSelected, ActiveProject, BuildNumberText, ControllerBuildText,
                                               FlashWithPreviousBuild, IgnoreFlashFault, DatabaseSQL);
-            TestPlanJSON = testPlanJSONGenerator.JSONtext;
+            TestPlanJSON = testPlan2JSON.JSONtext;
             OnPropertyChanged("TestPlanJSON");
             SerializeUserData();
 
@@ -663,6 +673,7 @@ namespace Test_plan
         {
             pythonRun.ClosePythonRun();
         }
+
 
     }
 
