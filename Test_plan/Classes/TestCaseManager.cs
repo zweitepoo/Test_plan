@@ -18,19 +18,23 @@ namespace Test_plan
     public class TestCaseManager
     {
         private TestCaseSearch testCaseSearch;
+        private TestCasesListCSV testCasesListCSV;
+
         public ObservableCollection<TestCase> ActiveTCList { get; private set; }
        
         private List<TestCase> OptixTCList;
        
         private List<TestCase> ViewETCList;  
-        public ObservableCollection<TestCase> FilteredTCList {  get; private set; } 
+        public ObservableCollection<TestCase> FilteredTCList {  get; private set; }
+        
 
        // public string SearchText = "";
         public ProjectSymbol ActiveProject { get;private set; }
         private string folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
-        private string filePath;
+        private readonly string filePathOptixList;
+        private readonly string filePathViewEList;
 
-        
+
 
         public TestCaseManager(ProjectSymbol activeProject)
         {
@@ -39,11 +43,14 @@ namespace Test_plan
             ViewETCList = new List<TestCase>();
             OptixTCList = new List<TestCase>();
             FilteredTCList = new ObservableCollection<TestCase>();
-            filePath = folder + @"\TC_List.dat";
+            filePathOptixList = folder + @"\TestCaseListOptix.csv";
+            filePathViewEList = folder + @"\TestCaseListViewE.csv";
             testCaseSearch = new TestCaseSearch();
-           // ActiveTCList.CollectionChanged += ActiveTCList_CollectionChanged;
             
-        }
+
+        // ActiveTCList.CollectionChanged += ActiveTCList_CollectionChanged;
+
+    }
 
         //private void ActiveTCList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         //{           
@@ -157,63 +164,65 @@ namespace Test_plan
 
         //Serializing Testcase 
         public  void SerializeTestCasesList()
-        {  
-                         
+        {
 
+
+             
             if (ActiveProject== ProjectSymbol.Optix)
             {
                 OptixTCList.Clear();
                 OptixTCList.AddRange(ActiveTCList);
+                testCasesListCSV = new TestCasesListCSV(OptixTCList);
+                testCasesListCSV.GenerateFile(ProjectSymbol.Optix);
             }
             else if (ActiveProject == ProjectSymbol.ViewE)
             {
                 ViewETCList.Clear();
-                ViewETCList.AddRange(ActiveTCList);
+                ViewETCList.AddRange(ActiveTCList);                
+                testCasesListCSV = new TestCasesListCSV(ViewETCList);
+                testCasesListCSV.GenerateFile(ProjectSymbol.ViewE);
             }
-            if (!Directory.Exists(folder))
-            Directory.CreateDirectory(folder);
-
-            using (Stream output  = File.Open(filePath, FileMode.Create))
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(output, this );
-                MessageBox.Show("file saved: " + filePath);
-            }        
+               
         }
 
 
         //Deserilize - load Optix TC list and ViewE TC List
         public  void DeserializeTestCaseList()
-        {            
-            TestCaseManager tempTestCaseManager;            
-            if (!File.Exists(filePath))
-                return;
+        {
 
+
+            testCasesListCSV = new TestCasesListCSV();
+            TestCaseManager tempTestCaseManager;            
+            if (!File.Exists(filePathOptixList)||(!File.Exists(filePathViewEList)))
+                return;
             try
             {
-               
-                using (Stream input = File.OpenRead(filePath))
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    tempTestCaseManager = (TestCaseManager)formatter.Deserialize(input);
-                    OptixTCList.AddRange(tempTestCaseManager.OptixTCList);
-                    ViewETCList.AddRange(tempTestCaseManager.ViewETCList);
+                OptixTCList.AddRange(testCasesListCSV.ImportTestCaseListFromCSV(ProjectSymbol.Optix));
+            }
 
-                }
-                ActiveTCList.Clear();
-                if (ActiveProject == ProjectSymbol.Optix)
-                    foreach (var item in OptixTCList)
-                        ActiveTCList.Add(item);                
-                else if (ActiveProject == ProjectSymbol.ViewE)
-                    foreach (var item in ViewETCList)
-                        ActiveTCList.Add(item);
-                testCaseSearch.SetNewSearchList(ActiveTCList);
-                FilterList(String.Empty);
-            }
-            catch (SerializationException)
+            catch (Exception ex) 
             {
-                MessageBox.Show("Invalid Test case list file: " + filePath);
+                return;
             }
+            try
+            {
+                ViewETCList.AddRange(testCasesListCSV.ImportTestCaseListFromCSV(ProjectSymbol.ViewE));
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+             ActiveTCList.Clear();
+             if (ActiveProject == ProjectSymbol.Optix)
+                foreach (var item in OptixTCList)
+                        ActiveTCList.Add(item);                
+             else if (ActiveProject == ProjectSymbol.ViewE)
+                 foreach (var item in ViewETCList)
+                        ActiveTCList.Add(item);
+             testCaseSearch.SetNewSearchList(ActiveTCList);
+             FilterList(String.Empty);
+           
+           
             
         }
         //Export test cases list. Only saved TC list will be exported
