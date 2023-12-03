@@ -11,6 +11,7 @@ using System.Windows;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Controls;
+using Test_plan.Classes;
 
 
 /* 
@@ -38,10 +39,10 @@ namespace Test_plan
         public string VPD { get; set; }
         public string BuildNumberText { get; set; }
         public string ControllerBuildText { get; set; }
-        public string FlashWithPreviousBuild { get; private set; }
-        public string IgnoreFlashFault { get; private set; }
+        public string FlashWithPreviousBuild { get;  set; }
+        public string IgnoreFlashFault { get;  set; }
         public string DatabaseSQL { get; set; }
-        public ProjectSymbol ActiveProject { get; private set; }
+        public ProjectSymbol ActiveProject { get; set; }
 
         public TestCaseManager testCaseManger;
         public TestPlan2JSON testPlan2JSON;
@@ -80,6 +81,8 @@ namespace Test_plan
         public bool[] PythonScripts { get { return pythonScripts; } private set { } }
         private bool[] pythonScripts;
         public TestPlanSerialization testPlanSerialization;
+        private UserDataExporter userDataExporter;
+        private UserDataImporter userDataImporter;
         //Python run 
         public PythonRun pythonRun;
         public string PythonExeFilePath { get { return pythonRun.PythonExeFilePath; } private set { } }
@@ -104,6 +107,8 @@ namespace Test_plan
             TestRunSequence = new ObservableCollection<TestRun>();
             testCaseManger = new TestCaseManager(ActiveProject);
             testPlanSerialization = new TestPlanSerialization();
+            userDataExporter = new UserDataExporter();
+            userDataImporter = new UserDataImporter();
             ActiveTCList = new ObservableCollection<TestCase>();
             pythonScripts = new bool[9] { false, false, false, false, false, false, false, false, false };
             pythonRun = new PythonRun();
@@ -411,9 +416,9 @@ namespace Test_plan
         }
 
         //Open TestCase list
-        public void DeserializeTestCasesList()
+        public void LoadTestCasesList()
         {
-            testCaseManger.DeserializeTestCaseList();
+            testCaseManger.LoadTestCaseList();
 
         }
 
@@ -504,6 +509,12 @@ namespace Test_plan
             testCaseManger.RemoveTestCase(testCaseToToRemove);
         }
 
+        public static void CreateUserDirectory()
+        {
+            string UserDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
+            if (!Directory.Exists(UserDirectoryPath))
+                Directory.CreateDirectory(UserDirectoryPath);
+        }
         //Save actual test plan
         public  void SerializeTestPlan()
         {
@@ -522,33 +533,31 @@ namespace Test_plan
         }
 
         //Save user's paramterers from file
-        public void SerializeUserData()
+        public void SaveUserData()
         {
-            testPlanSerialization.SerializeUserData(BuildNumberText, ControllerBuildText, FlashWithPreviousBuild, IgnoreFlashFault, DatabaseSQL, ActiveProject,
-                                                    PythonExeFilePath, PythonScriptsFolderPath, PythonScriptFilePath);
+            userDataExporter.SaveUserData(this);
         }
 
         // Load user's parametrs from file
-        public void DeserializeUserData()
+        public void LoadUserData()
         {
-
-            if (testPlanSerialization.DeserializeUserData()) 
+                userDataImporter.DeserializeUserData();
+            if (userDataImporter.isDerserializeDone)
             { 
-                BuildNumberText = testPlanSerialization.BuildNumberText;
-                ControllerBuildText = testPlanSerialization.ControllerBuildText;
-                FlashWithPreviousBuild = testPlanSerialization.FlashWithPreviousBuild;
-                IgnoreFlashFault = testPlanSerialization.IgnoreFlashFault;
-                DatabaseSQL = testPlanSerialization.DatabaseSQL;                
-                pythonRun.UpdatePaths(testPlanSerialization.PythonExeFilePath, testPlanSerialization.PythonScriptsFolderPath, testPlanSerialization.PythonScriptFilePath);
-                ActiveProject = testPlanSerialization.ActiveProject;
-                UpdateActiveProject(testPlanSerialization.ActiveProject);
+                BuildNumberText = userDataImporter.BuildNumberText;
+                ControllerBuildText = userDataImporter.ControllerBuildText;
+                FlashWithPreviousBuild = userDataImporter.FlashWithPreviousBuild;
+                IgnoreFlashFault = userDataImporter.IgnoreFlashFault;
+                DatabaseSQL = userDataImporter.DatabaseSQL;                
+                pythonRun.UpdatePaths(userDataImporter.PythonExeFilePath, userDataImporter.PythonScriptsFolderPath, userDataImporter.PythonScriptFilePath);
+                ActiveProject = userDataImporter.ActiveProject;
+                UpdateActiveProject(userDataImporter.ActiveProject);
                 OnPropertyChanged("BuildNumberText");
                 OnPropertyChanged("ControllerBuildText");
                 OnPropertyChanged("FlashWithPreviousBuild");
                 OnPropertyChanged("IgnoreFlashFault");
                 OnPropertyChanged("DatabaseSQL");
             }
-
         }
 
 
@@ -595,7 +604,7 @@ namespace Test_plan
                                               FlashWithPreviousBuild, IgnoreFlashFault, DatabaseSQL);
             TestPlanJSON = testPlan2JSON.JSONtext;
             OnPropertyChanged("TestPlanJSON");
-            SerializeUserData();
+            SaveUserData();
 
 
         }

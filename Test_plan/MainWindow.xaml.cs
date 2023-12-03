@@ -28,14 +28,15 @@ namespace Test_plan
         public MainWindow()
         {
             InitializeComponent();
-            castTestPlan = this.Resources["testPlan"] as TestPlan;
+            TestPlan.CreateUserDirectory();
+            castTestPlan = this.Resources["testPlan"] as TestPlan;            
             TB_Selection.SelectedIndex = 0;
             set_Optix.IsChecked = true;
             set_prevFlash.IsChecked = true;
             res_ignoreFlash.IsChecked = true;               
-            castTestPlan.DeserializeUserData();
+            castTestPlan.LoadUserData();
             UpdateRadioButtons();
-            castTestPlan.DeserializeTestCasesList();
+            castTestPlan.LoadTestCasesList();
             tc_list.Items.Refresh();
 
         }
@@ -498,13 +499,13 @@ namespace Test_plan
         private void Python_SetExePath_Click(object sender, RoutedEventArgs e)
         {
            castTestPlan.SetPythonExePath();
-            castTestPlan.SerializeUserData();
+            castTestPlan.SaveUserData();
         }
 
         private void Python_SetScriptPath_Click(object sender, RoutedEventArgs e)
         {
             castTestPlan.SetPythonScriptPath();
-            castTestPlan.SerializeUserData();
+            castTestPlan.SaveUserData();
         }
 
         private void Python_RunScript_Click(object sender, RoutedEventArgs e)
@@ -514,7 +515,7 @@ namespace Test_plan
             if (string.IsNullOrEmpty(castTestPlan.PythonScriptsFolderPath) || string.IsNullOrEmpty(castTestPlan.PythonScriptFilePath))
                 castTestPlan.SetPythonScriptPath();
             
-            castTestPlan.SerializeUserData();
+            castTestPlan.SaveUserData();
 
             PythonOutput pythonOutput = new PythonOutput(castTestPlan);
             pythonOutput.Show();

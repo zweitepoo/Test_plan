@@ -122,6 +122,8 @@
     <Compile Include="Classes\TestPlan2JSON.cs" />
     <Compile Include="Classes\TestPlanSerialization.cs" />
     <Compile Include="Classes\TestRun.cs" />
+    <Compile Include="Classes\UserDataExporter.cs" />
+    <Compile Include="Classes\UserDataImporter.cs" />
     <Compile Include="EnumTypes\ControllerNum.cs" />
     <Compile Include="EnumTypes\ControllerSymbol.cs" />
     <Compile Include="EnumTypes\NetType.cs" />

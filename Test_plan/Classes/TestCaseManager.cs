@@ -28,7 +28,7 @@ namespace Test_plan
         public ObservableCollection<TestCase> FilteredTCList {  get; private set; }
         
 
-       // public string SearchText = "";
+      
         public ProjectSymbol ActiveProject { get;private set; }
         private string folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
         private readonly string filePathOptixList;
@@ -48,15 +48,10 @@ namespace Test_plan
             testCaseSearch = new TestCaseSearch();
             
 
-        // ActiveTCList.CollectionChanged += ActiveTCList_CollectionChanged;
 
     }
 
-        //private void ActiveTCList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        //{           
-        //    testCaseSearch.SetNewSearchList(ActiveTCList);
-        //    FilterList(String.Empty);
-        //}
+        
 
         public void FilterList(string searchText) 
         {
@@ -187,7 +182,7 @@ namespace Test_plan
 
 
         //Deserilize - load Optix TC list and ViewE TC List
-        public  void DeserializeTestCaseList()
+        public  void LoadTestCaseList()
         {
 
 
