@@ -15,13 +15,13 @@ namespace Test_plan
         
        public ControllerSymbol ControllerType { get; private set; }
        
-       public List<TBSymbol> PresentOnTestbed { get; private set; }
+       
 
-       public Controller(ControllerNum controllerShort, ControllerSymbol controllerType, List<TBSymbol> presentOnTestbed)
+       public Controller(ControllerNum controllerShort, ControllerSymbol controllerType)
         {
             ControllerShort = controllerShort;
             ControllerType = controllerType;
-            PresentOnTestbed = presentOnTestbed;
+            
         }
 
         public override string ToString()

@@ -111,11 +111,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Controller.cs" />
+    <Compile Include="Classes\Exceptions\ImportCSVException.cs" />
+    <Compile Include="Classes\Exceptions\NoDataForControllerException.cs" />
     <Compile Include="Classes\PythonRun.cs" />
     <Compile Include="Classes\TestbedConfiguration.cs" />
+    <Compile Include="Classes\TestbedInfo.cs" />
     <Compile Include="Classes\TestCase.cs" />
     <Compile Include="Classes\TestCaseManager.cs" />
-    <Compile Include="Classes\TestCaseMap.cs" />
     <Compile Include="Classes\TestCaseSearch.cs" />
     <Compile Include="Classes\TestCasesListCSV.cs" />
     <Compile Include="Classes\TestPlan.cs" />
@@ -207,5 +209,6 @@
   <ItemGroup>
     <Resource Include="Graphics\Run_Icon_64.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

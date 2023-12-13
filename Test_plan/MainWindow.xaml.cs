@@ -73,11 +73,8 @@ namespace Test_plan
             if (TestQueue.SelectedIndex != -1)
             {
                 if (e.Key == Key.Delete)
-
                     castTestPlan.RemoveTestRun(TestQueue.SelectedIndex);
-
             }
-
         }
 
 
@@ -88,7 +85,6 @@ namespace Test_plan
             {
                 castTestPlan.ShowTestRunValues(TestQueue.SelectedIndex);
             }
-
         }
 
         // Modify Testrun data
@@ -98,9 +94,7 @@ namespace Test_plan
             {
                 castTestPlan.UpdateTestRunValue(castTestPlan.TestRunSequence[TestQueue.SelectedIndex]);
                 TestQueue.Items.Refresh();
-
             }
-
         }
         //Move up testrun in queue
         private void up_Click(object sender, RoutedEventArgs e)
@@ -112,12 +106,8 @@ namespace Test_plan
                     var tempIndex = TestQueue.SelectedIndex;
                     castTestPlan.MoveTestInQueue(TestQueue.SelectedIndex, -1);
                     TestQueue.SelectedIndex = tempIndex - 1;
-
-
                 }
-
             }
-
         }
         //Move down testrun in queue
         private void down_Click(object sender, RoutedEventArgs e)
@@ -130,9 +120,7 @@ namespace Test_plan
                     castTestPlan.MoveTestInQueue(TestQueue.SelectedIndex, +1);
                     TestQueue.SelectedIndex = tempIndex + 1;
                 }
-
             }
-
         }
         //Select TBxx
 
@@ -146,9 +134,6 @@ namespace Test_plan
             castTestPlan.UpdateTestbedConfig(castTestPlan.TestbedList[TB_Selection.SelectedIndex], castTestPlan.TestbedConfig.TestbedSelected);
             SetControllersBGColor();
             TestQueue.Items.Refresh();
-
-
-
         }
 
         //Select testrun's Controllers   manually
@@ -156,99 +141,232 @@ namespace Test_plan
         {
             if (CLX1_Selection.SelectedIndex == -1)
                 return;
-            Controller clx1 = CLX1_Selection.SelectedItem as Controller;
+            var clx1 = CLX1_Selection.SelectedItem as Controller;
             castTestPlan.SetCLXSlot(0, clx1);
+            castTestPlan.SetSlotControllerCLX1(clx1);
             SetControllersBGColor();
         }
         private void CLX2_Selection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CLX2_Selection.SelectedIndex == -1)
                 return;
-            Controller clx2 = CLX2_Selection.SelectedItem as Controller;
+            var clx2 = CLX2_Selection.SelectedItem as Controller;
             castTestPlan.SetCLXSlot(1, clx2);
+            castTestPlan.SetSlotControllerCLX2(clx2);
             SetControllersBGColor();
         }
         private void CLX3_Selection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CLX3_Selection.SelectedIndex == -1)
                 return;
-            Controller clx3 = CLX3_Selection.SelectedItem as Controller;
+            var clx3 = CLX3_Selection.SelectedItem as Controller;
             castTestPlan.SetCLXSlot(2, clx3);
+            castTestPlan.SetSlotControllerCLX3(clx3);
             SetControllersBGColor();
-
         }
+
         private void CLX4_Selection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CLX4_Selection.SelectedIndex == -1)
                 return;
-            Controller clx4 = CLX4_Selection.SelectedItem as Controller;
+            var clx4 = CLX4_Selection.SelectedItem as Controller;
             castTestPlan.SetCLXSlot(3, clx4);
+            castTestPlan.SetSlotControllerCLX4(clx4);
             SetControllersBGColor();
         }
 
         // Fast controllers setup buttons
         private void setAll_l8z_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.SetCLXSlot(0, castTestPlan.TestbedConfig.AllControllersList[3]);
-            castTestPlan.SetCLXSlot(1, castTestPlan.TestbedConfig.AllControllersList[11]);
-            castTestPlan.SetCLXSlot(2, castTestPlan.TestbedConfig.AllControllersList[18]);
-            castTestPlan.SetCLXSlot(3, castTestPlan.TestbedConfig.AllControllersList[25]);
-            SetControllersBGColor();
+            try
+            {
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX4);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX12);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX19);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX26);
+
+                castTestPlan.SetCLXSlot(0, CLX_1);
+                castTestPlan.SetCLXSlot(1, CLX_2);
+                castTestPlan.SetCLXSlot(2, CLX_3);
+                castTestPlan.SetCLXSlot(3, CLX_4);
+
+                castTestPlan.SetSlotControllerCLX1(CLX_1);
+                castTestPlan.SetSlotControllerCLX2(CLX_2);
+                castTestPlan.SetSlotControllerCLX3(CLX_3);
+                castTestPlan.SetSlotControllerCLX4(CLX_4);
+
+
+
+                SetControllersBGColor();
+            }
+            catch(NoDataForControllerException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void setAll_l7x_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.SetCLXSlot(0, castTestPlan.TestbedConfig.AllControllersList[0]);
-            castTestPlan.SetCLXSlot(1, castTestPlan.TestbedConfig.AllControllersList[8]);
-            castTestPlan.SetCLXSlot(2, castTestPlan.TestbedConfig.AllControllersList[15]);
-            castTestPlan.SetCLXSlot(3, castTestPlan.TestbedConfig.AllControllersList[22]);
-            SetControllersBGColor();
+            try
+            {
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX1);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX9);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX16);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX23);
 
+                castTestPlan.SetCLXSlot(0, CLX_1);
+                castTestPlan.SetCLXSlot(1, CLX_2);
+                castTestPlan.SetCLXSlot(2, CLX_3);
+                castTestPlan.SetCLXSlot(3, CLX_4);
+
+                castTestPlan.SetSlotControllerCLX1(CLX_1);
+                castTestPlan.SetSlotControllerCLX2(CLX_2);
+                castTestPlan.SetSlotControllerCLX3(CLX_3);
+                castTestPlan.SetSlotControllerCLX4(CLX_4);
+                SetControllersBGColor();
+
+            }
+            catch (NoDataForControllerException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void setAll_l8zS_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.SetCLXSlot(0, castTestPlan.TestbedConfig.AllControllersList[5]);
-            castTestPlan.SetCLXSlot(1, castTestPlan.TestbedConfig.AllControllersList[13]);
-            castTestPlan.SetCLXSlot(2, castTestPlan.TestbedConfig.AllControllersList[20]);
-            castTestPlan.SetCLXSlot(3, castTestPlan.TestbedConfig.AllControllersList[27]);
-            SetControllersBGColor();
+            try
+            {
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX6);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX14);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX21);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX28);
+
+                castTestPlan.SetCLXSlot(0, CLX_1);
+                castTestPlan.SetCLXSlot(1, CLX_2);
+                castTestPlan.SetCLXSlot(2, CLX_3);
+                castTestPlan.SetCLXSlot(3, CLX_4);
+
+                castTestPlan.SetSlotControllerCLX1(CLX_1);
+                castTestPlan.SetSlotControllerCLX2(CLX_2);
+                castTestPlan.SetSlotControllerCLX3(CLX_3);
+                castTestPlan.SetSlotControllerCLX4(CLX_4);
+                SetControllersBGColor();
+            }
+            catch (NoDataForControllerException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void setAll_l3y_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.SetCLXSlot(0, castTestPlan.TestbedConfig.AllControllersList[1]);
-            castTestPlan.SetCLXSlot(1, castTestPlan.TestbedConfig.AllControllersList[9]);
-            castTestPlan.SetCLXSlot(2, castTestPlan.TestbedConfig.AllControllersList[16]);
-            castTestPlan.SetCLXSlot(3, castTestPlan.TestbedConfig.AllControllersList[23]);
-            SetControllersBGColor();
+            try
+            {
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX2);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX10);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX17);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX24);
+
+                castTestPlan.SetCLXSlot(0, CLX_1);
+                castTestPlan.SetCLXSlot(1, CLX_2);
+                castTestPlan.SetCLXSlot(2, CLX_3);
+                castTestPlan.SetCLXSlot(3, CLX_4);
+
+                castTestPlan.SetSlotControllerCLX1(CLX_1);
+                castTestPlan.SetSlotControllerCLX2(CLX_2);
+                castTestPlan.SetSlotControllerCLX3(CLX_3);
+                castTestPlan.SetSlotControllerCLX4(CLX_4);
+                SetControllersBGColor();
+            }
+            catch (NoDataForControllerException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void setAll_l3z_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.SetCLXSlot(0, castTestPlan.TestbedConfig.AllControllersList[2]);
-            castTestPlan.SetCLXSlot(1, castTestPlan.TestbedConfig.AllControllersList[10]);
-            castTestPlan.SetCLXSlot(2, castTestPlan.TestbedConfig.AllControllersList[17]);
-            castTestPlan.SetCLXSlot(3, castTestPlan.TestbedConfig.AllControllersList[24]);
-            SetControllersBGColor();
+            try
+            {
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX3);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX11);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX18);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX25);
+
+                castTestPlan.SetCLXSlot(0, CLX_1);
+                castTestPlan.SetCLXSlot(1, CLX_2);
+                castTestPlan.SetCLXSlot(2, CLX_3);
+                castTestPlan.SetCLXSlot(3, CLX_4);
+
+                castTestPlan.SetSlotControllerCLX1(CLX_1);
+                castTestPlan.SetSlotControllerCLX2(CLX_2);
+                castTestPlan.SetSlotControllerCLX3(CLX_3);
+                castTestPlan.SetSlotControllerCLX4(CLX_4);
+                SetControllersBGColor();
+            }
+            catch (NoDataForControllerException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void setAll_l3zS_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.SetCLXSlot(0, castTestPlan.TestbedConfig.AllControllersList[6]);
-            castTestPlan.SetCLXSlot(1, castTestPlan.TestbedConfig.AllControllersList[14]);
-            castTestPlan.SetCLXSlot(2, castTestPlan.TestbedConfig.AllControllersList[21]);
-            castTestPlan.SetCLXSlot(3, castTestPlan.TestbedConfig.AllControllersList[28]);
-            SetControllersBGColor();
+            try
+            {
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX7);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX15);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX22);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX29);
+
+                castTestPlan.SetCLXSlot(0, CLX_1);
+                castTestPlan.SetCLXSlot(1, CLX_2);
+                castTestPlan.SetCLXSlot(2, CLX_3);
+                castTestPlan.SetCLXSlot(3, CLX_4);
+
+                castTestPlan.SetSlotControllerCLX1(CLX_1);
+                castTestPlan.SetSlotControllerCLX2(CLX_2);
+                castTestPlan.SetSlotControllerCLX3(CLX_3);
+                castTestPlan.SetSlotControllerCLX4(CLX_4);
+                SetControllersBGColor();
+            }
+            catch (NoDataForControllerException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void setAll_EPIC_Click(object sender, RoutedEventArgs e)
         {
-            castTestPlan.SetCLXSlot(0, castTestPlan.TestbedConfig.AllControllersList[4]);
-            castTestPlan.SetCLXSlot(1, castTestPlan.TestbedConfig.AllControllersList[12]);
-            castTestPlan.SetCLXSlot(2, castTestPlan.TestbedConfig.AllControllersList[19]);
-            castTestPlan.SetCLXSlot(3, castTestPlan.TestbedConfig.AllControllersList[26]);
-            SetControllersBGColor();
+            try
+            {
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX5);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX13);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX20);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX27);
+
+                castTestPlan.SetCLXSlot(0, CLX_1);
+                castTestPlan.SetCLXSlot(1, CLX_2);
+                castTestPlan.SetCLXSlot(2, CLX_3);
+                castTestPlan.SetCLXSlot(3, CLX_4);
+
+                castTestPlan.SetSlotControllerCLX1(CLX_1);
+                castTestPlan.SetSlotControllerCLX2(CLX_2);
+                castTestPlan.SetSlotControllerCLX3(CLX_3);
+                castTestPlan.SetSlotControllerCLX4(CLX_4);
+                SetControllersBGColor();
+            }
+            catch (NoDataForControllerException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         

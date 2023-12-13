@@ -68,7 +68,6 @@ namespace Test_plan.Classes
                             records.Add(record);
                         }
 
-
                         return records;
                     }
                 }

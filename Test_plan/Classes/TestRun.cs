@@ -33,6 +33,12 @@ namespace Test_plan
        
         public string VPD { get; set; }
 
+        public Controller Slot_CLX1 { get; private set; }
+        public Controller Slot_CLX2 { get; private set; }
+        public Controller Slot_CLX3 { get; private set; }
+        public Controller Slot_CLX4 { get; private set; }
+
+
 
 
 
@@ -53,10 +59,14 @@ namespace Test_plan
             PythonScripts = new bool[pythonScripts.Length];
             for (int i = 0; i < pythonScripts.Length; i++)
                 PythonScripts[i] = pythonScripts[i];
+            Slot_CLX1 = ControllersSet[0];
+            Slot_CLX2 = ControllersSet[1];
+            Slot_CLX3 = ControllersSet[2];
+            Slot_CLX4 = ControllersSet[3];
 
 
-           
-            TestbedSymbol = testbedSymbol;
+
+        TestbedSymbol = testbedSymbol;
             OnPropertyChanged("TestbedSymbol");
             OnPropertyChanged("TestRunNumber");
             OnPropertyChanged("TestName");
@@ -90,19 +100,13 @@ namespace Test_plan
         //To do - Returns Controllers names for testname string
         public string ControllersNamesGen()
         {
-            string controllersNames = string.Empty;
-
-            for (int i = 0; i < ControllersSet.Length; i++)
-            {
-                if (i==0)
-                controllersNames += "_" + ControllersSet[i].ControllerType.ToString();
-                if (i>0)
-                {
-                    if (ControllersSet[i-1].ControllerType!= ControllersSet[i].ControllerType)
-                        controllersNames += "_" + ControllersSet[i].ControllerType.ToString();
-                }
-
-            }
+            string controllersNames = Slot_CLX1.ControllerType.ToString();
+            if (Slot_CLX2.ControllerType != Slot_CLX1.ControllerType)
+                controllersNames += $"_{Slot_CLX2.ControllerType}";
+            if (Slot_CLX3.ControllerType != Slot_CLX2.ControllerType)
+                controllersNames += $"_{Slot_CLX3.ControllerType}";
+            if (Slot_CLX4.ControllerType != Slot_CLX3.ControllerType)
+                controllersNames += $"_{Slot_CLX4.ControllerType}";
             return controllersNames;
         }
 
@@ -111,13 +115,17 @@ namespace Test_plan
           UpdateTestCase(testCaseNumber, testName, alarmInstance);
           TestRunNumber = testRunNumber; 
           FlashType = flashType;
-            VPD = vpd;
-            ACD = acd;
+          VPD = vpd;
+          ACD = acd;
            for (int i = 0; i < controllersSet.Length; i++)
                 ControllersSet[i] = controllersSet[i];          
           TestbedSymbol = testbedSymbol;
             for (int i = 0; i < pythonScripts.Length; i++)
                 PythonScripts[i] = pythonScripts[i];
+            Slot_CLX1 = ControllersSet[0];
+            Slot_CLX2 = ControllersSet[1];
+            Slot_CLX3 = ControllersSet[2];
+            Slot_CLX4 = ControllersSet[3];
 
             OnPropertyChanged("TestbedSymbol");
             OnPropertyChanged("TestRunNumber");

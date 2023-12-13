@@ -9,29 +9,20 @@ using System.Windows;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.ObjectModel;
+using CsvHelper;
+using System.Globalization;
+using System.Windows.Controls;
 
 namespace Test_plan
 {
     [Serializable]
     public class TestPlanSerialization
     {
-        public Collection<TestRun> TestRunSequence { get { return testRunSequence; } private set { } }
-        private Collection<TestRun> testRunSequence  = new Collection<TestRun>();
-        public string BuildNumberText { get; set; }
-        public string ControllerBuildText { get; set; }
-        public string FlashWithPreviousBuild { get; private set; }
-        public string IgnoreFlashFault { get; private set; }
-        public string DatabaseSQL { get; set; }
-        public ProjectSymbol ActiveProject { get; private set; }
-        public string PythonExeFilePath { get; private set; }
-        public string PythonScriptsFolderPath { get; private set; }
-        public string PythonScriptFilePath { get; private set; }
-
-
-
+        public List<TestRun> TestRunSequence { get { return testRunSequence; } private set { } }
+        private List<TestRun> testRunSequence  = new List<TestRun>();
         private string userDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
         private string userDataFilePath;
-       // private OpenFileDialog openFileDialog = null;
+       
 
 
         public TestPlanSerialization()
@@ -39,61 +30,73 @@ namespace Test_plan
             userDataFilePath = userDataFolderPath + @"\User_data.dat";            
         }
 
-        public void SerializeTestPlan(Collection<TestRun> testRunSequence)
+        public void SerializeTestPlan(IEnumerable<TestRun> testRunSequence)
         {
-            this.testRunSequence.Clear();
-            foreach (TestRun testRun in testRunSequence)
-                this.testRunSequence.Add(testRun);
-
+            
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
-            saveFileDialog.Filter = "Test plan data file (*.dat)|*.dat";
+            saveFileDialog.Filter = "Test plan data file (*.csv)|*.csv";
 
             if (saveFileDialog.ShowDialog() == true)   
-            {                
-                
-                using (Stream output = File.Open(saveFileDialog.FileName, FileMode.Create))
-                {
+            {
 
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(output, this);
+
+                using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName))
+                {
+                    var writer = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+                    writer.WriteRecords(testRunSequence);
                 }
+
                 MessageBox.Show("Test plan data file saved: " + saveFileDialog.ToString());
-            }
+            }           
 
         }
 
-        public void DeserializeTestPlan()
+        public List<TestRun> ImportTestPlanListFromCSV()
         {
+            var records = new List<TestRun>();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
-            openFileDialog.Filter = "Test plan data file (*.dat)|*.dat";
+            openFileDialog.Filter = "Test plan data file (*.csv)|*.csv";
             if (openFileDialog.ShowDialog() == true)
             {
-                using (Stream input = openFileDialog.OpenFile())
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-
+                using (StreamReader streamReader = new StreamReader(openFileDialog.FileName))
+                {                   
                     try
                     {
-                        TestPlanSerialization tempTestPlan = (TestPlanSerialization)formatter.Deserialize(input);
-                        testRunSequence.Clear();
-                        foreach (TestRun testRun in tempTestPlan.TestRunSequence)
+                        var reader = new CsvReader(streamReader, CultureInfo.InvariantCulture);                        
+                        reader.Read();
+                        reader.ReadHeader();
+                        while (reader.Read())
                         {
-                            testRunSequence.Add(testRun);
+                            var record = new TestRun(reader.GetField<int>("TestCaseNumber"),
+                                                     reader.GetField<int>("TestRunNumber"),
+                                                     reader.GetField<int>("AlarmInstance"),
+                                                     reader.GetField<string>("TestName"),
+                                                     reader.GetField<string>("FlashType"),
+                                                     reader.GetField<string>("ACD"),
+                                                     reader.GetField<string>("VPD"),
+                                                     reader.GetField<Controller[]>("ControllersSet"),
+                                                     reader.GetField<TBSymbol>("TestbedSymbol"),
+                                                     reader.GetField<bool[]>("PythonScripts")
+                                                     );
+                            records.Add(record);
                         }
+                        return records;
                     }
-                    catch (SerializationException)
+                    catch (CsvHelperException ex)
                     {
-                        MessageBox.Show("Invalid Testplan file: " + openFileDialog.ToString());
+                        throw new ImportCSVException(ex,"Wrong test plan list file - " + openFileDialog.ToString());                    
                     }
 
                 }
-
-
             }
+            else 
+              return records; 
         }
+
+
 
     }
 }

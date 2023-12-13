@@ -13,73 +13,28 @@ namespace Test_plan
     {
         public TBSymbol TestbedSelected { get; private set; }
 
-       // private NetType netTopology;
-       // public NetType NetTopology { get { return netTopology; } private set { } }
-
-       
-
-        public ObservableCollection<Controller> AvailableControllersList { get; private set; }
-
-        
-
-        //  collection describing all controllers 
-
-
-        public ObservableCollection<Controller> AllControllersList { get { return allControllersList; } }
-
-
-        private  ObservableCollection<Controller> allControllersList = new ObservableCollection<Controller>() 
-        { 
-            new Controller(ControllerNum.CLX1, ControllerSymbol.L7x, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX2, ControllerSymbol.L3y, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22}),
-            new Controller(ControllerNum.CLX3, ControllerSymbol.L3z, new List<TBSymbol>(){TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX4, ControllerSymbol.L8z, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX5, ControllerSymbol.EPIC, new List<TBSymbol>(){TBSymbol.VES11,TBSymbol.VES12}),
-            new Controller(ControllerNum.CLX6, ControllerSymbol.L8zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX7, ControllerSymbol.L3zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES31}),
-            new Controller(ControllerNum.CLX8, ControllerSymbol.RedL7xL8z, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX9, ControllerSymbol.L7x, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX10, ControllerSymbol.L3y, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22}),
-            new Controller(ControllerNum.CLX11, ControllerSymbol.L3z, new List<TBSymbol>(){TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX12, ControllerSymbol.L8z, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX13, ControllerSymbol.EPIC, new List<TBSymbol>(){TBSymbol.VES11,TBSymbol.VES12}),
-            new Controller(ControllerNum.CLX14, ControllerSymbol.L8zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX15, ControllerSymbol.L3zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES31}),
-            new Controller(ControllerNum.CLX16, ControllerSymbol.L7x, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX17, ControllerSymbol.L3y, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22}),
-            new Controller(ControllerNum.CLX18, ControllerSymbol.L3z, new List<TBSymbol>(){TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX19, ControllerSymbol.L8z, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX20, ControllerSymbol.EPIC, new List<TBSymbol>(){TBSymbol.VES11,TBSymbol.VES12}),
-            new Controller(ControllerNum.CLX21, ControllerSymbol.L8zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX22, ControllerSymbol.L3zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES31}),
-            new Controller(ControllerNum.CLX23, ControllerSymbol.L7x, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX24, ControllerSymbol.L3y, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22}),
-            new Controller(ControllerNum.CLX25, ControllerSymbol.L3z, new List<TBSymbol>(){TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX26, ControllerSymbol.L8z, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX27, ControllerSymbol.EPIC, new List<TBSymbol>(){TBSymbol.VES11,TBSymbol.VES12}),
-            new Controller(ControllerNum.CLX28, ControllerSymbol.L8zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES11,TBSymbol.VES12,TBSymbol.VES21,TBSymbol.VES22,TBSymbol.VES31, TBSymbol.VES32}),
-            new Controller(ControllerNum.CLX29, ControllerSymbol.L3zS, new List<TBSymbol>(){TBSymbol.VES01,TBSymbol.VES02,TBSymbol.VES31}),
-        };
-       
+        public ObservableCollection<Controller> AvailableControllersList;
 
         public TestbedConfiguration(TBSymbol testbedSelected)
         {
-            this.TestbedSelected = TestbedSelected;
-            AvailableControllersList = CreateAvailableControllersList(TestbedSelected);
+            this.TestbedSelected = testbedSelected;
+            AvailableControllersList = GenerateAvailableControllers(TestbedSelected);
         }
         
 
-        public ObservableCollection<Controller> CreateAvailableControllersList(TBSymbol thisTestbedSelected)
-        {         
-
-            ObservableCollection<Controller> clx_list = new ObservableCollection<Controller>();
+        private ObservableCollection<Controller> GenerateAvailableControllers(TBSymbol TestbedSelected)
+        {
+            var allControllers = TestbedInfo.AllControllers;
+            var testbedsAvailableControllers = TestbedInfo.AllTestbedsAvailableControllers;
+            var controllersOnThisTestbed = testbedsAvailableControllers[TestbedSelected];
+            var clx_list = new ObservableCollection<Controller>();
+                
             
-            foreach (Controller controller in AllControllersList)
-            {
-                if (controller.PresentOnTestbed.Contains(thisTestbedSelected))
+            foreach (Controller controller in allControllers)
+            {                 
+                if (controllersOnThisTestbed.Contains(controller.ControllerType))
                     clx_list.Add(controller);
             }
-
             return clx_list;
         }
 
@@ -87,9 +42,7 @@ namespace Test_plan
         {
             TestbedSelected = newTB;
             AvailableControllersList.Clear();
-            AvailableControllersList = CreateAvailableControllersList(TestbedSelected);
-
-
+            AvailableControllersList = GenerateAvailableControllers(TestbedSelected);
         }
 
         public bool CheckControllerIsAvailable(Controller controller)
@@ -98,12 +51,24 @@ namespace Test_plan
                 return true;
             else
                 return false;
-
         }
 
+        public static Controller GenerateSingleControllerByNumber(ControllerNum controllerNum)
+        {
+            Controller result = null;
+            foreach(var controller in TestbedInfo.AllControllers)
+            {
+                if (controller.ControllerShort == controllerNum)
+                {
+                    result = controller;
+                }                                    
+            }
 
-
-
-
+            if (result != null)
+                return result;
+            else
+                throw new NoDataForControllerException("No controller data in existing configuration: " + controllerNum.ToString());            
+        }
+        
     }
 }

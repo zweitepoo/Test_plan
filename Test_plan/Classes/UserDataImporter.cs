@@ -24,7 +24,7 @@ namespace Test_plan.Classes
         public bool isDerserializeDone { get; private set; }
 
 
-        public void DeserializeUserData()
+        public void LoadUserData()
         {
             isDerserializeDone = false;
             string userDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";

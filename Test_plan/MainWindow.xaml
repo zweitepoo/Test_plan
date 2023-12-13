@@ -234,16 +234,16 @@
                 <StackPanel Orientation="Horizontal" Margin=" 10,15,0,0">
 
                     <Border x:Name="CLX1_display" BorderBrush="Black"  Margin="0,0,0,0"  Width="109" Height="24" BorderThickness="1">
-                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_1, Mode=TwoWay}" TextAlignment="Center"   Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
+                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_1}" TextAlignment="Center"   Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
                     </Border>
                     <Border x:Name="CLX2_display" BorderBrush="Black"  Margin="10,0,0,0"  Width="109" Height="24" BorderThickness="1">
-                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_2, Mode=TwoWay}" TextAlignment="Center" Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
+                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_2}" TextAlignment="Center" Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
                     </Border>
                     <Border x:Name="CLX3_display" BorderBrush="Black"  Margin="10,0,0,0"  Width="109" Height="24" BorderThickness="1">
-                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_3, Mode=TwoWay}" TextAlignment="Center" Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
+                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_3}" TextAlignment="Center" Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
                     </Border>
                     <Border x:Name="CLX4_display" BorderBrush="Black"  Margin="10,0,0,0"  Width="109" Height="24" BorderThickness="1">
-                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_4, Mode=TwoWay}" TextAlignment="Center" Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
+                        <TextBlock Margin="0,2,0,0" Text ="{Binding CLX_4}" TextAlignment="Center" Width="109" FontWeight="Bold" Height="24" FontSize="12" Foreground="White"/>
                     </Border>
 
 

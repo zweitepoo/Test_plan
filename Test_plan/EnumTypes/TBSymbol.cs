@@ -15,6 +15,7 @@ namespace Test_plan
         VES21 = 5,
         VES22 = 6,
         VES31 = 7,
-        VES32 = 8    
+        VES32 = 8,
+        VES41 = 9
     }
 }

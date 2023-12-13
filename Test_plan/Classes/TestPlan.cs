@@ -58,10 +58,11 @@ namespace Test_plan
 
         public TBSymbol TestbedSelected { get { return TestbedConfig.TestbedSelected; } set { } }
 
-        public string CLX_1 { get; set; }
-        public string CLX_2 { get; set; }
-        public string CLX_3 { get; set; }
-        public string CLX_4 { get; set; }
+        public Controller CLX_1 { get; set; }
+        public Controller CLX_2 { get; set; }
+        public Controller CLX_3 { get; set; }
+        public Controller CLX_4 { get; set; }
+       
 
         public Controller[] ControllersSet { get; private set; }
         public ObservableCollection<TBSymbol> TestbedList { get { return testbedList; } private set { } }
@@ -75,7 +76,8 @@ namespace Test_plan
           TBSymbol.VES21,
           TBSymbol.VES22,
           TBSymbol.VES31,
-          TBSymbol.VES32
+          TBSymbol.VES32,
+          TBSymbol.VES41
         };
 
         public bool[] PythonScripts { get { return pythonScripts; } private set { } }
@@ -176,10 +178,10 @@ namespace Test_plan
             VPD = TestRunSequence[elementIndex].VPD.ToString();
             for (int i = 0; i < TestRunSequence[elementIndex].PythonScripts.Length; i++)
                 pythonScripts[i] = TestRunSequence[elementIndex].PythonScripts[i];
-            CLX_1 = TestRunSequence[elementIndex].ControllersSet[0].ToString();
-            CLX_2 = TestRunSequence[elementIndex].ControllersSet[1].ToString();
-            CLX_3 = TestRunSequence[elementIndex].ControllersSet[2].ToString();
-            CLX_4 = TestRunSequence[elementIndex].ControllersSet[3].ToString();
+            CLX_1 = TestRunSequence[elementIndex].ControllersSet[0];
+            CLX_2 = TestRunSequence[elementIndex].ControllersSet[1];
+            CLX_3 = TestRunSequence[elementIndex].ControllersSet[2];
+            CLX_4 = TestRunSequence[elementIndex].ControllersSet[3];
             OnPropertyChanged("PythonScripts");
             OnPropertyChanged("TestCaseNumberText");
             OnPropertyChanged("TestRunNumberText");
@@ -222,7 +224,6 @@ namespace Test_plan
                 OnPropertyChanged("TestbedSelected");
                 AvailableControllersList = TestbedConfig.AvailableControllersList;
                 OnPropertyChanged("AvailableControllersList");
-
             }
         }
 
@@ -236,38 +237,45 @@ namespace Test_plan
                 switch (slot)
                 {
                     case 0:
-                        //  if (newController != null)
-                        CLX_1 = newController.ToString();
-                        //    else
-                        //       CLX_1=String.Empty;
+                        CLX_1 = newController;
                         OnPropertyChanged("CLX_1");
                         break;
                     case 1:
-                        if (newController != null)
-                            CLX_2 = newController.ToString();
-                        else
-                            CLX_2 = String.Empty;
+                        CLX_2 = newController;                        
                         OnPropertyChanged("CLX_2");
                         break;
                     case 2:
-                        if (newController != null)
-                            CLX_3 = newController.ToString();
-                        else
-                            CLX_3 = String.Empty;
+                        CLX_3 = newController;
                         OnPropertyChanged("CLX_3");
 
                         break;
                     case 3:
-                        if (newController != null)
-                            CLX_4 = newController.ToString();
-                        else
-                            CLX_4 = String.Empty;
+                        CLX_4 = newController;                       
                         OnPropertyChanged("CLX_4");
-
                         break;
                 }
             }
 
+        }
+        public void SetSlotControllerCLX1(Controller newController)
+        {
+            CLX_1 = newController;
+            OnPropertyChanged("CLX_1");
+        }
+        public void SetSlotControllerCLX2(Controller newController)
+        {
+            CLX_2 = newController;
+            OnPropertyChanged("CLX_2");
+        }
+        public void SetSlotControllerCLX3(Controller newController)
+        {
+            CLX_3 = newController;
+            OnPropertyChanged("CLX_3");
+        }
+        public void SetSlotControllerCLX4(Controller newController)
+        {
+            CLX_4 = newController;
+            OnPropertyChanged("CLX_4");
         }
         //Testrun data validation
         public bool TestRunDataIsValid()
@@ -527,9 +535,18 @@ namespace Test_plan
         public  void DeserializeTestPlan()
         {
             TestRunSequence.Clear();
-            testPlanSerialization.DeserializeTestPlan();            
-            foreach(TestRun testRun in testPlanSerialization.TestRunSequence) 
-                TestRunSequence.Add(testRun);
+
+            try
+            {
+                var testPlanList = testPlanSerialization.ImportTestPlanListFromCSV();
+                foreach (TestRun testRun in testPlanList)
+                    TestRunSequence.Add(testRun);
+            }
+            catch (ImportCSVException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+           
         }
 
         //Save user's paramterers from file
@@ -541,7 +558,7 @@ namespace Test_plan
         // Load user's parametrs from file
         public void LoadUserData()
         {
-                userDataImporter.DeserializeUserData();
+                userDataImporter.LoadUserData();
             if (userDataImporter.isDerserializeDone)
             { 
                 BuildNumberText = userDataImporter.BuildNumberText;
