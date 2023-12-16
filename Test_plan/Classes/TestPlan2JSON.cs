@@ -80,10 +80,10 @@ namespace Test_plan
                     "alarm_instance": "{{testRunSequence[i].AlarmInstance}}"
                     },
                     "controllers": {
-                    "CLX1": {{((int)testRunSequence[i].ControllersSet[0].ControllerShort)}},
-                    "CLX2": {{((int)testRunSequence[i].ControllersSet[1].ControllerShort)}},
-                    "CLX3": {{((int)testRunSequence[i].ControllersSet[2].ControllerShort)}},
-                    "CLX4": {{((int)testRunSequence[i].ControllersSet[3].ControllerShort)}}
+                    "CLX1": {{((int)testRunSequence[i].Slot_CLX1.ControllerCode)}},
+                    "CLX2": {{((int)testRunSequence[i].Slot_CLX2.ControllerCode)}},
+                    "CLX3": {{((int)testRunSequence[i].Slot_CLX3.ControllerCode)}},
+                    "CLX4": {{((int)testRunSequence[i].Slot_CLX4.ControllerCode)}}
                     },
                     "test_case_schedule": [
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test_plan
 {
-    public enum ControllerSymbol
+    public enum ControllerFamilyType
     {
         L8z,
         L7x,

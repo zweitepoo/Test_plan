@@ -82,7 +82,7 @@ namespace Test_plan
 
         public bool[] PythonScripts { get { return pythonScripts; } private set { } }
         private bool[] pythonScripts;
-        public TestPlanSerialization testPlanSerialization;
+        public TestRunSeqCSV testPlanSerialization;
         private UserDataExporter userDataExporter;
         private UserDataImporter userDataImporter;
         //Python run 
@@ -105,10 +105,10 @@ namespace Test_plan
             BuildNumberText = "9.1.00000.01811";
             DatabaseSQL = "ViewE_SQL";
             AvailableControllersList = TestbedConfig.AvailableControllersList;
-            ControllersSet = new Controller[4];
+           
             TestRunSequence = new ObservableCollection<TestRun>();
             testCaseManger = new TestCaseManager(ActiveProject);
-            testPlanSerialization = new TestPlanSerialization();
+            testPlanSerialization = new TestRunSeqCSV();
             userDataExporter = new UserDataExporter();
             userDataImporter = new UserDataImporter();
             ActiveTCList = new ObservableCollection<TestCase>();
@@ -148,11 +148,13 @@ namespace Test_plan
             {
                 if (selectedIndex != -1)
                 {
-                    TestRunSequence.Insert(selectedIndex + 1, new TestRun(int.Parse(TestCaseNumberText), int.Parse(TestRunNumberText), int.Parse(AlarmInstanceText), TestRunName, FlashType, ACD, VPD, ControllersSet, TestbedSelected, PythonScripts));
+                    TestRunSequence.Insert(selectedIndex + 1, new TestRun(int.Parse(TestCaseNumberText), int.Parse(TestRunNumberText), int.Parse(AlarmInstanceText), TestRunName, FlashType, ACD, VPD,
+                                            CLX_1, CLX_2, CLX_3, CLX_4, TestbedSelected, PythonScripts));
                 }
                 else
                 {
-                    TestRunSequence.Add(new TestRun(int.Parse(TestCaseNumberText), int.Parse(TestRunNumberText), int.Parse(AlarmInstanceText), TestRunName, FlashType, ACD, VPD, ControllersSet, TestbedSelected, PythonScripts));
+                    TestRunSequence.Add(new TestRun(int.Parse(TestCaseNumberText), int.Parse(TestRunNumberText), int.Parse(AlarmInstanceText), TestRunName, FlashType, ACD, VPD,
+                                        CLX_1, CLX_2, CLX_3, CLX_4, TestbedSelected, PythonScripts));
                 }
                 UpdateTestbedTBxx();
                 OnPropertyChanged("TestRunSequence");
@@ -178,10 +180,10 @@ namespace Test_plan
             VPD = TestRunSequence[elementIndex].VPD.ToString();
             for (int i = 0; i < TestRunSequence[elementIndex].PythonScripts.Length; i++)
                 pythonScripts[i] = TestRunSequence[elementIndex].PythonScripts[i];
-            CLX_1 = TestRunSequence[elementIndex].ControllersSet[0];
-            CLX_2 = TestRunSequence[elementIndex].ControllersSet[1];
-            CLX_3 = TestRunSequence[elementIndex].ControllersSet[2];
-            CLX_4 = TestRunSequence[elementIndex].ControllersSet[3];
+            CLX_1 = TestRunSequence[elementIndex].Slot_CLX1;
+            CLX_2 = TestRunSequence[elementIndex].Slot_CLX2;
+            CLX_3 = TestRunSequence[elementIndex].Slot_CLX3;
+            CLX_4 = TestRunSequence[elementIndex].Slot_CLX4;
             OnPropertyChanged("PythonScripts");
             OnPropertyChanged("TestCaseNumberText");
             OnPropertyChanged("TestRunNumberText");
@@ -202,7 +204,8 @@ namespace Test_plan
         {
             if (TestRunDataIsValid())
             {
-                testRun.UpdateTestRun(int.Parse(TestCaseNumberText), TestRunName, FlashType, ACD, VPD, int.Parse(AlarmInstanceText), int.Parse(TestRunNumberText), ControllersSet, TestbedSelected, PythonScripts);
+                testRun.UpdateTestRun(int.Parse(TestCaseNumberText), TestRunName, FlashType, ACD, VPD, int.Parse(AlarmInstanceText), int.Parse(TestRunNumberText),
+                                        CLX_1, CLX_2, CLX_3, CLX_4, TestbedSelected, PythonScripts);
                 UpdateTestbedTBxx();
                 OnPropertyChanged("TestRunSequence");
             }
@@ -228,35 +231,7 @@ namespace Test_plan
         }
 
         //Set controllers in testrun
-        public void SetCLXSlot(int slot, Controller newController)
-        {
-            if (slot < ControllersSet.Length)
-            {
-                ControllersSet[slot] = newController;
-                OnPropertyChanged("ControllersSet");
-                switch (slot)
-                {
-                    case 0:
-                        CLX_1 = newController;
-                        OnPropertyChanged("CLX_1");
-                        break;
-                    case 1:
-                        CLX_2 = newController;                        
-                        OnPropertyChanged("CLX_2");
-                        break;
-                    case 2:
-                        CLX_3 = newController;
-                        OnPropertyChanged("CLX_3");
-
-                        break;
-                    case 3:
-                        CLX_4 = newController;                       
-                        OnPropertyChanged("CLX_4");
-                        break;
-                }
-            }
-
-        }
+       
         public void SetSlotControllerCLX1(Controller newController)
         {
             CLX_1 = newController;
@@ -316,22 +291,22 @@ namespace Test_plan
                 return false;
             }
 
-            if (ControllersSet[0] == null)
+            if (CLX_1 == null)
             {
                 MessageBox.Show("No CLX[1] set");
                 return false;
             }
-            if (ControllersSet[1] == null)
+            if (CLX_2 == null)
             {
                 MessageBox.Show("No CLX[2] set");
                 return false;
             }
-            if (ControllersSet[2] == null)
+            if (CLX_3 == null)
             {
                 MessageBox.Show("No CLX[3] set");
                 return false;
             }
-            if (ControllersSet[3] == null)
+            if (CLX_4 == null)
             {
                 MessageBox.Show("No CLX[4] set");
                 return false;
@@ -526,7 +501,7 @@ namespace Test_plan
         //Save actual test plan
         public  void SerializeTestPlan()
         {
-            testPlanSerialization.SerializeTestPlan(TestRunSequence);
+            testPlanSerialization.ExportTestPlanToCSV(TestRunSequence);
 
         }
 
@@ -538,7 +513,7 @@ namespace Test_plan
 
             try
             {
-                var testPlanList = testPlanSerialization.ImportTestPlanListFromCSV();
+                var testPlanList = testPlanSerialization.ImportTestPlanFromCSV();
                 foreach (TestRun testRun in testPlanList)
                     TestRunSequence.Add(testRun);
             }

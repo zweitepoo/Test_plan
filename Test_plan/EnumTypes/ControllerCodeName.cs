@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test_plan
 {
-    public enum ControllerNum
+    public enum ControllerCodeName
     {
         CLX1 = 1,
         CLX2 = 2,

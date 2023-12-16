@@ -17,9 +17,6 @@ namespace Test_plan
        
         public int TestRunNumber { get;private set; }
 
-       
-        public Controller[] ControllersSet { get; private set; }
-
         public string ControllersNames { get { return ControllersNamesGen(); }private set { } }
 
        
@@ -47,22 +44,21 @@ namespace Test_plan
 
 
 
-        public TestRun(int testCaseNumber, int testRunNumber,int alarmInstance, string testName,string flashType,string acd,string vpd , Controller[] controllersSet,TBSymbol testbedSymbol, bool[] pythonScripts ):base(testCaseNumber, testName, alarmInstance)
+        public TestRun(int testCaseNumber, int testRunNumber,int alarmInstance, string testName,string flashType,string acd,string vpd , Controller clx_1, Controller clx_2, Controller clx_3, Controller clx_4,
+                        TBSymbol testbedSymbol, bool[] pythonScripts ):base(testCaseNumber, testName, alarmInstance)
         {
            TestRunNumber = testRunNumber;
             FlashType = flashType;
             ACD = acd;
-            VPD = vpd;
-            ControllersSet = new Controller[4] ;
-            for (int i = 0; i < controllersSet.Length; i++) 
-                ControllersSet[i] = controllersSet[i];
+            VPD = vpd;            
             PythonScripts = new bool[pythonScripts.Length];
             for (int i = 0; i < pythonScripts.Length; i++)
                 PythonScripts[i] = pythonScripts[i];
-            Slot_CLX1 = ControllersSet[0];
-            Slot_CLX2 = ControllersSet[1];
-            Slot_CLX3 = ControllersSet[2];
-            Slot_CLX4 = ControllersSet[3];
+            Slot_CLX1 = clx_1;
+            Slot_CLX2 = clx_2; 
+            Slot_CLX3 = clx_3; 
+            Slot_CLX4 = clx_4;
+            
 
 
 
@@ -110,22 +106,22 @@ namespace Test_plan
             return controllersNames;
         }
 
-        public void UpdateTestRun(int testCaseNumber, string testName, string flashType, string acd, string vpd, int alarmInstance,  int testRunNumber, Controller[] controllersSet,  TBSymbol testbedSymbol, bool[] pythonScripts)
+        public void UpdateTestRun(int testCaseNumber, string testName, string flashType, string acd, string vpd, int alarmInstance,  int testRunNumber,
+                                   Controller clx_1, Controller clx_2, Controller clx_3, Controller clx_4,TBSymbol testbedSymbol, bool[] pythonScripts)
         {
           UpdateTestCase(testCaseNumber, testName, alarmInstance);
           TestRunNumber = testRunNumber; 
           FlashType = flashType;
           VPD = vpd;
           ACD = acd;
-           for (int i = 0; i < controllersSet.Length; i++)
-                ControllersSet[i] = controllersSet[i];          
+                   
           TestbedSymbol = testbedSymbol;
             for (int i = 0; i < pythonScripts.Length; i++)
                 PythonScripts[i] = pythonScripts[i];
-            Slot_CLX1 = ControllersSet[0];
-            Slot_CLX2 = ControllersSet[1];
-            Slot_CLX3 = ControllersSet[2];
-            Slot_CLX4 = ControllersSet[3];
+            Slot_CLX1 = clx_1;
+            Slot_CLX2 = clx_2;
+            Slot_CLX3 = clx_3;
+            Slot_CLX4 = clx_4;
 
             OnPropertyChanged("TestbedSymbol");
             OnPropertyChanged("TestRunNumber");

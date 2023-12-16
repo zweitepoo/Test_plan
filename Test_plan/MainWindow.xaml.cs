@@ -141,8 +141,7 @@ namespace Test_plan
         {
             if (CLX1_Selection.SelectedIndex == -1)
                 return;
-            var clx1 = CLX1_Selection.SelectedItem as Controller;
-            castTestPlan.SetCLXSlot(0, clx1);
+            var clx1 = CLX1_Selection.SelectedItem as Controller;            
             castTestPlan.SetSlotControllerCLX1(clx1);
             SetControllersBGColor();
         }
@@ -150,8 +149,7 @@ namespace Test_plan
         {
             if (CLX2_Selection.SelectedIndex == -1)
                 return;
-            var clx2 = CLX2_Selection.SelectedItem as Controller;
-            castTestPlan.SetCLXSlot(1, clx2);
+            var clx2 = CLX2_Selection.SelectedItem as Controller;            
             castTestPlan.SetSlotControllerCLX2(clx2);
             SetControllersBGColor();
         }
@@ -159,8 +157,7 @@ namespace Test_plan
         {
             if (CLX3_Selection.SelectedIndex == -1)
                 return;
-            var clx3 = CLX3_Selection.SelectedItem as Controller;
-            castTestPlan.SetCLXSlot(2, clx3);
+            var clx3 = CLX3_Selection.SelectedItem as Controller;           
             castTestPlan.SetSlotControllerCLX3(clx3);
             SetControllersBGColor();
         }
@@ -169,8 +166,7 @@ namespace Test_plan
         {
             if (CLX4_Selection.SelectedIndex == -1)
                 return;
-            var clx4 = CLX4_Selection.SelectedItem as Controller;
-            castTestPlan.SetCLXSlot(3, clx4);
+            var clx4 = CLX4_Selection.SelectedItem as Controller;           
             castTestPlan.SetSlotControllerCLX4(clx4);
             SetControllersBGColor();
         }
@@ -180,16 +176,12 @@ namespace Test_plan
         {
             try
             {
-                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX4);
-                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX12);
-                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX19);
-                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX26);
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX4);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX12);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX19);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX26);
 
-                castTestPlan.SetCLXSlot(0, CLX_1);
-                castTestPlan.SetCLXSlot(1, CLX_2);
-                castTestPlan.SetCLXSlot(2, CLX_3);
-                castTestPlan.SetCLXSlot(3, CLX_4);
-
+                
                 castTestPlan.SetSlotControllerCLX1(CLX_1);
                 castTestPlan.SetSlotControllerCLX2(CLX_2);
                 castTestPlan.SetSlotControllerCLX3(CLX_3);
@@ -210,16 +202,12 @@ namespace Test_plan
         {
             try
             {
-                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX1);
-                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX9);
-                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX16);
-                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX23);
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX1);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX9);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX16);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX23);
 
-                castTestPlan.SetCLXSlot(0, CLX_1);
-                castTestPlan.SetCLXSlot(1, CLX_2);
-                castTestPlan.SetCLXSlot(2, CLX_3);
-                castTestPlan.SetCLXSlot(3, CLX_4);
-
+                
                 castTestPlan.SetSlotControllerCLX1(CLX_1);
                 castTestPlan.SetSlotControllerCLX2(CLX_2);
                 castTestPlan.SetSlotControllerCLX3(CLX_3);
@@ -238,16 +226,12 @@ namespace Test_plan
         {
             try
             {
-                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX6);
-                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX14);
-                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX21);
-                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX28);
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX6);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX14);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX21);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX28);
 
-                castTestPlan.SetCLXSlot(0, CLX_1);
-                castTestPlan.SetCLXSlot(1, CLX_2);
-                castTestPlan.SetCLXSlot(2, CLX_3);
-                castTestPlan.SetCLXSlot(3, CLX_4);
-
+               
                 castTestPlan.SetSlotControllerCLX1(CLX_1);
                 castTestPlan.SetSlotControllerCLX2(CLX_2);
                 castTestPlan.SetSlotControllerCLX3(CLX_3);
@@ -265,16 +249,12 @@ namespace Test_plan
         {
             try
             {
-                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX2);
-                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX10);
-                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX17);
-                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX24);
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX2);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX10);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX17);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX24);
 
-                castTestPlan.SetCLXSlot(0, CLX_1);
-                castTestPlan.SetCLXSlot(1, CLX_2);
-                castTestPlan.SetCLXSlot(2, CLX_3);
-                castTestPlan.SetCLXSlot(3, CLX_4);
-
+                
                 castTestPlan.SetSlotControllerCLX1(CLX_1);
                 castTestPlan.SetSlotControllerCLX2(CLX_2);
                 castTestPlan.SetSlotControllerCLX3(CLX_3);
@@ -292,16 +272,12 @@ namespace Test_plan
         {
             try
             {
-                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX3);
-                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX11);
-                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX18);
-                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX25);
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX3);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX11);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX18);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX25);
 
-                castTestPlan.SetCLXSlot(0, CLX_1);
-                castTestPlan.SetCLXSlot(1, CLX_2);
-                castTestPlan.SetCLXSlot(2, CLX_3);
-                castTestPlan.SetCLXSlot(3, CLX_4);
-
+               
                 castTestPlan.SetSlotControllerCLX1(CLX_1);
                 castTestPlan.SetSlotControllerCLX2(CLX_2);
                 castTestPlan.SetSlotControllerCLX3(CLX_3);
@@ -319,16 +295,12 @@ namespace Test_plan
         {
             try
             {
-                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX7);
-                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX15);
-                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX22);
-                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX29);
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX7);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX15);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX22);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX29);
 
-                castTestPlan.SetCLXSlot(0, CLX_1);
-                castTestPlan.SetCLXSlot(1, CLX_2);
-                castTestPlan.SetCLXSlot(2, CLX_3);
-                castTestPlan.SetCLXSlot(3, CLX_4);
-
+                
                 castTestPlan.SetSlotControllerCLX1(CLX_1);
                 castTestPlan.SetSlotControllerCLX2(CLX_2);
                 castTestPlan.SetSlotControllerCLX3(CLX_3);
@@ -346,16 +318,12 @@ namespace Test_plan
         {
             try
             {
-                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX5);
-                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX13);
-                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX20);
-                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerNum.CLX27);
+                var CLX_1 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX5);
+                var CLX_2 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX13);
+                var CLX_3 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX20);
+                var CLX_4 = TestbedConfiguration.GenerateSingleControllerByNumber(ControllerCodeName.CLX27);
 
-                castTestPlan.SetCLXSlot(0, CLX_1);
-                castTestPlan.SetCLXSlot(1, CLX_2);
-                castTestPlan.SetCLXSlot(2, CLX_3);
-                castTestPlan.SetCLXSlot(3, CLX_4);
-
+                
                 castTestPlan.SetSlotControllerCLX1(CLX_1);
                 castTestPlan.SetSlotControllerCLX2(CLX_2);
                 castTestPlan.SetSlotControllerCLX3(CLX_3);
@@ -376,22 +344,22 @@ namespace Test_plan
             SolidColorBrush lightGreen = new SolidColorBrush(Colors.Green);
             SolidColorBrush red = new SolidColorBrush(Colors.Red);
 
-            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.ControllersSet[0]))
+            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.CLX_1))
                 CLX1_display.Background = lightGreen;
             else
                 CLX1_display.Background = red;
 
-            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.ControllersSet[1]))
+            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.CLX_2))
                 CLX2_display.Background = lightGreen;
             else
                 CLX2_display.Background = red;
 
-            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.ControllersSet[2]))
+            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.CLX_3))
                 CLX3_display.Background = lightGreen;
             else
                 CLX3_display.Background = red;
 
-            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.ControllersSet[3]))
+            if (castTestPlan.CheckControllerIsAvailable(castTestPlan.CLX_4))
                 CLX4_display.Background = lightGreen;
             else
                 CLX4_display.Background = red;

@@ -11,15 +11,15 @@ namespace Test_plan
     public class Controller
     {
         
-       public ControllerNum ControllerShort { get; private set; }
+       public ControllerCodeName ControllerCode { get; private set; }
         
-       public ControllerSymbol ControllerType { get; private set; }
+       public ControllerFamilyType ControllerType { get; private set; }
        
        
 
-       public Controller(ControllerNum controllerShort, ControllerSymbol controllerType)
+       public Controller(ControllerCodeName controllerCode, ControllerFamilyType controllerType)
         {
-            ControllerShort = controllerShort;
+            ControllerCode = controllerCode;
             ControllerType = controllerType;
             
         }
@@ -27,7 +27,7 @@ namespace Test_plan
         public override string ToString()
         {
 
-            return ControllerShort.ToString() + '_'+ ControllerType.ToString();
+            return ControllerCode.ToString() + '_'+ ControllerType.ToString();
         }
 
 

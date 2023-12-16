@@ -53,12 +53,12 @@ namespace Test_plan
                 return false;
         }
 
-        public static Controller GenerateSingleControllerByNumber(ControllerNum controllerNum)
+        public static Controller GenerateSingleControllerByNumber(ControllerCodeName controllerShort)
         {
             Controller result = null;
             foreach(var controller in TestbedInfo.AllControllers)
             {
-                if (controller.ControllerShort == controllerNum)
+                if (controller.ControllerCode == controllerShort)
                 {
                     result = controller;
                 }                                    
@@ -67,7 +67,7 @@ namespace Test_plan
             if (result != null)
                 return result;
             else
-                throw new NoDataForControllerException("No controller data in existing configuration: " + controllerNum.ToString());            
+                throw new NoDataForControllerException("No controller data in existing configuration: " + controllerShort.ToString());            
         }
         
     }
