@@ -114,6 +114,7 @@
     <Compile Include="Classes\Exceptions\ImportCSVException.cs" />
     <Compile Include="Classes\Exceptions\NoDataForControllerException.cs" />
     <Compile Include="Classes\PythonRun.cs" />
+    <Compile Include="Classes\Startup.cs" />
     <Compile Include="Classes\TestbedConfiguration.cs" />
     <Compile Include="Classes\TestbedInfo.cs" />
     <Compile Include="Classes\TestCase.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="PythonOutput.xaml.cs">
       <DependentUpon>PythonOutput.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestResults.xaml.cs">
+      <DependentUpon>TestResults.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +151,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PythonOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestResults.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

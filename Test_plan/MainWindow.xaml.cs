@@ -28,7 +28,7 @@ namespace Test_plan
         public MainWindow()
         {
             InitializeComponent();
-            TestPlan.CreateUserDirectory();
+            Startup.CreateLocalAppDirectory("TestPlanGenerator");
             castTestPlan = this.Resources["testPlan"] as TestPlan;            
             TB_Selection.SelectedIndex = 0;
             set_Optix.IsChecked = true;
@@ -612,6 +612,19 @@ namespace Test_plan
             castTestPlan.FilterList(TextBox_SearchTC.Text);
             tc_list.IsDropDownOpen = true;
 
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Menu_Results_Click(object sender, RoutedEventArgs e)
+        {
+           
+            NavigationWindow navWIn = new NavigationWindow();
+            navWIn.Content = new TestResults();
+            navWIn.Show();           
         }
     }
 }

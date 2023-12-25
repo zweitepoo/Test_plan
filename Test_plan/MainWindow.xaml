@@ -92,6 +92,8 @@
                 </MenuItem>
 
 
+                <MenuItem Header="Results" x:Name="Menu_Results" Click="Menu_Results_Click"/>
+
                 <MenuItem Header="About">
                     <MenuItem x:Name="Menu_About_Info" Click="Menu_About_Info_Click" Header="Info">
                         <MenuItem.Icon>

@@ -25,7 +25,7 @@ namespace Test_plan
     [Serializable]
     public class TestPlan : INotifyPropertyChanged
     {
-        //  DataContractSerializer serializer;
+        
         public string saveTestPlanName { get; set; }
         public TestbedConfiguration TestbedConfig { get; set; }
 
@@ -81,11 +81,9 @@ namespace Test_plan
         };
 
         public bool[] PythonScripts { get { return pythonScripts; } private set { } }
-        private bool[] pythonScripts;
-        public TestRunSeqCSV testPlanSerialization;
+        private bool[] pythonScripts;       
         private UserDataExporter userDataExporter;
         private UserDataImporter userDataImporter;
-        //Python run 
         public PythonRun pythonRun;
         public string PythonExeFilePath { get { return pythonRun.PythonExeFilePath; } private set { } }
         public string PythonScriptsFolderPath { get { return pythonRun.PythonScriptsFolderPath; } private set { } }
@@ -95,7 +93,6 @@ namespace Test_plan
         public TestPlan()
         {
 
-            //     serializer = new DataContractSerializer(typeof(TestPlan));
             TestbedConfig = new TestbedConfiguration(TBSymbol.VES01);
             AlarmInstanceText = "0";
             FlashType = "ratools";
@@ -107,8 +104,7 @@ namespace Test_plan
             AvailableControllersList = TestbedConfig.AvailableControllersList;
            
             TestRunSequence = new ObservableCollection<TestRun>();
-            testCaseManger = new TestCaseManager(ActiveProject);
-            testPlanSerialization = new TestRunSeqCSV();
+            testCaseManger = new TestCaseManager(ActiveProject);           
             userDataExporter = new UserDataExporter();
             userDataImporter = new UserDataImporter();
             ActiveTCList = new ObservableCollection<TestCase>();
@@ -394,14 +390,14 @@ namespace Test_plan
         //Serialize Test case lists
         public void SerializeTestCasesList()
         {
-            testCaseManger.SerializeTestCasesList();
+            testCaseManger.GenerateTestCaseListCsvFile();
             OnPropertyChanged("TCListFilePath");
         }
 
         //Open TestCase list
         public void LoadTestCasesList()
         {
-            testCaseManger.LoadTestCaseList();
+            testCaseManger.LoadTestCaseListFromCsvFile();
 
         }
 
@@ -414,7 +410,7 @@ namespace Test_plan
         //Export TestCase list
         public void ExportTCList()
         {
-            testCaseManger.ExportTCList();
+            testCaseManger.ExportTCListToCSV();
 
         }
 
@@ -492,16 +488,10 @@ namespace Test_plan
             testCaseManger.RemoveTestCase(testCaseToToRemove);
         }
 
-        public static void CreateUserDirectory()
-        {
-            string UserDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
-            if (!Directory.Exists(UserDirectoryPath))
-                Directory.CreateDirectory(UserDirectoryPath);
-        }
         //Save actual test plan
         public  void SerializeTestPlan()
         {
-            testPlanSerialization.ExportTestPlanToCSV(TestRunSequence);
+            TestRunSeqCSV.ExportTestRunSeqToCSV(TestRunSequence);
 
         }
 
@@ -513,7 +503,7 @@ namespace Test_plan
 
             try
             {
-                var testPlanList = testPlanSerialization.ImportTestPlanFromCSV();
+                var testPlanList = TestRunSeqCSV.ImportTestRunSeqFromCSV();
                 foreach (TestRun testRun in testPlanList)
                     TestRunSequence.Add(testRun);
             }

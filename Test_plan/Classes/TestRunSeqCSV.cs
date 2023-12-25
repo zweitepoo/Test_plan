@@ -17,26 +17,20 @@ using System.Windows.Media.TextFormatting;
 namespace Test_plan
 {
     [Serializable]
-    public class TestRunSeqCSV
+    public static class TestRunSeqCSV
     {
-        public List<TestRun> TestRunSequence { get { return testRunSequence; } private set { } }
-        private List<TestRun> testRunSequence  = new List<TestRun>();
-        private string userDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
-        private string userDataFilePath;
+        private static string userDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
        
+        //public TestRunSeqCSV()
+        //{                     
+        //}
 
-
-        public TestRunSeqCSV()
-        {
-            userDataFilePath = userDataFolderPath + @"\User_data.dat";            
-        }
-
-        public void ExportTestPlanToCSV(IEnumerable<TestRun> testRunSequence)
+        public static void ExportTestRunSeqToCSV(IEnumerable<TestRun> testRunSequence)
         {
             var csvReadable = ConvertToCSVReadable(testRunSequence);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TestPlanGenerator";
+            saveFileDialog.InitialDirectory = userDataFolderPath;
             saveFileDialog.Filter = "Test plan data file (*.csv)|*.csv";
 
             if (saveFileDialog.ShowDialog() == true)   
@@ -53,7 +47,7 @@ namespace Test_plan
 
         }
 
-        public List<TestRun> ImportTestPlanFromCSV()
+        public static List<TestRun> ImportTestRunSeqFromCSV()
         {
 
             var testRunCSVReadable = ImportCVSReadbaleTestRunSequence();
@@ -62,7 +56,7 @@ namespace Test_plan
             
         }
 
-        private List<TestRun> ConvertFromCSVReadableToTestRunSeq(List<TestRunCSVReadable> testRunCSVReadable)
+        private static List<TestRun> ConvertFromCSVReadableToTestRunSeq(List<TestRunCSVReadable> testRunCSVReadable)
         {
             var testRunSequence = new List<TestRun>();
             foreach(var testRunCSV in testRunCSVReadable) 
@@ -104,7 +98,7 @@ namespace Test_plan
             return testRunSequence;
         }
 
-        private List<TestRunCSVReadable> ImportCVSReadbaleTestRunSequence()
+        private static List<TestRunCSVReadable> ImportCVSReadbaleTestRunSequence()
         {
             var records = new List<TestRunCSVReadable>();
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -161,7 +155,7 @@ namespace Test_plan
 
         }
 
-        private List<TestRunCSVReadable> ConvertToCSVReadable(IEnumerable<TestRun> testRunSequence)
+        private static List<TestRunCSVReadable> ConvertToCSVReadable(IEnumerable<TestRun> testRunSequence)
         {
             var csvReadable  = new List<TestRunCSVReadable>();
             foreach (TestRun testRun in testRunSequence)
