@@ -1,16 +1,21 @@
-﻿<Window x:Class="Test_plan.MainWindow"
+﻿<Page x:Class="Test_plan.TestPlanPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Test_plan"
       mc:Ignorable="d" d:DesignWidth="1750"     
-        WindowStartupLocation="CenterScreen"
         
-      Title="Test plan generator" Width="1750" Foreground="#FF928B8B" Background="#FF545353" OpacityMask="Black" Height="900">
-    <Window.Resources>
+        
+      Title="Test plan generator"
+      Width="1750"
+      Height="900"
+      Foreground="#FF928B8B"
+      Background="#FF545353"
+      OpacityMask="Black" >
+    <Page.Resources>
         <local:TestPlan x:Key="testPlan"/>
-    </Window.Resources>
+    </Page.Resources>
 
 
 
@@ -21,13 +26,18 @@
                 <MenuItem Header="Test Plan">
                     <MenuItem x:Name="Menu_TestPlan_Open" Header="Open" Click="Menu_TestPlan_Open_Click">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Open_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Open_Icon_64.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="Menu_Open_local_Directory" Header="Open local folder" Click="Menu_Open_local_Directory_Click">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Graphics/Open_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
 
                     <MenuItem x:Name="Menu_TestPlan_Save" Click="Menu_TestPlan_Save_Click" Header="Save">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Save_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Save_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
@@ -36,35 +46,35 @@
                 <MenuItem Header="Test Case">
                     <MenuItem x:Name="Menu_Test_Case_Import" Click="Menu_Test_Case_Import_Click" Header="Import">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Import_Icon_32.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Import_Icon_32.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="Menu_Export_Test_Case" Click="Menu_Export_Test_Case_Click"  Header="Export">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Export_Icon_32.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Export_Icon_32.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
                     <MenuItem x:Name="Menu_Test_Case_Save" Click="Menu_Test_Case_Save_Click" Header="Save">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Save_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Save_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Json">
                     <MenuItem x:Name="Menu_Json_Open" Click="Menu_Json_Open_Click" Header="Open">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Open_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Open_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="Menu_Json_Save" Click="Menu_Json_Save_Click" Header="Save">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Save_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Save_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="Menu_Json_SaveAs" Click="Menu_Json_SaveAs_Click" Header="Save As">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/SaveAs_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/SaveAs_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
 
@@ -74,32 +84,34 @@
                 <MenuItem Header="Python">
                     <MenuItem x:Name="Python_SetExePath" Click="Python_SetExePath_Click"  Header="Set python path">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Open_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Open_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="Python_SetScriptPath" Click="Python_SetScriptPath_Click"  Header="Set script path">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Open_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Open_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
                     <MenuItem x:Name="Python_RunScript" Click="Python_RunScript_Click"  Header="Run">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Run_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Run_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
 
-                </MenuItem>
-
-
-                <MenuItem Header="Results" x:Name="Menu_Results" Click="Menu_Results_Click"/>
+                </MenuItem>           
 
                 <MenuItem Header="About">
                     <MenuItem x:Name="Menu_About_Info" Click="Menu_About_Info_Click" Header="Info">
                         <MenuItem.Icon>
-                            <Image Source="Graphics/Info_Icon_64.png"/>
+                            <Image Source="pack://application:,,,/Graphics/Info_Icon_64.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
+                </MenuItem>
+                <MenuItem  x:Name="Menu_Results" Click="Menu_Results_Click"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Graphics/Chart_Icon_64.png"/>
+                    </MenuItem.Icon>
                 </MenuItem>
             </Menu>
         </StackPanel>
@@ -443,4 +455,4 @@
 
 
 
-</Window>
+</Page>
