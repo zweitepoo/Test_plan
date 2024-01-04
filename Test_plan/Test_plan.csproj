@@ -133,16 +133,25 @@
     <Compile Include="EnumTypes\NetType.cs" />
     <Compile Include="EnumTypes\ProjectSymbol.cs" />
     <Compile Include="EnumTypes\TBSymbol.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModel\HeaderToImageConverter.cs" />
+    <Compile Include="ViewModel\ResultsDisplay.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PythonOutput.xaml.cs">
+    <Compile Include="View\TestPlanPage.xaml.cs">
+      <DependentUpon>TestPlanPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PythonOutput.xaml.cs">
       <DependentUpon>PythonOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestResults.xaml.cs">
+    <Compile Include="View\TestResults.xaml.cs">
       <DependentUpon>TestResults.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestPlanPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,11 +159,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PythonOutput.xaml">
+    <Page Include="View\PythonOutput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestResults.xaml">
+    <Page Include="View\TestResults.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,6 +227,15 @@
   <ItemGroup>
     <Resource Include="Graphics\Run_Icon_64.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Graphics\Chart_Icon_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\File_64.png" />
+    <Resource Include="Graphics\Folder_64.png" />
+    <Resource Include="Graphics\Drive_64.png" />
+    <Content Include="html\testhtml.html" />
+    <Content Include="testhtml.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -21,14 +21,15 @@ namespace Test_plan
     /// <summary>
     /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TestPlanPage : Page
     {
         TestPlan castTestPlan;
         public OpenFileDialog openFileDialog = null;
-        public MainWindow()
+        MainWindow MainWindow;
+        public TestPlanPage(MainWindow mainWindow)
         {
-            InitializeComponent();
-            Startup.CreateLocalAppDirectory("TestPlanGenerator");
+            MainWindow = mainWindow;
+            InitializeComponent();            
             castTestPlan = this.Resources["testPlan"] as TestPlan;            
             TB_Selection.SelectedIndex = 0;
             set_Optix.IsChecked = true;
@@ -515,13 +516,17 @@ namespace Test_plan
 
         private void Menu_Close_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            
         }
 
         private void Menu_TestPlan_Open_Click(object sender, RoutedEventArgs e)
         {
             castTestPlan.DeserializeTestPlan();
             TestQueue.Items.Refresh();
+        }
+        private void Menu_Open_local_Directory_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Startup.LocalDirectory);
         }
 
         private void Menu_TestPlan_Save_Click(object sender, RoutedEventArgs e)
@@ -621,10 +626,10 @@ namespace Test_plan
 
         private void Menu_Results_Click(object sender, RoutedEventArgs e)
         {
-           
-            NavigationWindow navWIn = new NavigationWindow();
-            navWIn.Content = new TestResults();
-            navWIn.Show();           
+           MainWindow.NavigateTestResultPage();
+                    
         }
+
+       
     }
 }

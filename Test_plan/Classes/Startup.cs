@@ -9,14 +9,15 @@ namespace Test_plan
 {
     internal static class Startup
     {
+        public static string LocalDirectory { get; set; }
         public static void CreateLocalAppDirectory(string folderName)
         {
-            string localAppFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $"\\{folderName}";
-            if (Directory.Exists(localAppFolder))
+            LocalDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $"\\{folderName}";
+            if (Directory.Exists(LocalDirectory))
                 return;
             else
             {
-                Directory.CreateDirectory(localAppFolder);
+                Directory.CreateDirectory(LocalDirectory);
             }
         }
     }
