@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 
 namespace Test_plan
@@ -54,9 +55,7 @@ namespace Test_plan
                     // Set the header and path
                     Header = drive.ToString(),
                     Tag = drive,
-                };
-
-               
+                };              
 
                 item.Items.Add(null);
 
@@ -180,5 +179,44 @@ namespace Test_plan
             MainWindow.NavigateTestPlanPage();
         }
 
+        private void FolderView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            ResultFilesToDisplay.Items.Clear();
+            ItemNameDisplay.Clear();
+            var item = (TreeViewItem)FolderView.SelectedItem;
+            var fullPath = (string)item.Tag;
+
+            var isFolder = new FileInfo(fullPath).Attributes.HasFlag(FileAttributes.Directory);
+            if (!isFolder)
+                return;
+
+                var files = new List<string>();
+            try
+            {
+                var fileDirs = Directory.GetFiles(fullPath);
+
+                if (fileDirs.Length > 0)
+                    files.AddRange(fileDirs);
+            }
+            catch { }
+
+            
+            foreach ( var filePath in files)
+            {
+                var file = GetFileFolderName(filePath);
+                if (file.Contains(".html"))
+                {                    
+                    ResultFilesToDisplay.Items.Add(filePath);                    
+                }                    
+            }
+            
+        }
+
+        private void ResultFilesToDisplay_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ItemNameDisplay.Clear();
+            ItemNameDisplay.Text = ResultFilesToDisplay.SelectedItem.ToString();
+
+        }
     }
 }
