@@ -21,10 +21,7 @@ namespace Test_plan
         #region Constructor
         ResultsDisplay castResults;
         MainWindow MainWindow;
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="mainWindow"></param>
+       
         public TestResults(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
@@ -36,18 +33,15 @@ namespace Test_plan
             
 
         }
-        #endregion
+       
 
-        /// <summary>
-        /// When the application fisrt opens
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        #region On loaded
+       
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            if (FolderView.Items.Count>0)
+                return;
             //Get every logical drive
-          foreach(var drive in Directory.GetLogicalDrives())
+            foreach (var drive in Directory.GetLogicalDrives())
             {
                 // Create a new item for it
                 var item = new TreeViewItem()
@@ -181,8 +175,7 @@ namespace Test_plan
 
         private void FolderView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            ResultFilesToDisplay.Items.Clear();
-            ItemNameDisplay.Clear();
+            ResultFilesToDisplay.Items.Clear();           
             var item = (TreeViewItem)FolderView.SelectedItem;
             var fullPath = (string)item.Tag;
 
@@ -214,8 +207,11 @@ namespace Test_plan
 
         private void ResultFilesToDisplay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ItemNameDisplay.Clear();
-            ItemNameDisplay.Text = ResultFilesToDisplay.SelectedItem.ToString();
+            if (ResultFilesToDisplay.SelectedItem == null)
+                return;           
+            var addres = String.Format(@"file:///" + ResultFilesToDisplay.SelectedItem.ToString());
+            Browser.LoadUrl(addres);
+
 
         }
     }
