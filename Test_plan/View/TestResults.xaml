@@ -4,12 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Test_plan"
+      xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+      xmlns:cef="clr-namespace:CefSharp;assembly=CefSharp.Core"   
       mc:Ignorable="d" 
       Width="1750"
       Height="900"
       Loaded="Page_Loaded"
-      Foreground="#FF928B8B"
-      Background="#FF545353"
+      Foreground="#FF928B8B"      
+      Background="#FF414254"
       OpacityMask="Black"
       Title="TestResults">
 
@@ -18,53 +20,60 @@
         <local:FilePathToFileName x:Key="fileToPathConv"/>
     </Page.Resources>
 
-    <Grid DataContext="{StaticResource ResourceKey=results}">
-        <Button x:Name="NavigateTestPlan" Content="Go Back" Grid.Column="0" Grid.Row="0" Margin="5,5,5,5" Click="NavigateTestPlan_Click"/>
+    <Grid DataContext="{StaticResource ResourceKey=results}" Margin="10,0,0,0 ">
+        <Button x:Name="NavigateTestPlan" Content="Go Back" Grid.Column="0" Grid.Row="0" Margin="5,5,5,5" Click="NavigateTestPlan_Click" Foreground="#FFF1F1F1"  BorderBrush="#FFECBD1B">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="Red" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Stretch">
-
-
+            <TextBlock Text="File explorer" Padding="5" Background="white" Foreground="Black"/>
+            <!--File explorer-->
             <Border >
-            <TreeView x:Name="FolderView" Height="800" Width="280" SelectedItemChanged ="FolderView_SelectedItemChanged"  >
-                <TreeView.Resources>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="HeaderTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="20" Margin ="3"  
+                <TreeView x:Name="FolderView" Height="482" Width="280" SelectedItemChanged ="FolderView_SelectedItemChanged"  >
+                    <TreeView.Resources>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="20" Margin ="3"  
                                                Source="{Binding
                                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},
                                                         Path=Tag,                                                        
                                                         Converter={x:Static local:HeaderToImageConverter.Instance }   }"/>
-                                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </TreeView.Resources>  
-            </TreeView>
-            </Border>     
-
-        </StackPanel>
-
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>                
-            </Grid.ColumnDefinitions>
-               <TextBox x:Name="ItemNameDisplay" VerticalAlignment="top" Height="400" Margin="10,0,10,0"/>
-            <ListView x:Name="ResultFilesToDisplay" Grid.Column="1" Margin="10,0,10,0" SelectionChanged="ResultFilesToDisplay_SelectionChanged">
+                                            <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TreeView.Resources>
+                </TreeView>
+            </Border>
+            <!--Result files list view-->
+            <TextBlock Text="Result Files" Padding="5" Background="white" Foreground="black"/>
+            <Border Margin="0,0,0,0"  Width="280" Height="310">
+                <ListView x:Name="ResultFilesToDisplay"   SelectionChanged="ResultFilesToDisplay_SelectionChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Converter={StaticResource fileToPathConv}}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
-       
+               </ListView>
+            </Border>
+        </StackPanel>
 
-        
+        <!--Web browser -->
+        <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,1" Margin="10,10,10,10" Grid.RowSpan="2" VerticalAlignment="Stretch">
+            <wpf:ChromiumWebBrowser x:Name="Browser"
+                            Address="http://www.onet.pl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+            </wpf:ChromiumWebBrowser>
+        </Border>
 
 
         <Grid.ColumnDefinitions>
@@ -73,7 +82,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height ="10*"/>
+            <RowDefinition Height ="20*"/>
         </Grid.RowDefinitions>
 
     </Grid>
