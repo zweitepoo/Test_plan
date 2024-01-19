@@ -8,9 +8,9 @@ using System.Windows.Data;
 
 namespace Test_plan
 {
-    public class FilePathToFileName : IValueConverter
+    public class FilePathToFileNameConverter : IValueConverter
     {
-        public static FilePathToFileName Instance= new FilePathToFileName();
+        public static FilePathToFileNameConverter Instance= new FilePathToFileNameConverter();
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return FileFolderName.GetFileFolderName((string)value);
