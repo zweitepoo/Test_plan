@@ -147,10 +147,15 @@
     <Compile Include="EnumTypes\NetType.cs" />
     <Compile Include="EnumTypes\ProjectSymbol.cs" />
     <Compile Include="EnumTypes\TBSymbol.cs" />
+    <Compile Include="ViewModel\DirectoryObject.cs" />
+    <Compile Include="ViewModel\ExplorerObject.cs" />
     <Compile Include="ViewModel\FileFolderName.cs" />
-    <Compile Include="ViewModel\FilePathToFileName.cs" />
+    <Compile Include="ViewModel\FilePathToFileNameConverter.cs" />
+    <Compile Include="ViewModel\FileSystemBitMapImage.cs" />
     <Compile Include="ViewModel\HeaderToImageConverter.cs" />
     <Compile Include="ViewModel\ResultsDisplay.cs" />
+    <Compile Include="ViewModel\FileSystemTreeInfo.cs" />
+    <Compile Include="ViewModel\DriveObject.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

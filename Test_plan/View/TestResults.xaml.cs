@@ -20,24 +20,39 @@ namespace Test_plan
     {
         #region Constructor
         ResultsDisplay castResults;
+        FileSystemTreeInfo castFileExplorer;
         MainWindow MainWindow;
        
         public TestResults(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
-            InitializeComponent();          
+            InitializeComponent();
+            InitializeTreeview();
             castResults = this.Resources["results"] as ResultsDisplay;
+
+
             string curDir = Directory.GetCurrentDirectory(); 
             
-           // this.WeBrowserResults.Navigate(@"file://C:\8.Csharp\testhtml.html");
-            
-
         }
-       
 
-       
+        private void InitializeTreeview()
+        {
+            DriveObject
+                 .GetDrives()
+                 .ToList()
+                 .ForEach(drive =>
+                 {
+                     var fileSystemTreeObject = new FileSystemTreeInfo(drive);
+                     FileExplorerView.Items.Add(fileSystemTreeObject);
+
+                 });
+
+            
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+
             if (FolderView.Items.Count>0)
                 return;
             //Get every logical drive
