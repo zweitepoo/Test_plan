@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Test_plan
@@ -12,6 +13,7 @@ namespace Test_plan
         public string ObjectName { get;  set; }
         public Image ObjectIcon { get;   set; }
         public string  ObjectPath { get;  set; }
+        public FontWeight NameFontWeight { get; set; }
 
         public abstract Image SetIcon();
         

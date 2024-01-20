@@ -30,5 +30,12 @@ namespace Test_plan.ViewModel
             var image = new BitmapImage(new Uri($"pack://application:,,,/{imagePath}"));
             return image;
         }
+
+        public static BitmapImage GetHtmlFileImage()
+        {
+            var imagePath = @"Graphics/Html_64.png";
+            var image = new BitmapImage(new Uri($"pack://application:,,,/{imagePath}"));
+            return image;
+        }
     }
 }

@@ -76,6 +76,7 @@
 
             </wpf:ChromiumWebBrowser>
         </Border>
+        <!--test oop browser -->
         <Border Grid.Column="2" Grid.RowSpan="2" >
             <TreeView x:Name="FileExplorerView"  >
                 <TreeView.ItemContainerStyle>
@@ -88,7 +89,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Image Width="20" Margin ="3"  
                                Source="{Binding Path=FileSystemObject.ObjectIcon.Source}"/>  
-                            <TextBlock Text="{Binding Path=FileSystemObject.ObjectName}"></TextBlock>
+                            <TextBlock Text="{Binding Path=FileSystemObject.ObjectName}" FontWeight="{Binding Path=FileSystemObject.NameFontWeight}"></TextBlock>
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>

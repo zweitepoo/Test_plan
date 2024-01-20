@@ -13,7 +13,7 @@ namespace Test_plan
         public static FilePathToFileNameConverter Instance= new FilePathToFileNameConverter();
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return FileFolderName.GetFileFolderName((string)value);
+            return FileFolderInfo.GetFileFolderName((string)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

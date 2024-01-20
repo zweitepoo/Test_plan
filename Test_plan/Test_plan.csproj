@@ -149,10 +149,12 @@
     <Compile Include="EnumTypes\TBSymbol.cs" />
     <Compile Include="ViewModel\DirectoryObject.cs" />
     <Compile Include="ViewModel\ExplorerObject.cs" />
-    <Compile Include="ViewModel\FileFolderName.cs" />
+    <Compile Include="ViewModel\FileFolderInfo.cs" />
+    <Compile Include="ViewModel\FileObject.cs" />
     <Compile Include="ViewModel\FilePathToFileNameConverter.cs" />
     <Compile Include="ViewModel\FileSystemBitMapImage.cs" />
     <Compile Include="ViewModel\HeaderToImageConverter.cs" />
+    <Compile Include="ViewModel\HtmlFileObject.cs" />
     <Compile Include="ViewModel\ResultsDisplay.cs" />
     <Compile Include="ViewModel\FileSystemTreeInfo.cs" />
     <Compile Include="ViewModel\DriveObject.cs" />
@@ -255,6 +257,7 @@
     <Resource Include="Graphics\File_64.png" />
     <Resource Include="Graphics\Folder_64.png" />
     <Resource Include="Graphics\Drive_64.png" />
+    <Resource Include="Graphics\Html_64.png" />
     <Content Include="html\testhtml.html" />
     <Content Include="testhtml.html" />
   </ItemGroup>

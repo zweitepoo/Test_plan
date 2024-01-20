@@ -44,7 +44,6 @@ namespace Test_plan
                  {
                      var fileSystemTreeObject = new FileSystemTreeInfo(drive);
                      FileExplorerView.Items.Add(fileSystemTreeObject);
-
                  });
 
             
