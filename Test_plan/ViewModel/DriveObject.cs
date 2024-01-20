@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Test_plan;
@@ -18,6 +19,7 @@ namespace Test_plan
             this.ObjectName = drivePath;
             this.ObjectPath = drivePath;
             this.ObjectIcon = SetIcon();
+            this.NameFontWeight = FontWeights.Normal;
         }
         public override Image SetIcon()
         {

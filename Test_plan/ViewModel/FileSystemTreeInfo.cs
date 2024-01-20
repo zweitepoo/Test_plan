@@ -18,13 +18,13 @@ namespace Test_plan
         public ObservableCollection<FileSystemTreeInfo> Children {  get; set; } 
         
         public ExplorerObject FileSystemObject {  get; set; }
-        private bool iSExpanded;
-        public bool IsExpanded { get { return iSExpanded; } 
+        private bool isExpanded;
+        public bool IsExpanded { get { return isExpanded; } 
             set 
             {
-                if (iSExpanded != value)
+                if (isExpanded != value)
                 {
-                    iSExpanded = value;
+                    isExpanded = value;
                 }
                 OnPropertyChanged("IsExpanded");                        
             } 
@@ -34,8 +34,16 @@ namespace Test_plan
         {
             Children = new ObservableCollection<FileSystemTreeInfo>();
             FileSystemObject = objectData;
-            Children.Add(null);
+            InsertDummyObject();            
             PropertyChanged +=new PropertyChangedEventHandler(FileSystemTreeInfo_PropertyChanged);
+        }
+
+        private void InsertDummyObject()
+        {
+            if (FileSystemObject is DriveObject || FileSystemObject is  DirectoryObject)
+            {
+                Children.Add(null);
+            }
         }
 
         private void FileSystemTreeInfo_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -48,6 +56,33 @@ namespace Test_plan
                     {
                         Children.Clear();
                         ExploreDirectories();
+                        ExploreFiles();
+                    }
+                }
+            }
+        }
+
+        private void ExploreFiles()
+        {
+            if (FileSystemObject is (DriveObject or DirectoryObject))
+            {
+                var files = Directory.GetFiles(FileSystemObject.ObjectPath);
+                if(files.Length > 0)
+                {
+                    foreach (var file in files)
+                    {
+                        FileObject newFile;
+                        var fileExtension = FileFolderInfo.GetFileExtension(file);
+                        if (string.Equals(fileExtension, "html"))
+                        {
+                            newFile = new HtmlFileObject(file);
+                        }
+                        else
+                        {
+                            newFile = new FileObject(file);
+                        }
+                        
+                        Children.Add(new FileSystemTreeInfo(newFile));
                     }
                 }
             }
