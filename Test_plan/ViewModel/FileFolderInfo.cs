@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,5 +39,33 @@ namespace Test_plan
                                         .Substring(1);
             return shortExtension;
         }
+
+        public static bool IsHtmlFile(string filePath)
+        {
+            var fileExtension = GetFileExtension(filePath);
+            if (string.Equals(fileExtension, "html"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool IsDirectory(string path)
+        {
+            FileAttributes attr = File.GetAttributes(path);
+            if (attr.HasFlag(FileAttributes.Directory))
+                return true;
+            else
+                return false;
+        }
+        public static bool IsLogicalDrive(string path)
+        {
+            return (new DirectoryInfo(path).FullName == new DirectoryInfo(path).Root.FullName);
+        }
+       
+
     }
 }

@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Test_plan.ViewModel
 {
-    internal class HtmlFileObject : FileObject
+    public class HtmlFileObject : FileObject
     {
         public HtmlFileObject(string filePath) : base(filePath) 
         {

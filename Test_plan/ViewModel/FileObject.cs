@@ -12,7 +12,7 @@ using Test_plan.ViewModel;
 
 namespace Test_plan.ViewModel
 {
-    internal class FileObject : ExplorerObject
+    public class FileObject : ExplorerObject
     {
         public FileObject(string filePath)
         {
@@ -20,7 +20,7 @@ namespace Test_plan.ViewModel
             this.ObjectPath = filePath;
             this.ObjectIcon = SetIcon();
             this.NameFontWeight = ReturnFontWeight();
-    }
+        }
         public override Image SetIcon()
         {
             var image = new Image();
