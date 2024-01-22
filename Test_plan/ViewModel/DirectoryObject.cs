@@ -10,7 +10,7 @@ using Test_plan;
 
 namespace Test_plan.ViewModel
 {
-    internal class DirectoryObject : ExplorerObject
+    public class DirectoryObject : ExplorerObject
     {
         public DirectoryObject(string directoryPath)
         {

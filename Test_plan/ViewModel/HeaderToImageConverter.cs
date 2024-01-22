@@ -30,7 +30,7 @@ namespace Test_plan
             var path = (string)value;
             if (path == null) 
                 return null;
-            var name = TestResults.GetFileFolderName(path);
+            var name = FileFolderInfo.GetFileFolderName(path);
             var imagePath = @"Graphics/Drive_64.png";
 
             if (string.IsNullOrEmpty(name))

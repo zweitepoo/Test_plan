@@ -9,7 +9,7 @@
       mc:Ignorable="d" 
       Width="1750"
       Height="900"
-      Loaded="Page_Loaded"
+      
       Foreground="#FF928B8B"      
       Background="#FF414254"
       OpacityMask="Black"
@@ -33,26 +33,24 @@
         <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Stretch">
             <TextBlock Text="File explorer" Padding="5" Background="white" Foreground="Black"/>
             <!--File explorer-->
-            <Border >
-                <TreeView x:Name="FolderView" Height="482" Width="280" SelectedItemChanged ="FolderView_SelectedItemChanged"  >
-                    <TreeView.Resources>
+            <Border Height="500" >
+                <TreeView x:Name="FileExplorerView"  >
+                    <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="HeaderTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Width="20" Margin ="3"  
-                                               Source="{Binding
-                                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},
-                                                        Path=Tag,                                                        
-                                                        Converter={x:Static local:HeaderToImageConverter.Instance }   }"/>
-                                            <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type local:FileSystemTreeInfo}" ItemsSource="{Binding Path=Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Margin ="3"  
+                                         Source="{Binding Path=FileSystemObject.ObjectIcon.Source}"/>
+                                <TextBlock Text="{Binding Path=FileSystemObject.ObjectName}" FontWeight="{Binding Path=FileSystemObject.NameFontWeight}"></TextBlock>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
                     </TreeView.Resources>
+
                 </TreeView>
             </Border>
             <!--Result files list view-->
@@ -76,32 +74,13 @@
 
             </wpf:ChromiumWebBrowser>
         </Border>
-        <!--test oop browser -->
-        <Border Grid.Column="2" Grid.RowSpan="2" >
-            <TreeView x:Name="FileExplorerView"  >
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />                        
-                    </Style>
-                </TreeView.ItemContainerStyle>
-                <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type local:FileSystemTreeInfo}" ItemsSource="{Binding Path=Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="20" Margin ="3"  
-                               Source="{Binding Path=FileSystemObject.ObjectIcon.Source}"/>  
-                            <TextBlock Text="{Binding Path=FileSystemObject.ObjectName}" FontWeight="{Binding Path=FileSystemObject.NameFontWeight}"></TextBlock>
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.Resources>
-
-            </TreeView>
-        </Border>
+        
 
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="1*"/>
+            
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using Test_plan;
 using Test_plan.ViewModel;
@@ -18,6 +19,7 @@ namespace Test_plan
         public ObservableCollection<FileSystemTreeInfo> Children {  get; set; } 
         
         public ExplorerObject FileSystemObject {  get; set; }
+        
         private bool isExpanded;
         public bool IsExpanded { get { return isExpanded; } 
             set 
@@ -30,15 +32,30 @@ namespace Test_plan
             } 
         }
 
+        private bool isSelected;
+        public bool IsSelected { get { return isSelected; } 
+            set 
+            {
+                if (isSelected != value)
+                {
+                    isSelected = value;
+                }
+                OnPropertyChanged("IsSelected");                        
+            } 
+        }
+
         public  FileSystemTreeInfo(ExplorerObject objectData) 
         {
             Children = new ObservableCollection<FileSystemTreeInfo>();
             FileSystemObject = objectData;
-            InsertDummyObject();            
+            ChildrenInsertDummyObject();             
             PropertyChanged +=new PropertyChangedEventHandler(FileSystemTreeInfo_PropertyChanged);
         }
-
-        private void InsertDummyObject()
+        public string GetFileObjectPath()
+        {
+            return FileSystemObject.ObjectPath;
+        }
+        private void ChildrenInsertDummyObject()
         {
             if (FileSystemObject is DriveObject || FileSystemObject is  DirectoryObject)
             {
@@ -57,10 +74,18 @@ namespace Test_plan
                         Children.Clear();
                         ExploreDirectories();
                         ExploreFiles();
+                        
                     }
+                } 
+                else if  (string.Equals(e.PropertyName, "IsSelected", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    if (IsSelected == true)
+                    OnObjectSelected();
                 }
             }
         }
+
+      
 
         private void ExploreFiles()
         {
@@ -106,13 +131,7 @@ namespace Test_plan
             }
         }
 
-        public void AddNullItemToFileObjects() 
-        {
-            
-        }
-
-
-
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
@@ -123,5 +142,14 @@ namespace Test_plan
                 propertyChangedEvent(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public event RoutedEventHandler ObjectSelected;
+        private void OnObjectSelected()
+        {
+            if (ObjectSelected != null)
+                ObjectSelected(this, new RoutedEventArgs());
+        }
+
+        
     }
 }
