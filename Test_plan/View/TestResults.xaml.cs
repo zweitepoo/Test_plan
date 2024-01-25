@@ -39,14 +39,14 @@ namespace Test_plan
         private void InitializeResultFileView()
         {
             htmlFilesCollectionInfo = new HtmlFilesCollectionInfo();
+            ResultFilesToDisplay.ItemsSource = htmlFilesCollectionInfo.HtmlFiles;
         }
 
         private void FileExplorerView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var fileObject = (FileSystemTreeInfo)e.NewValue;
             var SelectedObjectPath = fileObject.GetFileObjectPath();
-            htmlFilesCollectionInfo.GenerateFileList(SelectedObjectPath);
-            
+            htmlFilesCollectionInfo.GenerateFileList(SelectedObjectPath);              
         }
 
         private void InitializeTreeview()
@@ -57,56 +57,75 @@ namespace Test_plan
                  .ForEach(drive =>
                  {
                      var fileSystemTreeObject = new FileSystemTreeInfo(drive);
-                     FileExplorerView.Items.Add(fileSystemTreeObject);                   
-                     
-                 });  
+                     FileExplorerView.Items.Add(fileSystemTreeObject);                     
+                 });
+            ExpandDefaultDirectory(FileExplorerView);
         }
 
-        
+        private void ExpandDefaultDirectory(TreeView fileTreeExplorerView)
+        {
+            string path = GetWorkingDirectory();
+            if (String.IsNullOrEmpty(path))
+                return;
+            foreach(var item in fileTreeExplorerView.Items)
+            {
+                var fileObject = item as FileSystemTreeInfo;
+                var fileObjectPath = fileObject.GetFileObjectPath();
+                if (path.Contains(fileObjectPath))
+                {
+                    fileObject.IsExpanded = true;
+                    if (path.Equals(fileObjectPath))
+                    {
+                        fileObject.IsSelected = true;
+                        return;
+                    }
+                    ExpandDefaultDirectory(fileObject, path);
+                    return;
+                }
+            }
+        }
+
+        private void ExpandDefaultDirectory(FileSystemTreeInfo parentObject, string path)
+        {
+            foreach (var fileObject in parentObject.Children)
+            {                
+                var fileObjectPath = fileObject.GetFileObjectPath();
+                if (path.Contains(fileObjectPath))
+                {
+                    fileObject.IsExpanded = true;
+                    if (path.Equals(fileObjectPath))
+                    {
+                        fileObject.IsSelected = true;
+                        return;
+                    }
+                    ExpandDefaultDirectory(fileObject, path);
+                    return;
+                }
+            }
+        }
+
+        private string GetWorkingDirectory()
+        {
+            return @"C:\";
+        }
 
         private void NavigateTestPlan_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.NavigateTestPlanPage();
         }
 
-        private void FolderView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            //ResultFilesToDisplay.Items.Clear();           
-            //var item = (TreeViewItem)FolderView.SelectedItem;
-            //var fullPath = (string)item.Tag;
-
-            //var isFolder = new FileInfo(fullPath).Attributes.HasFlag(FileAttributes.Directory);
-            //if (!isFolder)
-            //    return;
-
-            //    var files = new List<string>();
-            //try
-            //{
-            //    var fileDirs = Directory.GetFiles(fullPath);
-
-            //    if (fileDirs.Length > 0)
-            //        files.AddRange(fileDirs);
-            //}
-            //catch { }
-
-            
-            //foreach ( var filePath in files)
-            //{
-            //    var file = GetFileFolderName(filePath);
-            //    if (file.Contains(".html"))
-            //    {                    
-            //        ResultFilesToDisplay.Items.Add(filePath);                    
-            //    }                    
-            //}
-            
-        }
-
         private void ResultFilesToDisplay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ResultFilesToDisplay.SelectedItem == null)
-                return;           
-            var addres = String.Format(@"file:///" + ResultFilesToDisplay.SelectedItem.ToString());
+                return;
+            var htmlFile = (ExplorerObject)ResultFilesToDisplay.SelectedItem;
+            var addres = String.Format(@"file:///" + htmlFile.ObjectPath);
             Browser.LoadUrl(addres);
+        }
+
+        private void SetDeafaultDirectory_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

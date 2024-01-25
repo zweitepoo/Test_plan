@@ -149,7 +149,6 @@ namespace Test_plan
             if (ObjectSelected != null)
                 ObjectSelected(this, new RoutedEventArgs());
         }
-
-        
+ 
     }
 }

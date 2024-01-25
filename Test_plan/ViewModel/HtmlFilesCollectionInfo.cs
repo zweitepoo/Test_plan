@@ -70,14 +70,22 @@ namespace Test_plan.ViewModel
 
         private void AddChildrenDirectoriesFiles(string path)
         {
-            var directories = Directory.GetDirectories(path);
-            if (directories.Length > 0)
+            try
             {
-                foreach (var dir in directories)
+                var directories = Directory.GetDirectories(path);
+                if (directories.Length > 0)
                 {
-                    AddDirectoryHtmlFiles(dir);
+                    foreach (var dir in directories)
+                    {
+                        AddDirectoryHtmlFiles(dir);
+                    }
                 }
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return;
+            }
+
         }
         private void AddDirectoryHtmlFiles(string path)
         {

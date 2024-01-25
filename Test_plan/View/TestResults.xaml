@@ -31,7 +31,18 @@
             </Button.Background>
         </Button>
         <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Stretch">
-            <TextBlock Text="File explorer" Padding="5" Background="white" Foreground="Black"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="File explorer" Padding="5" Background="white" Foreground="Black" Width="180"/>
+                <Button x:Name="SetDeafaultDirectory" Content="Set default folder" Click="SetDeafaultDirectory_Click"  Foreground="#FFF1F1F1"  BorderBrush="#FFECBD1B" Width="110">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="Red" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            
             <!--File explorer-->
             <Border Height="500" >
                 <TreeView x:Name="FileExplorerView"  >
@@ -47,6 +58,7 @@
                                 <Image Width="20" Margin ="3"  
                                          Source="{Binding Path=FileSystemObject.ObjectIcon.Source}"/>
                                 <TextBlock Text="{Binding Path=FileSystemObject.ObjectName}" FontWeight="{Binding Path=FileSystemObject.NameFontWeight}"></TextBlock>
+                                
                             </StackPanel>
                         </HierarchicalDataTemplate>
                     </TreeView.Resources>
@@ -55,11 +67,14 @@
             </Border>
             <!--Result files list view-->
             <TextBlock Text="Result Files" Padding="5" Background="white" Foreground="black"/>
-            <Border Margin="0,0,0,0"  Width="280" Height="310">
-                <ListView x:Name="ResultFilesToDisplay"   SelectionChanged="ResultFilesToDisplay_SelectionChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>                          
-                        <TextBlock Text="{Binding Converter={StaticResource fileToPathConv}}"/>  
+            <Border  Margin="0,0,0,0"  Width="280" Height="310">
+                <ListView ItemsSource="{Binding}"   x:Name="ResultFilesToDisplay"   SelectionChanged="ResultFilesToDisplay_SelectionChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                    <ListView.ItemTemplate >
+                        <DataTemplate DataType="{x:Type local:ExplorerObject}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Margin ="3" Source="{Binding ObjectIcon.Source}"/>
+                                <TextBlock Text="{Binding ObjectName}"/>
+                            </StackPanel>                            
                     </DataTemplate>
                 </ListView.ItemTemplate>
                </ListView>
@@ -69,10 +84,7 @@
 
         <!--Web browser -->
         <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,1" Margin="10,10,10,10" Grid.RowSpan="2" VerticalAlignment="Stretch">
-            <wpf:ChromiumWebBrowser x:Name="Browser"
-                            Address="http://www.onet.pl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-            </wpf:ChromiumWebBrowser>
+            <wpf:ChromiumWebBrowser x:Name="Browser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Border>
         
 
