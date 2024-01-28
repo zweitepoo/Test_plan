@@ -21,6 +21,7 @@ namespace Test_plan.Classes
         public string PythonExeFilePath { get; private set; }
         public string PythonScriptsFolderPath { get; private set; }
         public string PythonScriptFilePath { get; private set; }
+        public string AddaBypass { get; private set; }
         public bool isDerserializeDone { get; private set; }
 
 
@@ -68,6 +69,10 @@ namespace Test_plan.Classes
                         ActiveProject = ProjectSymbol.Optix;
                     else
                         ActiveProject = userData.ActiveProject;
+                    if (String.IsNullOrEmpty(userData.AddaBypass))
+                        AddaBypass = "0";
+                    else
+                        AddaBypass = userData.AddaBypass;
 
                     PythonExeFilePath = userData.PythonExeFilePath;
                     PythonScriptFilePath = userData.PythonScriptFilePath;

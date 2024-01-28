@@ -23,12 +23,13 @@ namespace Test_plan
         private string flashWithPreviousBuild;
         private string ignoreFlashFault;
         private string databaseSQL;
+        private string addaBypass;
         public string JSONtext { get { return GenerateJSONtext(); } private set { } }
       //  private string testPlanJson;
 
         public TestPlan2JSON (Collection<TestRun> testRunSequence, TBSymbol testBed, ProjectSymbol activeProject,
                                  string buildNumber, string controllerBuild, string flashWithPreviousBuild,
-                                 string ignoreFlashFault, string databaseSQL)
+                                 string ignoreFlashFault, string databaseSQL,string addaBypass)
         {
             this.testRunSequence = testRunSequence;
             this.testBed = testBed;
@@ -37,7 +38,8 @@ namespace Test_plan
             this.controllerBuild = controllerBuild;
             this.flashWithPreviousBuild = flashWithPreviousBuild;
             this.ignoreFlashFault = ignoreFlashFault;
-            this.databaseSQL = databaseSQL;            
+            this.databaseSQL = databaseSQL;  
+            this.addaBypass = addaBypass;
         }
 
         private string GenerateJSONtext()
@@ -57,6 +59,9 @@ namespace Test_plan
                   "controller_build_version": {{controllerBuild}},
                   "flash_with_previous_build": {{flashWithPreviousBuild}},
                   "ignore_flash_fault": {{ignoreFlashFault}},
+                  "test_flags": {
+                            "ADDA_Bypass": {{addaBypass}}
+                            },
                   "database": "{{databaseSQL}}"
                   },
                   """ + Environment.NewLine;
