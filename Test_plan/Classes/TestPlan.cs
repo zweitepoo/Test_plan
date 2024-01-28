@@ -38,6 +38,7 @@ namespace Test_plan
         public string FlashWithPreviousBuild { get;  set; }
         public string IgnoreFlashFault { get;  set; }
         public string DatabaseSQL { get; set; }
+        public string AddaBypass { get; set; }
         public ProjectSymbol ActiveProject { get; set; }
 
         public TestCaseManager testCaseManger;
@@ -383,6 +384,16 @@ namespace Test_plan
             OnPropertyChanged("IgnoreFlashFault");
 
         }
+
+        public void UpdateAddaBypass(bool setTrue)
+        {
+            if (setTrue)
+                AddaBypass = "1";
+            else
+                AddaBypass = "0";
+            OnPropertyChanged("AddaBypass");
+
+        }
         //Serialize Test case lists
         public void SerializeTestCasesList()
         {
@@ -526,6 +537,7 @@ namespace Test_plan
                 ControllerBuildText = userDataImporter.ControllerBuildText;
                 FlashWithPreviousBuild = userDataImporter.FlashWithPreviousBuild;
                 IgnoreFlashFault = userDataImporter.IgnoreFlashFault;
+                AddaBypass = userDataImporter.AddaBypass;
                 DatabaseSQL = userDataImporter.DatabaseSQL;                
                 pythonRun.UpdatePaths(userDataImporter.PythonExeFilePath, userDataImporter.PythonScriptsFolderPath, userDataImporter.PythonScriptFilePath);
                 ActiveProject = userDataImporter.ActiveProject;
@@ -579,7 +591,7 @@ namespace Test_plan
         public void GenerateJSON()
         {
             testPlan2JSON = new TestPlan2JSON(TestRunSequence, TestbedSelected, ActiveProject, BuildNumberText, ControllerBuildText,
-                                              FlashWithPreviousBuild, IgnoreFlashFault, DatabaseSQL);
+                                              FlashWithPreviousBuild, IgnoreFlashFault, DatabaseSQL, AddaBypass);
             TestPlanJSON = testPlan2JSON.JSONtext;
             OnPropertyChanged("TestPlanJSON");
             SaveUserData();

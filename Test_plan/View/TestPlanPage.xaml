@@ -359,12 +359,18 @@
                     <StackPanel Orientation="Horizontal" Margin=" 0,5,0,0">
                         <TextBlock Text="Ignore flash fault" FontSize="14" Foreground="#FFF5F1F1"  VerticalAlignment="Center"/>
                         <RadioButton x:Name="set_ignoreFlash" GroupName="IgnoreFlashFault" Content="Yes" Height="30" Margin="58,0,0,0"  VerticalAlignment="Top" Width="101" Foreground="#FFF9F9F9"  Checked="set_ignoreFlash_Checked"/>
-                        <RadioButton x:Name="res_ignoreFlash" GroupName="IgnoreFlashFault" Content="No" Height="30" Margin="0,0,0,0"  VerticalAlignment="Top" Width="84" Foreground="#FFF9F9F9"  Checked="res_ignoreFlash_Checked"
-/>
+                        <RadioButton x:Name="res_ignoreFlash" GroupName="IgnoreFlashFault" Content="No" Height="30" Margin="0,0,0,0"  VerticalAlignment="Top" Width="84" Foreground="#FFF9F9F9"  Checked="res_ignoreFlash_Checked"/>
+                        
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin=" 0,5,0,0">
                         <TextBlock Text="Database" FontSize="14" Foreground="#FFF5F1F1"  VerticalAlignment="Center"/>
                         <TextBox Width="219" Margin="103,0,0,0" Text="{Binding DatabaseSQL, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"  Margin=" 0,5,0,0">
+                        <TextBlock Text="Adda bypass" FontSize="14" Foreground="#FFF5F1F1"  VerticalAlignment="Center"/>
+                        <RadioButton x:Name="set_addaBypass" GroupName="AddaBypassGroup" Content="Yes" Height="30" Margin="83,0,0,0"  VerticalAlignment="Center" Width="101" Foreground="#FFF9F9F9"  Checked="set_addaBypass_Checked"/>
+                        <RadioButton x:Name="res_addaBypass" GroupName="AddaBypassGroup" Content="No" Height="30" Margin="0,0,0,0"  VerticalAlignment="Center" Width="84" Foreground="#FFF9F9F9"  Checked="res_addaBypass_Checked"/>
+
                     </StackPanel>
 
 

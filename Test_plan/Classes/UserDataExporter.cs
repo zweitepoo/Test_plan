@@ -20,6 +20,7 @@ namespace Test_plan
         public string PythonExeFilePath { get; private set; }
         public string PythonScriptsFolderPath { get; private set; }
         public string PythonScriptFilePath { get; private set; }
+        public string AddaBypass {  get; private set; }
         
          
 
@@ -38,6 +39,8 @@ namespace Test_plan
             PythonExeFilePath = userData.PythonExeFilePath;
             PythonScriptsFolderPath = userData.PythonScriptsFolderPath;
             PythonScriptFilePath = userData.PythonScriptFilePath;
+            AddaBypass = userData.AddaBypass;
+            
             if (!Directory.Exists(userDataFolderPath))
                 Directory.CreateDirectory(userDataFolderPath);
 

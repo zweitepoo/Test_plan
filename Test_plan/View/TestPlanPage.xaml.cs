@@ -34,7 +34,8 @@ namespace Test_plan
             TB_Selection.SelectedIndex = 0;
             set_Optix.IsChecked = true;
             set_prevFlash.IsChecked = true;
-            res_ignoreFlash.IsChecked = true;               
+            res_ignoreFlash.IsChecked = true;
+            res_addaBypass.IsChecked = true;
             castTestPlan.LoadUserData();
             UpdateRadioButtons();
             castTestPlan.LoadTestCasesList();
@@ -52,10 +53,18 @@ namespace Test_plan
                 set_prevFlash.IsChecked= true;
             else if (castTestPlan.FlashWithPreviousBuild == "0")
                 res_prevFlash.IsChecked= true;
-            if (castTestPlan.IgnoreFlashFault== "1")
-                set_ignoreFlash.IsChecked= true;
-            else if (castTestPlan.IgnoreFlashFault== "0")
-                res_ignoreFlash.IsChecked= true;
+
+            if (castTestPlan.IgnoreFlashFault == "1")
+                set_ignoreFlash.IsChecked = true;
+            else if (castTestPlan.IgnoreFlashFault == "0")
+                res_ignoreFlash.IsChecked = true;
+
+            if (castTestPlan.AddaBypass == "1")            
+                set_addaBypass.IsChecked = true;  
+            else if (castTestPlan.AddaBypass == "0")
+                res_addaBypass.IsChecked = true;
+            
+                
         }
 
         // Insert new testrun in testqueue
@@ -630,6 +639,14 @@ namespace Test_plan
                     
         }
 
-       
+        private void set_addaBypass_Checked(object sender, RoutedEventArgs e)
+        {
+            castTestPlan.UpdateAddaBypass(true);
+        }
+
+        private void res_addaBypass_Checked(object sender, RoutedEventArgs e)
+        {
+            castTestPlan.UpdateAddaBypass(false);
+        }
     }
 }
