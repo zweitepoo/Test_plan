@@ -10,6 +10,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using Test_plan.ViewModel;
+using YamlDotNet;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 
 
@@ -25,16 +28,27 @@ namespace Test_plan
         FileSystemTreeInfo castFileExplorer;
         MainWindow MainWindow;
         HtmlFilesCollectionInfo htmlFilesCollectionInfo;
+        PathSaveButton PathSaveButton;
+        public string yamlText {  get; set; }
        
         public TestResults(MainWindow mainWindow)
         {
-            MainWindow = mainWindow;
+            MainWindow = mainWindow;            
             InitializeComponent();
             InitializeTreeview();
             InitializeResultFileView();
-            FileExplorerView.SelectedItemChanged += FileExplorerView_SelectedItemChanged;
-            castResults = this.Resources["results"] as ResultsDisplay;
-            string curDir = Directory.GetCurrentDirectory();             
+            InitializeSaveButton();
+            
+            DefaultPathDisplay.Text = Startup.LocalDirectory;
+            
+          //  castResults = this.Resources["results"] as ResultsDisplay;
+          //  string curDir = Directory.GetCurrentDirectory();             
+        }
+
+        private void InitializeSaveButton()
+        {
+            PathSaveButton = new PathSaveButton(SetDeafaultDirectory, "Set default folder");
+            FileExplorerView.SelectedItemChanged += PathSaveButton.TreeView_SelectedItemChanged;
         }
 
         private void InitializeResultFileView()
@@ -52,6 +66,7 @@ namespace Test_plan
 
         private void InitializeTreeview()
         {
+            FileExplorerView.SelectedItemChanged += FileExplorerView_SelectedItemChanged;
             DriveObject
                  .GetDrives()
                  .ToList()
@@ -107,7 +122,16 @@ namespace Test_plan
 
         private string GetWorkingDirectory()
         {
-            return @"C:\";
+            using(StreamReader sr = new StreamReader(Startup.LocalDirectory + "\\Paths.yaml"))
+            {
+                yamlText = sr.ReadToEnd();
+            }
+            var deserializer = new DeserializerBuilder()
+                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                 .Build();
+            var dDict = deserializer.Deserialize<Dictionary<string, string>>(yamlText);
+            System.Console.WriteLine(dDict["ResultWorkingDirectory"]);
+            return dDict["ResultWorkingDirectory"];
         }
 
         private void NavigateTestPlan_Click(object sender, RoutedEventArgs e)
@@ -126,7 +150,19 @@ namespace Test_plan
 
         private void SetDeafaultDirectory_Click(object sender, RoutedEventArgs e)
         {
-
+            Dictionary<string,string> dict = new Dictionary<string, string>() 
+            {
+                {"ResultWorkingDirectory", PathSaveButton.SelectedPath }
+                
+            };
+            var serializer = new SerializerBuilder()
+                               .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                               .Build();
+            var yaml = serializer.Serialize(dict);
+            using (StreamWriter sw = new StreamWriter(Startup.LocalDirectory + "\\Paths.yaml"))
+            {
+                sw.Write(yaml);
+            }
         }
     }
 }

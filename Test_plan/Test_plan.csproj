@@ -163,6 +163,7 @@
     <Compile Include="ViewModel\ResultsDisplay.cs" />
     <Compile Include="ViewModel\FileSystemTreeInfo.cs" />
     <Compile Include="ViewModel\DriveObject.cs" />
+    <Compile Include="ViewModel\PathSaveButton.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
