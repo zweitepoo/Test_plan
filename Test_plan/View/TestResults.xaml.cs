@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -39,7 +40,7 @@ namespace Test_plan
             InitializeResultFileView();
             InitializeSaveButton();
             
-            DefaultPathDisplay.Text = Startup.LocalDirectory;
+            
             
           //  castResults = this.Resources["results"] as ResultsDisplay;
           //  string curDir = Directory.GetCurrentDirectory();             
@@ -122,16 +123,24 @@ namespace Test_plan
 
         private string GetWorkingDirectory()
         {
-            using(StreamReader sr = new StreamReader(Startup.LocalDirectory + "\\Paths.yaml"))
+            if (File.Exists(Startup.LocalDirectory + "\\Paths.yaml"))
             {
-                yamlText = sr.ReadToEnd();
+                using (StreamReader sr = new StreamReader(Startup.LocalDirectory + "\\Paths.yaml"))
+                {
+                    yamlText = sr.ReadToEnd();
+                }
+                var deserializer = new DeserializerBuilder()
+                     .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                     .Build();
+                var dDict = deserializer.Deserialize<Dictionary<string, string>>(yamlText);
+                System.Console.WriteLine(dDict["ResultWorkingDirectory"]);
+                DefaultPathDisplay.Text = dDict["ResultWorkingDirectory"];
+                return dDict["ResultWorkingDirectory"];
             }
-            var deserializer = new DeserializerBuilder()
-                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                 .Build();
-            var dDict = deserializer.Deserialize<Dictionary<string, string>>(yamlText);
-            System.Console.WriteLine(dDict["ResultWorkingDirectory"]);
-            return dDict["ResultWorkingDirectory"];
+            else
+                return String.Empty; 
+            
+           
         }
 
         private void NavigateTestPlan_Click(object sender, RoutedEventArgs e)
@@ -155,6 +164,7 @@ namespace Test_plan
                 {"ResultWorkingDirectory", PathSaveButton.SelectedPath }
                 
             };
+            DefaultPathDisplay.Text=PathSaveButton.SelectedPath;
             var serializer = new SerializerBuilder()
                                .WithNamingConvention(CamelCaseNamingConvention.Instance)
                                .Build();
