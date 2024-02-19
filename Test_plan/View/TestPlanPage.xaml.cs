@@ -28,7 +28,7 @@ namespace Test_plan
         MainWindow MainWindow;
         public TestPlanPage(MainWindow mainWindow)
         {
-            MainWindow = mainWindow;
+            MainWindow = mainWindow;            
             InitializeComponent();            
             castTestPlan = this.Resources["testPlan"] as TestPlan;            
             TB_Selection.SelectedIndex = 0;
@@ -647,6 +647,11 @@ namespace Test_plan
         private void res_addaBypass_Checked(object sender, RoutedEventArgs e)
         {
             castTestPlan.UpdateAddaBypass(false);
+        }
+
+        private void Menu_QTest_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.NavigateQTestPage();
         }
     }
 }

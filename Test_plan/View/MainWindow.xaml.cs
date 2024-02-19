@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Test_plan;
 
 namespace Test_plan
 {
@@ -19,14 +20,16 @@ namespace Test_plan
     /// </summary>
     public partial class MainWindow : Window
     {
-        Page TestPlanPage;
-        Page TestResultPage;
+       public Page TestPlanPage;
+       public  Page TestResultPage;
+       public Page QTestPage;
         public MainWindow()
         {
             InitializeComponent();
             Startup.CreateLocalAppDirectory("TestPlanGenerator");
             this.TestPlanPage = new TestPlanPage(this);
             this.TestResultPage = new TestResults(this);
+            this.QTestPage = new QTest(this);
 
             NavigateTestPlanPage();
         }
@@ -39,6 +42,10 @@ namespace Test_plan
         public void NavigateTestResultPage()
         {
             Main.Content = this.TestResultPage;
+        }
+        public void NavigateQTestPage()
+        {
+            Main.Content = this.QTestPage;
         }
     }
 }

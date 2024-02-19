@@ -18,7 +18,7 @@
     <Page.Resources>
         <local:ResultsDisplay x:Key="results"/>
         <local:FilePathToFileNameConverter x:Key="fileToPathConv"/>
-              
+
     </Page.Resources>
 
     <Grid DataContext="{StaticResource ResourceKey=results}" Margin="10,0,0,0 ">
@@ -41,12 +41,12 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-               
+
             </StackPanel>
             <TextBlock  x:Name="DefaultPathDisplay" Margin="0,2,0,2" Padding="5" Background="white" Foreground="Black" HorizontalAlignment="Stretch"/>
 
             <!--File explorer-->
-            <Border Height="500" >
+            <Border Height="391" >
                 <TreeView x:Name="FileExplorerView"  >
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
@@ -60,7 +60,7 @@
                                 <Image Width="20" Margin ="3"  
                                          Source="{Binding Path=FileSystemObject.ObjectIcon.Source}"/>
                                 <TextBlock Text="{Binding Path=FileSystemObject.ObjectName}" FontWeight="{Binding Path=FileSystemObject.NameFontWeight}"></TextBlock>
-                                
+
                             </StackPanel>
                         </HierarchicalDataTemplate>
                     </TreeView.Resources>
@@ -69,32 +69,32 @@
             </Border>
             <!--Result files list view-->
             <TextBlock Text="Result Files" Padding="5" Background="white" Foreground="black"/>
-            <Border  Margin="0,0,0,0"  Width="280" Height="310">
-                <ListView ItemsSource="{Binding}"   x:Name="ResultFilesToDisplay"   SelectionChanged="ResultFilesToDisplay_SelectionChanged" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+            <Border  Margin="0,0,0,0"  Width="290" Height="384">
+                <ListView ItemsSource="{Binding}" Margin="0,0,0,20"  x:Name="ResultFilesToDisplay"   SelectionChanged="ResultFilesToDisplay_SelectionChanged" >
                     <ListView.ItemTemplate >
                         <DataTemplate DataType="{x:Type local:ExplorerObject}">
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="20" Margin ="3" Source="{Binding ObjectIcon.Source}"/>
-                                <TextBlock Text="{Binding ObjectName}"/>
-                            </StackPanel>                            
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-               </ListView>
+                                <Image Width="10" Margin ="3" Source="{Binding ObjectIcon.Source}"/>
+                                <TextBlock Text="{Binding ObjectName}" TextWrapping="WrapWithOverflow"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Border>
         </StackPanel>
-        
+
 
         <!--Web browser -->
         <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,1" Margin="10,10,10,10" Grid.RowSpan="2" VerticalAlignment="Stretch">
             <wpf:ChromiumWebBrowser x:Name="Browser" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Border>
-        
+
 
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="5*"/>
-            
+
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
