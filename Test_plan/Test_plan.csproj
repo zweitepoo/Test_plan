@@ -127,45 +127,48 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Controller.cs" />
-    <Compile Include="Classes\Exceptions\ImportCSVException.cs" />
-    <Compile Include="Classes\Exceptions\NoDataForControllerException.cs" />
-    <Compile Include="Classes\PythonRun.cs" />
-    <Compile Include="Classes\Startup.cs" />
-    <Compile Include="Classes\TestbedConfiguration.cs" />
-    <Compile Include="Classes\TestbedInfo.cs" />
-    <Compile Include="Classes\TestCase.cs" />
-    <Compile Include="Classes\TestCaseManager.cs" />
-    <Compile Include="Classes\TestCaseSearch.cs" />
-    <Compile Include="Classes\TestCasesListCSV.cs" />
-    <Compile Include="Classes\TestPlan.cs" />
-    <Compile Include="Classes\TestPlan2JSON.cs" />
-    <Compile Include="Classes\TestRunCSVReadable.cs" />
-    <Compile Include="Classes\TestRunSeqCSV.cs" />
-    <Compile Include="Classes\TestRun.cs" />
-    <Compile Include="Classes\UserDataExporter.cs" />
-    <Compile Include="Classes\UserDataImporter.cs" />
+    <Compile Include="TestPlan_Classes\Controller.cs" />
+    <Compile Include="TestPlan_Classes\Exceptions\ImportCSVException.cs" />
+    <Compile Include="TestPlan_Classes\Exceptions\NoDataForControllerException.cs" />
+    <Compile Include="TestPlan_Classes\PythonRun.cs" />
+    <Compile Include="TestPlan_Classes\Startup.cs" />
+    <Compile Include="TestPlan_Classes\TestbedConfiguration.cs" />
+    <Compile Include="TestPlan_Classes\TestbedInfo.cs" />
+    <Compile Include="TestPlan_Classes\TestCase.cs" />
+    <Compile Include="TestPlan_Classes\TestCaseManager.cs" />
+    <Compile Include="TestPlan_Classes\TestCaseSearch.cs" />
+    <Compile Include="TestPlan_Classes\TestCasesListCSV.cs" />
+    <Compile Include="TestPlan_Classes\TestPlan.cs" />
+    <Compile Include="TestPlan_Classes\TestPlan2JSON.cs" />
+    <Compile Include="TestPlan_Classes\TestRunCSVReadable.cs" />
+    <Compile Include="TestPlan_Classes\TestRunSeqCSV.cs" />
+    <Compile Include="TestPlan_Classes\TestRun.cs" />
+    <Compile Include="TestPlan_Classes\UserDataExporter.cs" />
+    <Compile Include="TestPlan_Classes\UserDataImporter.cs" />
     <Compile Include="EnumTypes\ControllerCodeName.cs" />
     <Compile Include="EnumTypes\ControllerFamilyType.cs" />
     <Compile Include="EnumTypes\NetType.cs" />
     <Compile Include="EnumTypes\ProjectSymbol.cs" />
     <Compile Include="EnumTypes\TBSymbol.cs" />
-    <Compile Include="ViewModel\DirectoryNamedHtmlFile.cs" />
-    <Compile Include="ViewModel\DirectoryObject.cs" />
-    <Compile Include="ViewModel\ExplorerObject.cs" />
-    <Compile Include="ViewModel\FileFolderInfo.cs" />
-    <Compile Include="ViewModel\FileObject.cs" />
-    <Compile Include="ViewModel\FilePathToFileNameConverter.cs" />
-    <Compile Include="ViewModel\FileSystemBitMapImage.cs" />
-    <Compile Include="ViewModel\HeaderToImageConverter.cs" />
-    <Compile Include="ViewModel\HtmlFileObject.cs" />
-    <Compile Include="ViewModel\HtmlFilesCollectionInfo.cs" />
-    <Compile Include="ViewModel\ResultsDisplay.cs" />
-    <Compile Include="ViewModel\FileSystemTreeInfo.cs" />
-    <Compile Include="ViewModel\DriveObject.cs" />
-    <Compile Include="ViewModel\PathSaveButton.cs" />
+    <Compile Include="Results_Classes\DirectoryNamedHtmlFile.cs" />
+    <Compile Include="Results_Classes\DirectoryObject.cs" />
+    <Compile Include="Results_Classes\ExplorerObject.cs" />
+    <Compile Include="Results_Classes\FileFolderInfo.cs" />
+    <Compile Include="Results_Classes\FileObject.cs" />
+    <Compile Include="Results_Classes\FilePathToFileNameConverter.cs" />
+    <Compile Include="Results_Classes\FileSystemBitMapImage.cs" />
+    <Compile Include="Results_Classes\HeaderToImageConverter.cs" />
+    <Compile Include="Results_Classes\HtmlFileObject.cs" />
+    <Compile Include="Results_Classes\HtmlFilesCollectionInfo.cs" />
+    <Compile Include="Results_Classes\ResultsDisplay.cs" />
+    <Compile Include="Results_Classes\FileSystemTreeInfo.cs" />
+    <Compile Include="Results_Classes\DriveObject.cs" />
+    <Compile Include="Results_Classes\PathSaveButton.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\QTest.xaml.cs">
+      <DependentUpon>QTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestPlanPage.xaml.cs">
       <DependentUpon>TestPlanPage.xaml</DependentUpon>
@@ -177,6 +180,10 @@
       <DependentUpon>TestResults.xaml</DependentUpon>
     </Compile>
     <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\QTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

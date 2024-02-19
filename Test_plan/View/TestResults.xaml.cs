@@ -62,7 +62,8 @@ namespace Test_plan
         {
             var fileObject = (FileSystemTreeInfo)e.NewValue;
             var SelectedObjectPath = fileObject.GetFileObjectPath();
-            htmlFilesCollectionInfo.GenerateFileList(SelectedObjectPath);              
+            htmlFilesCollectionInfo.GenerateFileList(SelectedObjectPath);  
+          
         }
 
         private void InitializeTreeview()

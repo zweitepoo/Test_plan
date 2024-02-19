@@ -113,6 +113,11 @@
                         <Image Source="pack://application:,,,/Graphics/Chart_Icon_64.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem  x:Name="Menu_QTest" Click="Menu_QTest_Click"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Graphics/Chart_Icon_64.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </Menu>
         </StackPanel>
 
