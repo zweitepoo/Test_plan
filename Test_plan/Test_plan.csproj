@@ -127,6 +127,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interfaces\ITestRunData.cs" />
+    <Compile Include="QTest_Classes\QTestInputTestRun.cs" />
     <Compile Include="TestPlan_Classes\Controller.cs" />
     <Compile Include="TestPlan_Classes\Exceptions\ImportCSVException.cs" />
     <Compile Include="TestPlan_Classes\Exceptions\NoDataForControllerException.cs" />

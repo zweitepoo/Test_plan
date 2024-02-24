@@ -12,7 +12,7 @@ namespace Test_plan
     public class TestCase
     {
        
-        public int TestCaseNumber { get; private  set; }
+        public int TestCaseNumber { get;   set; }
         
         public string TestName { get; private set; }
        
