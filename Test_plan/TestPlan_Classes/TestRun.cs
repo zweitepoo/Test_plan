@@ -5,20 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.ComponentModel;
+using Test_plan.Interfaces;
 
 
 
 namespace Test_plan
 {
     [Serializable]
-    public class TestRun : TestCase, INotifyPropertyChanged
+    public class TestRun : TestCase, INotifyPropertyChanged, ITestRunData
     {
 
        
-        public int TestRunNumber { get;private set; }
+        public int TestRunNumber { get; set; }
 
         public string ControllersNames { get { return ControllersNamesGen(); }private set { } }
 
+        public string DisplayName { get { return ToString(); } set { } }
        
         public TBSymbol TestbedSymbol { get; set; }
        
@@ -34,13 +36,6 @@ namespace Test_plan
         public Controller Slot_CLX2 { get; private set; }
         public Controller Slot_CLX3 { get; private set; }
         public Controller Slot_CLX4 { get; private set; }
-
-
-
-
-
-
-
 
 
 
@@ -92,6 +87,8 @@ namespace Test_plan
         {
             return TestbedSymbol +"_"+  TestName  + ControllersNamesGen();
         }
+
+
 
         //To do - Returns Controllers names for testname string
         public string ControllersNamesGen()
