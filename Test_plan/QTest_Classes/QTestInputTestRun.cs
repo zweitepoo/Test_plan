@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Test_plan.Interfaces;
+using Test_plan.QTest_Classes;
 
-namespace Test_plan.QTest_Classes
+namespace Test_plan
 {
-    internal class QTestInputTestRun : ITestRunData
+    public class QTestInputTestRun : PropertyNotifier, ITestRunData
     {
         public int TestRunNumber { get ; set ; }
         public int TestCaseNumber { get ; set; }
@@ -30,6 +31,11 @@ namespace Test_plan.QTest_Classes
             return DisplayName;
         }
 
+        public void SetAllowTestRunChange()
+        {
+            AllowTestRunNrChange = true;
+            OnPropertyChanged("AllowTestRunNrChange");            
+        }
 
     }
 }

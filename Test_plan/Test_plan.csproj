@@ -128,7 +128,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Interfaces\ITestRunData.cs" />
+    <Compile Include="QTest_Classes\Log.cs" />
+    <Compile Include="QTest_Classes\PropertyNotifier.cs" />
     <Compile Include="QTest_Classes\QTestInputTestRun.cs" />
+    <Compile Include="QTest_Classes\QTestObjects\QTestCase.cs" />
+    <Compile Include="QTest_Classes\QTestObjects\QTestCycle.cs" />
+    <Compile Include="QTest_Classes\QTestObjects\QTestRelease.cs" />
+    <Compile Include="QTest_Classes\QTestObjects\QTestRun.cs" />
+    <Compile Include="QTest_Classes\QTestObjects\QTestSuite.cs" />
+    <Compile Include="QTest_Classes\QTestObjects\QTestSystemObject.cs" />
+    <Compile Include="QTest_Classes\QTestSystemTreeInfo.cs" />
+    <Compile Include="QTest_Classes\TestDataForQTest.cs" />
     <Compile Include="TestPlan_Classes\Controller.cs" />
     <Compile Include="TestPlan_Classes\Exceptions\ImportCSVException.cs" />
     <Compile Include="TestPlan_Classes\Exceptions\NoDataForControllerException.cs" />

@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using Test_plan.Interfaces;
 using Test_plan.QTest_Classes;
 
+
 namespace Test_plan
 {
     /// <summary>
@@ -27,6 +28,7 @@ namespace Test_plan
         MainWindow MainWindow;
         ObservableCollection<QTestInputTestRun> QTestList;
         TestPlan testPlan;
+        TestDataForQTest testDataForQTest;
         public QTest(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
@@ -35,8 +37,16 @@ namespace Test_plan
 
             InitializeComponent();
             InitializeDataGrid();
+            InitializeLog();
 
         }
+
+        private void InitializeLog()
+        {
+            Log.SetOutputTextBox(LogField);
+            Log.Info("Logger Initialize");
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             CreateQTestInputList();
@@ -44,17 +54,17 @@ namespace Test_plan
 
         private void CreateQTestInputList()
         {
-            QTestList.Clear();
+            testDataForQTest.Clear();
             foreach (ITestRunData testRun in testPlan.TestRunSequence)
             {
-                QTestList.Add(new QTestInputTestRun(testRun));
+                testDataForQTest.AddTest(new QTestInputTestRun(testRun));
             }
         }
 
         private void InitializeDataGrid()
         {
-            
-            TestsGrid.ItemsSource = QTestList;
+            testDataForQTest = new TestDataForQTest();
+            TestsGrid.ItemsSource = testDataForQTest.GetTestList();
 
         }
 
@@ -62,6 +72,11 @@ namespace Test_plan
         {
             MainWindow.NavigateTestPlanPage();
         }
-        
+
+        private void CheckAllTests_Click(object sender, RoutedEventArgs e)
+        {
+            testDataForQTest.SetAllTestsInQTest();
+            Log.Info("All tests run from a list set for a new test run number assign");
+        }
     }
 }
