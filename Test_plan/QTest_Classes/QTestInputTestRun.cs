@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Test_plan.Interfaces;
-using Test_plan.QTest_Classes;
+using Test_plan;
 
 namespace Test_plan
 {

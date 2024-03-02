@@ -63,7 +63,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
             <Border Height="652" BorderThickness="2" Padding="1">
-                <TreeView x:Name="FileExplorerView"  >
+                <TreeView x:Name="QTestExplorerView"  >
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -71,10 +71,10 @@
                         </Style>
                     </TreeView.ItemContainerStyle>
                     <TreeView.Resources>
-                        <HierarchicalDataTemplate DataType="{x:Type local:FileSystemTreeInfo}" ItemsSource="{Binding Path=Children}">
+                        <HierarchicalDataTemplate DataType="{x:Type local:QTestSystemTreeInfo}" ItemsSource="{Binding Path=Children}">
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="20" Margin ="3"  Source="{Binding Path=FileSystemObject.ObjectIcon.Source}"/>
-                                <TextBlock Text="{Binding Path=FileSystemObject.ObjectName}" FontWeight="{Binding Path=FileSystemObject.NameFontWeight}"></TextBlock>
+                                <Image Width="20" Margin ="3"  Source="{Binding Path=QTestObject.ObjectIcon.Source}"/>
+                                <TextBlock Text="{Binding Path=QTestObject.Name}" ></TextBlock>
 
                             </StackPanel>
                         </HierarchicalDataTemplate>

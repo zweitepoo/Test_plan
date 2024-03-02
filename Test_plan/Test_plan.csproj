@@ -82,29 +82,38 @@
     <Reference Include="CsvHelper, Version=30.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.30.0.1\lib\net47\CsvHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.HashCode.1.0.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.0\lib\netstandard2.0\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Text.Encodings.Web, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.8.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=8.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.8.0.2\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -130,15 +139,21 @@
     <Compile Include="Interfaces\ITestRunData.cs" />
     <Compile Include="QTest_Classes\Log.cs" />
     <Compile Include="QTest_Classes\PropertyNotifier.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestClient.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGet.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGetObject.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGetReleases.cs" />
     <Compile Include="QTest_Classes\QTestInputTestRun.cs" />
-    <Compile Include="QTest_Classes\QTestObjects\QTestCase.cs" />
-    <Compile Include="QTest_Classes\QTestObjects\QTestCycle.cs" />
-    <Compile Include="QTest_Classes\QTestObjects\QTestRelease.cs" />
-    <Compile Include="QTest_Classes\QTestObjects\QTestRun.cs" />
-    <Compile Include="QTest_Classes\QTestObjects\QTestSuite.cs" />
-    <Compile Include="QTest_Classes\QTestObjects\QTestSystemObject.cs" />
+    <Compile Include="QTest_Classes\QTestProjectIdMap.cs" />
+    <Compile Include="QTest_Classes\QTestTreeObjects\QTestCaseTreeObject.cs" />
+    <Compile Include="QTest_Classes\QTestTreeObjects\QTestCycleTreeObject.cs" />
+    <Compile Include="QTest_Classes\QTestTreeObjects\QTestReleaseTreeObject.cs" />
+    <Compile Include="QTest_Classes\QTestTreeObjects\QTestRunTreeObject.cs" />
+    <Compile Include="QTest_Classes\QTestTreeObjects\QTestSuiteTreeObject.cs" />
+    <Compile Include="QTest_Classes\QTestTreeObjects\QTestTreeObject.cs" />
+    <Compile Include="QTest_Classes\QTestSystemBitMapImage.cs" />
     <Compile Include="QTest_Classes\QTestSystemTreeInfo.cs" />
-    <Compile Include="QTest_Classes\TestDataForQTest.cs" />
+    <Compile Include="QTest_Classes\TestPlanDataForQTest.cs" />
     <Compile Include="TestPlan_Classes\Controller.cs" />
     <Compile Include="TestPlan_Classes\Exceptions\ImportCSVException.cs" />
     <Compile Include="TestPlan_Classes\Exceptions\NoDataForControllerException.cs" />
@@ -283,6 +298,11 @@
     <Resource Include="Graphics\Folder_64.png" />
     <Resource Include="Graphics\Drive_64.png" />
     <Resource Include="Graphics\Html_64.png" />
+    <Resource Include="Graphics\QTestCycle.png" />
+    <Resource Include="Graphics\QTestRelease.png" />
+    <Resource Include="Graphics\QTestSuite.png" />
+    <Resource Include="Graphics\QTestRun.png" />
+    <Resource Include="Graphics\QTestCase.png" />
     <Content Include="html\testhtml.html" />
     <Content Include="testhtml.html" />
   </ItemGroup>

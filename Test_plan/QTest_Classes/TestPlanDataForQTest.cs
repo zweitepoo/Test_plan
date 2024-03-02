@@ -7,20 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Test_plan.Interfaces;
 
-namespace Test_plan.QTest_Classes
+namespace Test_plan
 {
    
-    public class TestDataForQTest : PropertyNotifier
+    public class TestPlanDataForQTest : PropertyNotifier
     {
         public ObservableCollection<QTestInputTestRun> QTestList { get; set; }
         
-        public TestDataForQTest()
+        public int ProjectId { get; private set; }
+        public TestPlanDataForQTest()
         {
             QTestList = new ObservableCollection<QTestInputTestRun>();
+            
         }
         public void AddTest(ITestRunData testRun)
         {
             QTestList.Add(new QTestInputTestRun(testRun));
+           
         }
         public void Clear()
         {
@@ -38,6 +41,10 @@ namespace Test_plan.QTest_Classes
             {
                 test.SetAllowTestRunChange();                
             }
+        }
+        public void SetQTestProjectId(int projectId) 
+        {
+            ProjectId = projectId;
         }
     }
 }

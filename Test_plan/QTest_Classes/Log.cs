@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Test_plan.QTest_Classes
+namespace Test_plan
 {
    public static class Log
     {

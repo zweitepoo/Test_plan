@@ -28,7 +28,15 @@ namespace Test_plan
         MainWindow MainWindow;
         ObservableCollection<QTestInputTestRun> QTestList;
         TestPlan testPlan;
-        TestDataForQTest testDataForQTest;
+        TestPlanDataForQTest testDataForQTest;
+        QTestClient qTestClient;
+        QTestGetReleases QTestGetReleases;       
+
+        #region TestsObjects
+        QTestGetReleases Test_GetReleasesInstance;
+        List<QTestGetObject> Test_Releases;
+        #endregion
+
         public QTest(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
@@ -38,7 +46,51 @@ namespace Test_plan
             InitializeComponent();
             InitializeDataGrid();
             InitializeLog();
+            
+            InitializeTreeView();
 
+            
+           // RunTests();
+
+        }
+
+       
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            CreateQTestInputList();
+            InitializeQTestClient();
+            InitializeQTestCalls();
+            ReloadTreeView();
+
+        }
+
+        private void ReloadTreeView()
+        {
+            QTestExplorerView.Items.Clear();
+            var qtestTreeViewItems = QTestReleaseTreeObject.GetReleases(QTestGetReleases);
+            qtestTreeViewItems.ForEach(item =>
+            {
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item));
+            });
+            
+        }
+
+        private void InitializeQTestCalls()
+        {
+            QTestGetReleases = new QTestGetReleases(qTestClient.Client, testDataForQTest.ProjectId);
+        }
+
+        private void InitializeQTestClient()
+        {
+            qTestClient = new QTestClient("https://ra.qtestnet.com/");
+            qTestClient.SetBearerToken("Bearer 3b63fc6c-fd1e-48a9-bafe-0900ea9fe8e3");
+        }
+
+        private void InitializeTreeView()
+        {
+            
+            
         }
 
         private void InitializeLog()
@@ -47,13 +99,11 @@ namespace Test_plan
             Log.Info("Logger Initialize");
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            CreateQTestInputList();
-        }
-
         private void CreateQTestInputList()
         {
+            var qTestProjectId = QTestProjectIdMap.GetProjectId(testPlan.ActiveProject);
+            testDataForQTest.SetQTestProjectId(qTestProjectId);
+
             testDataForQTest.Clear();
             foreach (ITestRunData testRun in testPlan.TestRunSequence)
             {
@@ -63,7 +113,8 @@ namespace Test_plan
 
         private void InitializeDataGrid()
         {
-            testDataForQTest = new TestDataForQTest();
+            
+            testDataForQTest = new TestPlanDataForQTest();
             TestsGrid.ItemsSource = testDataForQTest.GetTestList();
 
         }
@@ -78,5 +129,24 @@ namespace Test_plan
             testDataForQTest.SetAllTestsInQTest();
             Log.Info("All tests run from a list set for a new test run number assign");
         }
+
+
+        #region tests
+        private void RunTests()
+        {
+            Test_GetReleases();
+        }
+        private void Test_GetReleases()
+        {
+            Test_GetReleasesInstance = new QTestGetReleases(qTestClient.Client, testDataForQTest.ProjectId);
+            Test_Releases = new List<QTestGetObject>();
+            var testRelease = Test_GetReleasesInstance.GetResponse();
+            foreach (QTestGetObject testObject in testRelease)
+            {
+                Console.WriteLine(testObject.Pid + " "+ testObject.Name+ " "+ testObject.Id);
+            }
+        }
+
+        #endregion
     }
 }

@@ -5,14 +5,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Test_plan.ViewModel;
 
-namespace Test_plan.QTest_Classes
+namespace Test_plan
 {
     internal class QTestSystemTreeInfo : PropertyNotifier
     {
         public ObservableCollection<QTestSystemTreeInfo> Children { get; set; }
-        public QTestSystemObject QTestObject { get; set; }
+        public QTestTreeObject QTestObject { get; set; }
         private bool isExpanded;
         public bool IsExpanded
         {
@@ -40,8 +41,19 @@ namespace Test_plan.QTest_Classes
             }
         }
 
+        public bool IsQtestCollectionObject {
+            get
+            {
+                if (QTestObject is QTestReleaseTreeObject || QTestObject is QTestCycleTreeObject)
+                {
+                    return true;
+                }
+                else return false;
+            }
+            set { } }
 
-        public QTestSystemTreeInfo(QTestSystemObject objectData)
+
+        public QTestSystemTreeInfo(QTestTreeObject objectData)
         {
             Children = new ObservableCollection<QTestSystemTreeInfo>();
             QTestObject = objectData;
@@ -50,10 +62,50 @@ namespace Test_plan.QTest_Classes
         }
         private void ChildrenInsertDummyObject()
         {
-            if (QTestObject is DriveObject || QTestObject is DirectoryObject)
+            if (IsQtestCollectionObject)
             {
                 Children.Add(null);
             }
+        }
+
+
+        private void FileSystemTreeInfo_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (IsQtestCollectionObject)
+            {
+                if (string.Equals(e.PropertyName, "IsExpanded", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    if (IsExpanded)
+                    {
+                        Children.Clear();
+                        ExploreDirectories();
+                        ExploreTestSuites();
+
+                    }
+                }
+                else if (string.Equals(e.PropertyName, "IsSelected", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    if (IsSelected == true)
+                        OnObjectSelected();
+                }
+            }
+        }
+
+        private void ExploreTestSuites()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ExploreDirectories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public event RoutedEventHandler ObjectSelected;
+        private void OnObjectSelected()
+        {
+            if (ObjectSelected != null)
+                ObjectSelected(this, new RoutedEventArgs());
         }
     }
 }
