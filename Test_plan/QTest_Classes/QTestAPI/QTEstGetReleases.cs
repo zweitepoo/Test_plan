@@ -21,9 +21,9 @@ namespace Test_plan
             this.HttpClient = httpClient;
             this.ProjectId = projectId;
         }
-        public override string ErrorMessageHeader() 
+        public override string MessageHeader() 
         {
-            return "QTest Get Releases ";
+            return "QTest get releases ";
         }
     }
 }

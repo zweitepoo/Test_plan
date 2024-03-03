@@ -23,5 +23,17 @@ namespace Test_plan
             image.Source = FileSystemBitMapImage.GetTestRunImage();
             return image;
         }
+
+        public static List<QTestRunTreeObject> GetRuns(QTestGetRuns apiGetRuns)
+        {
+            List<QTestRunTreeObject> qtestRuns = new List<QTestRunTreeObject>();
+            var runs = apiGetRuns.GetResponse();
+
+            foreach (var run in runs)
+            {
+                qtestRuns.Add(new QTestRunTreeObject(run.Name, run.Pid, run.Id));
+            }
+            return qtestRuns;
+        }
     }
 }

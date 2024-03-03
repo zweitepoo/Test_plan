@@ -23,5 +23,17 @@ namespace Test_plan
             image.Source = FileSystemBitMapImage.GetCycleImage();
             return image;
         }
+
+        public static List<QTestCycleTreeObject> GetCycles(QTestGetCycles apiGetCycles)
+        {
+            List<QTestCycleTreeObject> qtestCycles = new List<QTestCycleTreeObject>();
+            var cycles = apiGetCycles.GetResponse();
+
+            foreach (var cycle in cycles)
+            {
+                qtestCycles.Add(new QTestCycleTreeObject(cycle.Name, cycle.Pid, cycle.Id));
+            }
+            return qtestCycles;
+        }
     }
 }

@@ -30,7 +30,9 @@ namespace Test_plan
         TestPlan testPlan;
         TestPlanDataForQTest testDataForQTest;
         QTestClient qTestClient;
-        QTestGetReleases QTestGetReleases;       
+        QTestGetReleases QTestGetReleases; 
+        QTestGetCycles QTestGetCycles;
+        QTestGetSuites QTestGetSuites;
 
         #region TestsObjects
         QTestGetReleases Test_GetReleasesInstance;
@@ -68,17 +70,31 @@ namespace Test_plan
         private void ReloadTreeView()
         {
             QTestExplorerView.Items.Clear();
-            var qtestTreeViewItems = QTestReleaseTreeObject.GetReleases(QTestGetReleases);
-            qtestTreeViewItems.ForEach(item =>
+            var qtestReleasesTreeObjects = QTestReleaseTreeObject.GetReleases(QTestGetReleases);
+            qtestReleasesTreeObjects.ForEach(item =>
             {
-                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item));
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId));
             });
-            
+
+            var qtestCyclesTreeObjects = QTestCycleTreeObject.GetCycles(QTestGetCycles);
+            qtestCyclesTreeObjects.ForEach(item =>
+            {
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId));
+            });
+
+            var qtestSuitesTreeObjects = QTestSuiteTreeObject.GetSuites(QTestGetSuites);
+            qtestSuitesTreeObjects.ForEach(item =>
+            {
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId));
+            });
+
         }
 
         private void InitializeQTestCalls()
         {
             QTestGetReleases = new QTestGetReleases(qTestClient.Client, testDataForQTest.ProjectId);
+            QTestGetCycles = new QTestGetCycles(qTestClient.Client, testDataForQTest.ProjectId,0,QTestParentType.Root);
+            QTestGetSuites = new QTestGetSuites(qTestClient.Client, testDataForQTest.ProjectId, 0, QTestParentType.Root);
         }
 
         private void InitializeQTestClient()

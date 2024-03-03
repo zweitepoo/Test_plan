@@ -23,6 +23,18 @@ namespace Test_plan
             image.Source = FileSystemBitMapImage.GetTestSuiteImage();
             return image;
         }
+
+        public static List<QTestSuiteTreeObject> GetSuites(QTestGetSuites apiGetSuites)
+        {
+            List<QTestSuiteTreeObject> qtestSuites = new List<QTestSuiteTreeObject>();
+            var suites = apiGetSuites.GetResponse();
+
+            foreach (var suite in suites)
+            {
+                qtestSuites.Add(new QTestSuiteTreeObject(suite.Name, suite.Pid, suite.Id));
+            }
+            return qtestSuites;
+        }
     }
 
 

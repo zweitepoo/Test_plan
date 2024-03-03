@@ -18,7 +18,7 @@ namespace Test_plan
 
         public  HttpClient HttpClient;
         public int ProjectId { get; set; }
-        public abstract string ErrorMessageHeader();
+        public abstract string MessageHeader();
         public virtual List<QTestGetObject> GetResponse()
         {
             List<QTestGetObject> tempList = new List<QTestGetObject>();
@@ -46,11 +46,12 @@ namespace Test_plan
             var result = HttpClient.GetAsync(URL).Result;
             if (result.IsSuccessStatusCode)
             {
-               getResult = result.Content.ReadAsStringAsync().Result;
+                Log.Info(MessageHeader() + " succesful code: " + result.StatusCode.ToString());
+                getResult = result.Content.ReadAsStringAsync().Result;
             }
             else
             {
-                Log.Info( ErrorMessageHeader() + " error status code" + result.StatusCode.ToString());
+                Log.Info( MessageHeader() + " error status code" + result.StatusCode.ToString());
                 getResult = null;
             }
             return getResult;

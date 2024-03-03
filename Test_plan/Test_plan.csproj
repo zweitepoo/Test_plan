@@ -139,9 +139,14 @@
     <Compile Include="Interfaces\ITestRunData.cs" />
     <Compile Include="QTest_Classes\Log.cs" />
     <Compile Include="QTest_Classes\PropertyNotifier.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGetItems.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGetRuns.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestParentType.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestClient.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGet.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGetSuites.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetObject.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGetCycles.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetReleases.cs" />
     <Compile Include="QTest_Classes\QTestInputTestRun.cs" />
     <Compile Include="QTest_Classes\QTestProjectIdMap.cs" />
