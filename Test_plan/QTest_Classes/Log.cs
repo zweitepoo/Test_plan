@@ -10,8 +10,8 @@ namespace Test_plan
 {
    public static class Log
     {
-        public static TextBlock OutputTextBox;
-        public static void SetOutputTextBox(TextBlock textBox) 
+        public static TextBox OutputTextBox;
+        public static void SetOutputTextBox(TextBox textBox) 
         {
             if (textBox == null)
             {

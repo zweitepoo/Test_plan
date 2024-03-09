@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Test_plan.Interfaces;
 using Test_plan.QTest_Classes;
+using Test_plan.View;
 
 
 namespace Test_plan
@@ -33,10 +34,16 @@ namespace Test_plan
         QTestGetReleases QTestGetReleases; 
         QTestGetCycles QTestGetCycles;
         QTestGetSuites QTestGetSuites;
+        PopUpNewObject PopUpNewCycle;
+        PopUpNewObject PopUpNewSuite;
+        NewTestObject NewTestCycleWindow;
+        NewTestObject NewTestSuiteWindow;
 
         #region TestsObjects
         QTestGetReleases Test_GetReleasesInstance;
         List<QTestGetObject> Test_Releases;
+
+       
         #endregion
 
         public QTest(MainWindow mainWindow)
@@ -63,9 +70,12 @@ namespace Test_plan
             CreateQTestInputList();
             InitializeQTestClient();
             InitializeQTestCalls();
+            InitializeQtestPopUps();
             ReloadTreeView();
 
         }
+
+       
 
         private void ReloadTreeView()
         {
@@ -88,6 +98,12 @@ namespace Test_plan
                 QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId));
             });
 
+        }
+        private void InitializeQtestPopUps()
+        {
+           
+
+            
         }
 
         private void InitializeQTestCalls()
@@ -164,5 +180,66 @@ namespace Test_plan
         }
 
         #endregion
+
+        private async  void btNewTestCycle_Click(object sender, RoutedEventArgs e)
+        {
+
+            PopUpNewCycle = new PopUpNewObject();
+            PopUpNewCycle.SetMessage("Enter test cycle name");
+            NewTestCycleWindow = new NewTestObject(PopUpNewCycle);
+            NewTestCycleWindow.Closed += NewTestCycleWindow.ExitHandler;
+            NewTestCycleWindow.Show();
+            try
+            {
+                if (await NewTestCycleWindow.NameSetAsync())
+                {
+                   NewTestCycleWindow.Close();
+                    //Set logic
+                }
+                else
+                {                    
+                    NewTestCycleWindow.Close();
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.Info("New test cycle  - " + ex.Message);
+                NewTestCycleWindow.Close();
+            }
+              
+
+
+        }
+
+        private async void btNewTestSuite_Click(object sender, RoutedEventArgs e)
+        {
+            PopUpNewSuite = new PopUpNewObject();
+            PopUpNewSuite.SetMessage("Enter test suite name");
+            NewTestSuiteWindow = new NewTestObject(PopUpNewSuite);
+            NewTestSuiteWindow.Closed += NewTestSuiteWindow.ExitHandler;
+            NewTestSuiteWindow.Show();
+            try
+            {
+                if (await NewTestSuiteWindow.NameSetAsync())
+                {
+                    NewTestSuiteWindow.Close();
+                    //Set logic
+                }
+                else
+                {
+                    NewTestSuiteWindow.Close();
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.Info("New test suite  - " + ex.Message);
+                NewTestSuiteWindow.Close();
+            }
+        }
+
+        private void LogField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LogField.ScrollToEnd();
+        }
     }
 }

@@ -28,7 +28,7 @@
 
         <StackPanel Grid.Row="1" Margin="2">
             <Grid Height="50">
-                <Button Grid.ColumnSpan="3" Margin="0,0,146,0" >
+                <Button x:Name="btNewTestCycle" Grid.ColumnSpan="3" Margin="0,0,146,0"  Content="New Test Cycle" Foreground="#FFF1F1F1" FontSize="20" Click="btNewTestCycle_Click">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black"/>
@@ -36,7 +36,7 @@
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,145,0"  >
+                <Button x:Name="btNewTestSuite" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,145,0"  Content="New Test Suite" Foreground="#FFF1F1F1" FontSize="20" Click="btNewTestSuite_Click" >
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black"/>
@@ -74,8 +74,7 @@
                         <HierarchicalDataTemplate DataType="{x:Type local:QTestSystemTreeInfo}" ItemsSource="{Binding Path=Children}">
                             <StackPanel Orientation="Horizontal">
                                 <Image Width="20" Margin ="3"  Source="{Binding Path=QTestObject.ObjectIcon.Source}"/>
-                                <TextBlock Text="{Binding Path=QTestObject.Name}" ></TextBlock>
-
+                                <TextBlock Text="{Binding Path=QTestObject.Name}" ></TextBlock>                               
                             </StackPanel>
                         </HierarchicalDataTemplate>
                     </TreeView.Resources>
@@ -175,9 +174,11 @@
         
         
         <Border Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="2" Padding="3">
-            <TextBlock x:Name="LogField" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White" TextWrapping="Wrap">
+           
+            <TextBox x:Name="LogField" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White" TextWrapping="Wrap" TextChanged="LogField_TextChanged" >
 
-            </TextBlock>
+            </TextBox>
+           
         </Border>
 
 

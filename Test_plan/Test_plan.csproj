@@ -138,6 +138,7 @@
     </ApplicationDefinition>
     <Compile Include="Interfaces\ITestRunData.cs" />
     <Compile Include="QTest_Classes\Log.cs" />
+    <Compile Include="QTest_Classes\PopUpNewSuite.cs" />
     <Compile Include="QTest_Classes\PropertyNotifier.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetItems.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetRuns.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="QTest_Classes\QTestAPI\QTestGetCycles.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetReleases.cs" />
     <Compile Include="QTest_Classes\QTestInputTestRun.cs" />
+    <Compile Include="QTest_Classes\PopUpNewObject.cs" />
     <Compile Include="QTest_Classes\QTestProjectIdMap.cs" />
     <Compile Include="QTest_Classes\QTestTreeObjects\QTestCaseTreeObject.cs" />
     <Compile Include="QTest_Classes\QTestTreeObjects\QTestCycleTreeObject.cs" />
@@ -199,6 +201,9 @@
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\NewTestObject.xaml.cs">
+      <DependentUpon>NewTestObject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\QTest.xaml.cs">
       <DependentUpon>QTest.xaml</DependentUpon>
     </Compile>
@@ -212,6 +217,10 @@
       <DependentUpon>TestResults.xaml</DependentUpon>
     </Compile>
     <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NewTestObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
