@@ -138,6 +138,7 @@
     </ApplicationDefinition>
     <Compile Include="Interfaces\ITestRunData.cs" />
     <Compile Include="QTest_Classes\Log.cs" />
+    <Compile Include="QTest_Classes\PopUpNewCycle.cs" />
     <Compile Include="QTest_Classes\PopUpNewSuite.cs" />
     <Compile Include="QTest_Classes\PropertyNotifier.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetItems.cs" />
@@ -149,6 +150,11 @@
     <Compile Include="QTest_Classes\QTestAPI\QTestGetObject.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetCycles.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetReleases.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestPost.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestDelete.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestPostObject.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestPostCycle.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestPostSuite.cs" />
     <Compile Include="QTest_Classes\QTestInputTestRun.cs" />
     <Compile Include="QTest_Classes\PopUpNewObject.cs" />
     <Compile Include="QTest_Classes\QTestProjectIdMap.cs" />

@@ -22,14 +22,16 @@ namespace Test_plan.View
     {
 
        
-        public PopUpNewObject PopUpNewObject { get; set; }
-        TaskCompletionSource<bool> tcs1;        
-        public NewTestObject(PopUpNewObject popUpNewObject)
+        //public PopUpNewObject PopUpNewObject { get; set; }
+        TaskCompletionSource<bool> tcs1;   
+        public string ObjectName {  get;private set; }
+        public NewTestObject(string popUpMessage)
         {
             InitializeComponent();
-            
-            this.PopUpNewObject = popUpNewObject;
-            tbSetValueHeader.Text = PopUpNewObject.MessageText;  
+
+            //this.PopUpNewObject = popUpNewObject;
+            // tbSetValueHeader.Text = PopUpNewObject.MessageText;
+            tbSetValueHeader.Text = popUpMessage;
 
         }
 
@@ -46,7 +48,7 @@ namespace Test_plan.View
             }
             else
             {
-                PopUpNewObject.SetObjectName(tbObjectName.Text);
+                ObjectName= tbObjectName.Text;
                 tbObjectName.Text = string.Empty;
                 tcs1.SetResult(true);
             }
@@ -58,7 +60,7 @@ namespace Test_plan.View
 
         public void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            PopUpNewObject.ClearName();
+           
             tcs1.SetResult(false);
 
         }
@@ -67,7 +69,7 @@ namespace Test_plan.View
 
         internal void ExitHandler(object sender, EventArgs e)
         {
-            PopUpNewObject.ClearName();
+           
             if (!tcs1.Task.IsCompleted)
             {
                 tcs1.SetException(new InvalidOperationException("New object operation cancelled"));

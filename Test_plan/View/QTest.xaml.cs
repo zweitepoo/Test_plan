@@ -34,10 +34,11 @@ namespace Test_plan
         QTestGetReleases QTestGetReleases; 
         QTestGetCycles QTestGetCycles;
         QTestGetSuites QTestGetSuites;
-        PopUpNewObject PopUpNewCycle;
-        PopUpNewObject PopUpNewSuite;
-        NewTestObject NewTestCycleWindow;
-        NewTestObject NewTestSuiteWindow;
+        PopUpNewCycle PopUpNewCycle;
+        PopUpNewSuite PopUpNewSuite;
+        QTestSystemTreeInfo QTestExplorerObject;
+       
+
 
         #region TestsObjects
         QTestGetReleases Test_GetReleasesInstance;
@@ -54,9 +55,9 @@ namespace Test_plan
 
             InitializeComponent();
             InitializeDataGrid();
-            InitializeLog();
-            
+            InitializeLog();            
             InitializeTreeView();
+            InitializeButtons();
 
             
            // RunTests();
@@ -69,8 +70,7 @@ namespace Test_plan
         {
             CreateQTestInputList();
             InitializeQTestClient();
-            InitializeQTestCalls();
-            InitializeQtestPopUps();
+            InitializeQTestCalls();            
             ReloadTreeView();
 
         }
@@ -99,36 +99,39 @@ namespace Test_plan
             });
 
         }
-        private void InitializeQtestPopUps()
+        private void InitializeButtons()
         {
-           
-
-            
+            btNewTestSuite.IsEnabled = false;
+            btNewTestCycle.IsEnabled = false;
+            btDeleteObject.IsEnabled = false;
         }
-
         private void InitializeQTestCalls()
         {
             QTestGetReleases = new QTestGetReleases(qTestClient.Client, testDataForQTest.ProjectId);
             QTestGetCycles = new QTestGetCycles(qTestClient.Client, testDataForQTest.ProjectId,0,QTestParentType.Root);
             QTestGetSuites = new QTestGetSuites(qTestClient.Client, testDataForQTest.ProjectId, 0, QTestParentType.Root);
         }
-
         private void InitializeQTestClient()
         {
             qTestClient = new QTestClient("https://ra.qtestnet.com/");
             qTestClient.SetBearerToken("Bearer 3b63fc6c-fd1e-48a9-bafe-0900ea9fe8e3");
         }
-
         private void InitializeTreeView()
         {
-            
-            
-        }
+            QTestExplorerView.SelectedItemChanged += QTestExplorerView_SelectedItemChanged;       
 
+        }
         private void InitializeLog()
         {
             Log.SetOutputTextBox(LogField);
             Log.Info("Logger Initialize");
+        }
+        private void InitializeDataGrid()
+        {
+            
+            testDataForQTest = new TestPlanDataForQTest();
+            TestsGrid.ItemsSource = testDataForQTest.GetTestList();
+
         }
 
         private void CreateQTestInputList()
@@ -142,24 +145,123 @@ namespace Test_plan
                 testDataForQTest.AddTest(new QTestInputTestRun(testRun));
             }
         }
-
-        private void InitializeDataGrid()
+        private void CreateNewCycle(string cycleName)
         {
-            
-            testDataForQTest = new TestPlanDataForQTest();
-            TestsGrid.ItemsSource = testDataForQTest.GetTestList();
+            if (QTestExplorerObject != null)
+            {
+                var newCycle = new QTestPostCycle(qTestClient.Client, QTestExplorerObject, cycleName);
+                newCycle.PostCycle();
+                QTestExplorerObject.RefreshTreeView();
+            }
+            else
+            {
+                MessageBox.Show("No QTest parent object selected for test cycle POST");
+                Log.Info("No QTest parent object selected for test cycle POST");
+            }
+        }
+        private void CreateNewSuite(string suiteName)
+        {
+            if (QTestExplorerObject != null)
+            {
+                var newSuite = new QTestPostSuite(qTestClient.Client, QTestExplorerObject, suiteName);
+                newSuite.PostSuite();
+                QTestExplorerObject.RefreshTreeView();
+            }
+            else
+            {
+                MessageBox.Show("No QTest parent object selected for test suite POST");
+                Log.Info("No QTest parent object selected for test suite POST");
+            }
 
         }
+        private void DeleteObject(QTestSystemTreeInfo qTestExplorerObject)
+        {
+            if (qTestExplorerObject != null)
+            {
+                var QTestDelete = new QTestDelete(qTestClient.Client, qTestExplorerObject);
+                QTestDelete.Delete();
+                qTestExplorerObject.RefreshTreeView();
+            }
+            else
+            {
+                MessageBox.Show("No QTest object to delete");
+                Log.Info("No QTest object to delete");
+            }
+            
+        }
 
+        private void QTestExplorerView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            QTestExplorerObject = (QTestSystemTreeInfo)e.NewValue;
+            if (QTestExplorerObject.IsQtestCollectionObject)
+            {
+                btNewTestSuite.IsEnabled = true;
+                btNewTestCycle.IsEnabled = true;
+            }
+            else
+            {
+                btNewTestSuite.IsEnabled = false;
+                btNewTestCycle.IsEnabled = false;
+            }
+
+            if (QTestExplorerObject.CanBeDeleted ) 
+            {
+                btDeleteObject.IsEnabled = true;
+            }
+            else
+            {
+                btDeleteObject.IsEnabled = false;
+            }
+           
+
+        }
         private void NavigateTestPlan_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.NavigateTestPlanPage();
         }
-
         private void CheckAllTests_Click(object sender, RoutedEventArgs e)
         {
             testDataForQTest.SetAllTestsInQTest();
             Log.Info("All tests run from a list set for a new test run number assign");
+        }
+        private async void btNewTestCycle_Click(object sender, RoutedEventArgs e)
+        {
+            PopUpNewCycle = new PopUpNewCycle();
+            var cycleName = await PopUpNewCycle.GetCycleName();
+            if (!String.IsNullOrEmpty(cycleName))
+            {
+                CreateNewCycle(cycleName);
+            }
+            else
+            {
+                Log.Info("Entered cycle name is null or empty");
+            }
+            
+        }
+        private async void btNewTestSuite_Click(object sender, RoutedEventArgs e)
+        {
+            PopUpNewSuite = new PopUpNewSuite();
+            var suiteName = await PopUpNewSuite.GetSuiteName();
+            if (!String.IsNullOrEmpty(suiteName))
+            {
+                CreateNewSuite(suiteName);
+            }
+            else
+            {
+                Log.Info("Entered suite name is null or empty");
+            }
+
+        }
+        private void btDeleteObject_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteObject(QTestExplorerObject);
+        }
+
+        
+
+        private void LogField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LogField.ScrollToEnd();
         }
 
 
@@ -179,67 +281,9 @@ namespace Test_plan
             }
         }
 
+
         #endregion
 
-        private async  void btNewTestCycle_Click(object sender, RoutedEventArgs e)
-        {
-
-            PopUpNewCycle = new PopUpNewObject();
-            PopUpNewCycle.SetMessage("Enter test cycle name");
-            NewTestCycleWindow = new NewTestObject(PopUpNewCycle);
-            NewTestCycleWindow.Closed += NewTestCycleWindow.ExitHandler;
-            NewTestCycleWindow.Show();
-            try
-            {
-                if (await NewTestCycleWindow.NameSetAsync())
-                {
-                   NewTestCycleWindow.Close();
-                    //Set logic
-                }
-                else
-                {                    
-                    NewTestCycleWindow.Close();
-                }
-            }
-            catch (InvalidOperationException ex)
-            {
-                Log.Info("New test cycle  - " + ex.Message);
-                NewTestCycleWindow.Close();
-            }
-              
-
-
-        }
-
-        private async void btNewTestSuite_Click(object sender, RoutedEventArgs e)
-        {
-            PopUpNewSuite = new PopUpNewObject();
-            PopUpNewSuite.SetMessage("Enter test suite name");
-            NewTestSuiteWindow = new NewTestObject(PopUpNewSuite);
-            NewTestSuiteWindow.Closed += NewTestSuiteWindow.ExitHandler;
-            NewTestSuiteWindow.Show();
-            try
-            {
-                if (await NewTestSuiteWindow.NameSetAsync())
-                {
-                    NewTestSuiteWindow.Close();
-                    //Set logic
-                }
-                else
-                {
-                    NewTestSuiteWindow.Close();
-                }
-            }
-            catch (InvalidOperationException ex)
-            {
-                Log.Info("New test suite  - " + ex.Message);
-                NewTestSuiteWindow.Close();
-            }
-        }
-
-        private void LogField_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            LogField.ScrollToEnd();
-        }
+       
     }
 }

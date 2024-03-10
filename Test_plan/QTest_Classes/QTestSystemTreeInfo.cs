@@ -89,6 +89,18 @@ namespace Test_plan
             }
             set { }
         }
+        public bool CanBeDeleted
+        {
+            get
+            {
+                if ((QTestObject is QTestSuiteTreeObject)|| (QTestObject is QTestRunTreeObject) || (QTestObject is QTestCycleTreeObject))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            set { }
+        }
 
 
         public QTestSystemTreeInfo(QTestTreeObject objectData, HttpClient client, int projectId)
@@ -105,12 +117,13 @@ namespace Test_plan
             this.ProjectId = projectId;
             
         }
+        public void RefreshTreeView()
+        {
+            IsExpanded = true;
+        }
         private void ChildrenInsertDummyObject()
         {
-           
-           
-                Children.Add(null);
-           
+                Children.Add(null);           
         }
 
 
