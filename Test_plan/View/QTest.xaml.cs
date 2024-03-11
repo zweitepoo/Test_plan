@@ -83,19 +83,19 @@ namespace Test_plan
             var qtestReleasesTreeObjects = QTestReleaseTreeObject.GetReleases(QTestGetReleases);
             qtestReleasesTreeObjects.ForEach(item =>
             {
-                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId));
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId, null));
             });
 
             var qtestCyclesTreeObjects = QTestCycleTreeObject.GetCycles(QTestGetCycles);
             qtestCyclesTreeObjects.ForEach(item =>
             {
-                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId));
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId, null));
             });
 
             var qtestSuitesTreeObjects = QTestSuiteTreeObject.GetSuites(QTestGetSuites);
             qtestSuitesTreeObjects.ForEach(item =>
             {
-                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId));
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId, null));
             });
 
         }
@@ -178,9 +178,11 @@ namespace Test_plan
         {
             if (qTestExplorerObject != null)
             {
-                var QTestDelete = new QTestDelete(qTestClient.Client, qTestExplorerObject);
+                var QTestDelete = new QTestDelete(qTestClient.Client, qTestExplorerObject);                
                 QTestDelete.Delete();
-                qTestExplorerObject.RefreshTreeView();
+                var parentObject = qTestExplorerObject.Parent;
+                parentObject.IsSelected = true;
+                parentObject.RefreshTreeView();
             }
             else
             {

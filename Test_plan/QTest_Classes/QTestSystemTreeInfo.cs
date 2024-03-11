@@ -14,6 +14,7 @@ namespace Test_plan
     internal class QTestSystemTreeInfo : PropertyNotifier
     {
         public ObservableCollection<QTestSystemTreeInfo> Children { get; set; }
+        public QTestSystemTreeInfo Parent { get; private set; }
         public QTestTreeObject QTestObject { get; set; }
         private bool isExpanded;
         public HttpClient Client { get; private set; }
@@ -103,8 +104,9 @@ namespace Test_plan
         }
 
 
-        public QTestSystemTreeInfo(QTestTreeObject objectData, HttpClient client, int projectId)
+        public QTestSystemTreeInfo(QTestTreeObject objectData, HttpClient client, int projectId, QTestSystemTreeInfo parent)
         {
+            Parent = parent;
             Children = new ObservableCollection<QTestSystemTreeInfo>();
             QTestObject = objectData;
             if (IsTestSuiteObject || IsQtestCollectionObject)
@@ -176,7 +178,7 @@ namespace Test_plan
                 var qtestRunsTreeObjects = QTestRunTreeObject.GetRuns(TestGetRuns);
                 qtestRunsTreeObjects.ForEach(item =>
                 {
-                    Children.Add(new QTestSystemTreeInfo(item, Client, ProjectId));
+                    Children.Add(new QTestSystemTreeInfo(item, Client, ProjectId, this));
                 });
             }
         }
@@ -187,7 +189,7 @@ namespace Test_plan
             var qtestSuitesTreeObjects = QTestSuiteTreeObject.GetSuites(TestGetSuites);
             qtestSuitesTreeObjects.ForEach(item =>
             {
-                Children.Add(new QTestSystemTreeInfo(item, Client, ProjectId));
+                Children.Add(new QTestSystemTreeInfo(item, Client, ProjectId, this));
             });
         }
 
@@ -199,7 +201,7 @@ namespace Test_plan
                 var qtestCyclesTreeObjects = QTestCycleTreeObject.GetCycles(TestGetCycles);
                 qtestCyclesTreeObjects.ForEach(item =>
                 {
-                    Children.Add(new QTestSystemTreeInfo(item, Client, ProjectId));
+                    Children.Add(new QTestSystemTreeInfo(item, Client, ProjectId, this));
                 });               
             }
         }
