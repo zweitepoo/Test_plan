@@ -98,6 +98,7 @@ namespace Test_plan
             ControllerBuildText = "35";
             BuildNumberText = "9.1.00000.01811";
             DatabaseSQL = "ViewE_SQL";
+            TestRunNumberText = "0";
             AvailableControllersList = TestbedConfig.AvailableControllersList;
            
             TestRunSequence = new ObservableCollection<TestRun>();
@@ -140,7 +141,7 @@ namespace Test_plan
             if (TestRunDataIsValid() && !(TestAlreadyExists()))
             {
                 if (selectedIndex != -1)
-                {
+                {                    
                     TestRunSequence.Insert(selectedIndex + 1, new TestRun(int.Parse(TestCaseNumberText), int.Parse(TestRunNumberText), int.Parse(AlarmInstanceText), TestRunName, FlashType, ACD, VPD,
                                             CLX_1, CLX_2, CLX_3, CLX_4, TestbedSelected, PythonScripts));
                 }
@@ -269,20 +270,21 @@ namespace Test_plan
                 return false;
             }
 
-            try
-            {
-                if ((String.IsNullOrEmpty(TestRunNumberText)) || int.Parse(TestRunNumberText) == 0)
-                {
-                    MessageBox.Show("Wrong Testrun number: " + TestRunNumberText);
-                    return false;
-                }
+            //
+            //try
+            //{
+            //    if ((String.IsNullOrEmpty(TestRunNumberText)) || int.Parse(TestRunNumberText) == 0)
+            //    {
+            //        MessageBox.Show("Wrong Testrun number: " + TestRunNumberText);
+            //        return false;
+            //    }
 
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Wrong Testrun number Format: " + TestRunNumberText);
-                return false;
-            }
+            //}
+            //catch (FormatException)
+            //{
+            //    MessageBox.Show("Wrong Testrun number Format: " + TestRunNumberText);
+            //    return false;
+            //}
 
             if (CLX_1 == null)
             {
@@ -321,7 +323,7 @@ namespace Test_plan
         {
             foreach (TestRun tr in TestRunSequence)
             {
-                if (tr.TestRunNumber == int.Parse(TestRunNumberText))
+                if ((tr.TestRunNumber == int.Parse(TestRunNumberText)) && TestRunNumberText!="0")
                 {
                     MessageBox.Show("Testrun number already exists in test sequence: " + TestRunNumberText);
                     return true;

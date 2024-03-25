@@ -37,5 +37,20 @@ namespace Test_plan
             OnPropertyChanged("AllowTestRunNrChange");            
         }
 
+        public void SetTestCaseId(int testCaseId)
+        {
+            TestCaseId = testCaseId;
+        }
+        public void SetTestRunNumber(string testRunPid)
+        {
+            int testRun;
+            if( int.TryParse(testRunPid.Substring(3),out testRun))
+            {
+                TestRunNumber = testRun;
+                OnPropertyChanged("TestRunPID");
+            }
+                          
+        }
+
     }
 }

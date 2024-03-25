@@ -29,6 +29,7 @@ namespace Test_plan
         public string PythonScriptFilePath { get; private set; }
         private OpenFileDialog openFileDialog = null;
         private Process process;
+        private Process pythonProcess;
 
         public PythonRun()
         {
@@ -116,8 +117,19 @@ namespace Test_plan
             process.StandardInput.WriteLine($"{PythonExeFilePath} \"{PythonScriptFilePath}\"");
          //  process.StandardInput.WriteLine($"ping wp.pl");         
             process.StandardInput.Close();
+            GetPythonProcess();
+
            
             // process.WaitForExit();
+        }
+
+        private void GetPythonProcess()
+        {
+          var  allPythonProcesses = Process.GetProcessesByName("python");
+            if (allPythonProcesses.Length!=0)
+            {
+                pythonProcess = allPythonProcesses[0];
+            }
         }
 
         internal void UpdatePaths(string pythonExeFilePath, string pythonScriptsFolderPath, string pythonScriptFilePath)
@@ -130,6 +142,11 @@ namespace Test_plan
         {
             
             process.Close();
+            if (pythonProcess != null)
+            {
+                pythonProcess.Kill();
+            }
+          
         }
     }
 }

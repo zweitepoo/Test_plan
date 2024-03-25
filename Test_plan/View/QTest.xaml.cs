@@ -29,14 +29,14 @@ namespace Test_plan
         MainWindow MainWindow;
         ObservableCollection<QTestInputTestRun> QTestList;
         TestPlan testPlan;
-        TestPlanDataForQTest testDataForQTest;
+        TestPlanDataForQTest TestDataForQTest;
         QTestClient qTestClient;
         QTestGetReleases QTestGetReleases; 
         QTestGetCycles QTestGetCycles;
         QTestGetSuites QTestGetSuites;
         PopUpNewCycle PopUpNewCycle;
         PopUpNewSuite PopUpNewSuite;
-        QTestSystemTreeInfo QTestExplorerObject;
+        QTestSystemTreeInfo SelectedQTestTreeObject;
        
 
 
@@ -70,32 +70,31 @@ namespace Test_plan
         {
             CreateQTestInputList();
             InitializeQTestClient();
-            InitializeQTestCalls();            
+            InitializeQTestCalls();
+            InitializeButtons();
             ReloadTreeView();
-
         }
 
        
-
         private void ReloadTreeView()
         {
             QTestExplorerView.Items.Clear();
             var qtestReleasesTreeObjects = QTestReleaseTreeObject.GetReleases(QTestGetReleases);
             qtestReleasesTreeObjects.ForEach(item =>
             {
-                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId, null));
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, TestDataForQTest.ProjectId, null));
             });
 
             var qtestCyclesTreeObjects = QTestCycleTreeObject.GetCycles(QTestGetCycles);
             qtestCyclesTreeObjects.ForEach(item =>
             {
-                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId, null));
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, TestDataForQTest.ProjectId, null));
             });
 
             var qtestSuitesTreeObjects = QTestSuiteTreeObject.GetSuites(QTestGetSuites);
             qtestSuitesTreeObjects.ForEach(item =>
             {
-                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, testDataForQTest.ProjectId, null));
+                QTestExplorerView.Items.Add(new QTestSystemTreeInfo(item, qTestClient.Client, TestDataForQTest.ProjectId, null));
             });
 
         }
@@ -104,12 +103,13 @@ namespace Test_plan
             btNewTestSuite.IsEnabled = false;
             btNewTestCycle.IsEnabled = false;
             btDeleteObject.IsEnabled = false;
+            btGetRunTime.IsEnabled = false;
         }
         private void InitializeQTestCalls()
         {
-            QTestGetReleases = new QTestGetReleases(qTestClient.Client, testDataForQTest.ProjectId);
-            QTestGetCycles = new QTestGetCycles(qTestClient.Client, testDataForQTest.ProjectId,0,QTestParentType.Root);
-            QTestGetSuites = new QTestGetSuites(qTestClient.Client, testDataForQTest.ProjectId, 0, QTestParentType.Root);
+            QTestGetReleases = new QTestGetReleases(qTestClient.Client, TestDataForQTest.ProjectId);
+            QTestGetCycles = new QTestGetCycles(qTestClient.Client, TestDataForQTest.ProjectId,0,QTestParentType.Root);
+            QTestGetSuites = new QTestGetSuites(qTestClient.Client, TestDataForQTest.ProjectId, 0, QTestParentType.Root);
         }
         private void InitializeQTestClient()
         {
@@ -129,29 +129,29 @@ namespace Test_plan
         private void InitializeDataGrid()
         {
             
-            testDataForQTest = new TestPlanDataForQTest();
-            TestsGrid.ItemsSource = testDataForQTest.GetTestList();
+            TestDataForQTest = new TestPlanDataForQTest();
+            TestsGrid.ItemsSource = TestDataForQTest.GetTestList();
 
         }
 
         private void CreateQTestInputList()
         {
             var qTestProjectId = QTestProjectIdMap.GetProjectId(testPlan.ActiveProject);
-            testDataForQTest.SetQTestProjectId(qTestProjectId);
+            TestDataForQTest.SetQTestProjectId(qTestProjectId);
 
-            testDataForQTest.Clear();
+            TestDataForQTest.Clear();
             foreach (ITestRunData testRun in testPlan.TestRunSequence)
             {
-                testDataForQTest.AddTest(new QTestInputTestRun(testRun));
+                TestDataForQTest.AddTest(new QTestInputTestRun(testRun));
             }
         }
         private void CreateNewCycle(string cycleName)
         {
-            if (QTestExplorerObject != null)
+            if (SelectedQTestTreeObject != null)
             {
-                var newCycle = new QTestPostCycle(qTestClient.Client, QTestExplorerObject, cycleName);
+                var newCycle = new QTestPostCycle(qTestClient.Client, SelectedQTestTreeObject, cycleName);
                 newCycle.PostCycle();
-                QTestExplorerObject.RefreshTreeView();
+                SelectedQTestTreeObject.RefreshTreeView();
             }
             else
             {
@@ -161,11 +161,11 @@ namespace Test_plan
         }
         private void CreateNewSuite(string suiteName)
         {
-            if (QTestExplorerObject != null)
+            if (SelectedQTestTreeObject != null)
             {
-                var newSuite = new QTestPostSuite(qTestClient.Client, QTestExplorerObject, suiteName);
+                var newSuite = new QTestPostSuite(qTestClient.Client, SelectedQTestTreeObject, suiteName);
                 newSuite.PostSuite();
-                QTestExplorerObject.RefreshTreeView();
+                SelectedQTestTreeObject.RefreshTreeView();
             }
             else
             {
@@ -175,7 +175,7 @@ namespace Test_plan
 
         }
         private void DeleteObject(QTestSystemTreeInfo qTestExplorerObject)
-        {
+        {           
             if (qTestExplorerObject != null)
             {
                 var QTestDelete = new QTestDelete(qTestClient.Client, qTestExplorerObject);                
@@ -191,29 +191,75 @@ namespace Test_plan
             }
             
         }
+        private void GetTestRunsIds()
+        {
+            var getTestCaseId = new QTestGetTestCaseId(qTestClient.Client, TestDataForQTest.ProjectId, null);
+            foreach (var testRun in TestDataForQTest.QTestList)
+            {
+                getTestCaseId.SetTestCasePid(testRun.TestCasePID);
+                var testCaseId = getTestCaseId.GetTestCaseId();
+                testRun.SetTestCaseId(testCaseId);
+                Log.Info(testRun.TestCasePID + " Id = " + testRun.TestCaseId);
+            }
+
+            foreach(var test in TestDataForQTest.QTestList)
+            {
+                if (test.AllowTestRunNrChange)
+                {
+                    if (!String.IsNullOrEmpty(test.DisplayName) && test.TestCaseId > 0)
+                    {
+                        var postTestRun = new QTestPostTestRun(qTestClient.Client, SelectedQTestTreeObject, test.DisplayName, test.TestCaseId);
+                        postTestRun.PostTestRun();
+
+                        var testRunPid = postTestRun.Pid;
+                        test.SetTestRunNumber(testRunPid);
+                        SelectedQTestTreeObject.RefreshTreeView();
+                    }
+                }                
+            } 
+
+            for (var i =0; i< TestDataForQTest.QTestList.Count; i++)
+            {
+                testPlan.TestRunSequence[i].TestRunNumber = TestDataForQTest.QTestList[i].TestRunNumber;
+            }
+            
+
+        }
 
         private void QTestExplorerView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            QTestExplorerObject = (QTestSystemTreeInfo)e.NewValue;
-            if (QTestExplorerObject.IsQtestCollectionObject)
+            SelectedQTestTreeObject = (QTestSystemTreeInfo)e.NewValue;
+            if (SelectedQTestTreeObject != null)
             {
-                btNewTestSuite.IsEnabled = true;
-                btNewTestCycle.IsEnabled = true;
-            }
-            else
-            {
-                btNewTestSuite.IsEnabled = false;
-                btNewTestCycle.IsEnabled = false;
-            }
+                if (SelectedQTestTreeObject.IsQtestCollectionObject)
+                {
+                    btNewTestSuite.IsEnabled = true;
+                    btNewTestCycle.IsEnabled = true;
+                }
+                else
+                {
+                    btNewTestSuite.IsEnabled = false;
+                    btNewTestCycle.IsEnabled = false;
+                }
 
-            if (QTestExplorerObject.CanBeDeleted ) 
-            {
-                btDeleteObject.IsEnabled = true;
+                if (SelectedQTestTreeObject.CanBeDeleted)
+                {
+                    btDeleteObject.IsEnabled = true;
+                }
+                else
+                {
+                    btDeleteObject.IsEnabled = false;
+                }
+                if (SelectedQTestTreeObject.IsTestSuiteObject)
+                {
+                    btGetRunTime.IsEnabled = true;
+                }
+                else
+                {
+                    btGetRunTime.IsEnabled = false;
+                }
             }
-            else
-            {
-                btDeleteObject.IsEnabled = false;
-            }
+           
            
 
         }
@@ -223,9 +269,10 @@ namespace Test_plan
         }
         private void CheckAllTests_Click(object sender, RoutedEventArgs e)
         {
-            testDataForQTest.SetAllTestsInQTest();
+            TestDataForQTest.SetAllTestsInQTest();
             Log.Info("All tests run from a list set for a new test run number assign");
         }
+        
         private async void btNewTestCycle_Click(object sender, RoutedEventArgs e)
         {
             PopUpNewCycle = new PopUpNewCycle();
@@ -256,10 +303,26 @@ namespace Test_plan
         }
         private void btDeleteObject_Click(object sender, RoutedEventArgs e)
         {
-            DeleteObject(QTestExplorerObject);
+            var messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                DeleteObject(SelectedQTestTreeObject);
+            }
+            
+        }
+        private void btGetRunTime_Click(object sender, RoutedEventArgs e)
+        {
+            if (TestDataForQTest.QTestList.Count > 0)
+            {
+                GetTestRunsIds();
+            }
+            else
+            {
+                Log.Info("No test for processing");
+            }           
+
         }
 
-        
 
         private void LogField_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -274,7 +337,7 @@ namespace Test_plan
         }
         private void Test_GetReleases()
         {
-            Test_GetReleasesInstance = new QTestGetReleases(qTestClient.Client, testDataForQTest.ProjectId);
+            Test_GetReleasesInstance = new QTestGetReleases(qTestClient.Client, TestDataForQTest.ProjectId);
             Test_Releases = new List<QTestGetObject>();
             var testRelease = Test_GetReleasesInstance.GetResponse();
             foreach (QTestGetObject testObject in testRelease)
@@ -282,6 +345,7 @@ namespace Test_plan
                 Console.WriteLine(testObject.Pid + " "+ testObject.Name+ " "+ testObject.Id);
             }
         }
+
 
 
         #endregion

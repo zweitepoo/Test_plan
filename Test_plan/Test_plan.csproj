@@ -20,7 +20,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>C:\8.Csharp\TPG_v1.1\</PublishUrl>
+    <PublishUrl>C:\8.Csharp\TPG_v1.2.1\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -30,7 +30,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>47</ApplicationRevision>
+    <ApplicationRevision>50</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -143,6 +143,7 @@
     <Compile Include="QTest_Classes\PropertyNotifier.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetItems.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGetRuns.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestGetTestCaseId.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestParentType.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestClient.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestGet.cs" />
@@ -154,7 +155,11 @@
     <Compile Include="QTest_Classes\QTestAPI\QTestDelete.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestPostObject.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestPostCycle.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestPostTestRun.cs" />
     <Compile Include="QTest_Classes\QTestAPI\QTestPostSuite.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestRunPid.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestTestCaseId.cs" />
+    <Compile Include="QTest_Classes\QTestAPI\QTestTestRun.cs" />
     <Compile Include="QTest_Classes\QTestInputTestRun.cs" />
     <Compile Include="QTest_Classes\PopUpNewObject.cs" />
     <Compile Include="QTest_Classes\QTestProjectIdMap.cs" />

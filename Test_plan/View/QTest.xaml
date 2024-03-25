@@ -13,7 +13,41 @@
       Title="QTest" Loaded="Page_Loaded">
 
     <Page.Resources>
+        <LinearGradientBrush x:Key="buttonStyleGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black"/>
+            <GradientStop Color="Red" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="buttonDisableStyleGradient" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black"/>
+            <GradientStop Color="LightGray" Offset="1"/>
+        </LinearGradientBrush>
+        <Style TargetType="Button" x:Key="MyButton2">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="{StaticResource buttonStyleGradient}" />
 
+            <Setter Property="Foreground" Value="#FFF1F1F1" />
+            
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{StaticResource buttonDisableStyleGradient}"/>
+                    <Setter Property="Foreground" Value="#FFF1F1F1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -27,30 +61,22 @@
         </Button>
 
         <StackPanel Grid.Row="1" Margin="2">
+            
             <Grid Height="50">
-                <Button x:Name="btNewTestCycle" Grid.ColumnSpan="3" Margin="0,0,146,0"  Content="New Test Cycle" Foreground="#FFF1F1F1" FontSize="20" Click="btNewTestCycle_Click">
-                    <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="Black"/>
-                            <GradientStop Color="Red" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
+                <Button x:Name="btNewTestCycle" Grid.ColumnSpan="3" Margin="0,0,146,0"  
+                        Content="New Test Cycle" Foreground="#FFF1F1F1" FontSize="20" 
+                        Click="btNewTestCycle_Click" Style="{StaticResource MyButton2}" >
+                   
                 </Button>
-                <Button x:Name="btNewTestSuite" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,145,0"  Content="New Test Suite" Foreground="#FFF1F1F1" FontSize="20" Click="btNewTestSuite_Click" >
-                    <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="Black"/>
-                            <GradientStop Color="Red" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
+                <Button x:Name="btNewTestSuite" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,145,0"  
+                        Content="New Test Suite" Foreground="#FFF1F1F1" FontSize="20"
+                        Click="btNewTestSuite_Click" Style="{StaticResource MyButton2}" >
+                    
                 </Button>
-                <Button x:Name="btDeleteObject" Grid.Column="3" Content="Delete" Margin="0,0,-1,0" Foreground="#FFF1F1F1" FontSize="20" Click="btDeleteObject_Click" >
-                    <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="Black"/>
-                            <GradientStop Color="Red" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
+                <Button x:Name="btDeleteObject" Grid.Column="3" Content="Delete" Margin="0,0,-1,0" 
+                        Foreground="#FFF1F1F1" FontSize="20"
+                        Click="btDeleteObject_Click" Style="{StaticResource MyButton2}" >
+                   
                 </Button>
 
 
@@ -101,7 +127,7 @@
                 <DataGrid.Columns >
                     <DataGridTextColumn Header="Test name" Width="2*" Binding="{Binding }"/>
                     <DataGridTextColumn Header="Test case " Width="*" Binding="{Binding TestCasePID}" />
-                    <DataGridTextColumn Header="Test run " Width="*" Binding="{Binding TestRunPID}"/>
+                    <DataGridTextColumn Header="Test run " Width="*" Binding="{Binding TestRunPID, Mode=TwoWay}"/>
                     <DataGridTemplateColumn Header="Set TR" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="{x:Type local:QTestInputTestRun}">
@@ -117,45 +143,29 @@
 
             <Border HorizontalAlignment="Stretch" BorderThickness="4" Height="50" Background="AliceBlue">
                 <Grid>
-                    <Button Grid.Column="0" Margin="0,0,0,0" Content="" Foreground="#FFF1F1F1" FontSize="20">
-                        <Button.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="Black"/>
-                                <GradientStop Color="Red" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Button.Background>
+                    <Button Grid.Column="0" Margin="0,0,0,0" Content="EMpty Button" Foreground="#FFF1F1F1" FontSize="20" Style="{StaticResource MyButton2}">
+                       
                     </Button>
-                    <Button Grid.Column="1" Margin="0,0,0,0" Content="" Foreground="#FFF1F1F1" FontSize="20">
-                        <Button.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="Black"/>
-                                <GradientStop Color="Red" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Button.Background>
+                    <Button Grid.Column="1" Margin="0,0,0,0"
+                            Content="" Foreground="#FFF1F1F1"
+                            FontSize="20" Style="{StaticResource MyButton2}">
+                        
                     </Button>
-                    <Button Grid.Column="2" Margin="0,0,0,0" Content="" Foreground="#FFF1F1F1" FontSize="20">
-                        <Button.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="Black"/>
-                                <GradientStop Color="Red" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Button.Background>
+                    <Button Grid.Column="2" Margin="0,0,0,0" 
+                            Content="" Foreground="#FFF1F1F1" 
+                            FontSize="20" Style="{StaticResource MyButton2}">
+                       
                     </Button>
-                    <Button Grid.Column="3" Margin="0,0,0,0" Content="" Foreground="#FFF1F1F1" FontSize="20">
-                        <Button.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="Black"/>
-                                <GradientStop Color="Red" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Button.Background>
+                    <Button x:Name="btGetRunTime" Grid.Column="3" Margin="0,0,0,0" 
+                            Content=" Get Runtime numbers" Foreground="#FFF1F1F1" 
+                            FontSize="20" Click="btGetRunTime_Click" Style="{StaticResource MyButton2}">
+                        
                     </Button>
-                    <Button x:Name="checkAllTests" Grid.Column="4" Margin="0,0,0,0" Content="Check all" Foreground="#FFF1F1F1" FontSize="20" Click="CheckAllTests_Click">
-                        <Button.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="Black"/>
-                                <GradientStop Color="Red" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Button.Background>
+                    <Button x:Name="checkAllTests" Grid.Column="4" Margin="0,0,0,0" 
+                            Content="Check all" Foreground="#FFF1F1F1" FontSize="20"
+                            Click="CheckAllTests_Click" Style="{StaticResource MyButton2}">
+                        
+                      
                     </Button>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
